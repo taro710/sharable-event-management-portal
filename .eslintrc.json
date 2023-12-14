@@ -1,3 +1,79 @@
 {
-  "extends": "next/core-web-vitals"
+  "root": true,
+  "env": {
+    "node": true,
+    "browser": true,
+    "es2017": true
+  },
+  "parserOptions": { "ecmaVersion": 8 }, // to enable features such as async/await
+  "plugins": ["unused-imports", "import"],
+  "extends": [
+    "next",
+    "next/core-web-vitals",
+    "prettier",
+    "plugin:import/recommended"
+  ],
+  "rules": {
+    // next/imageはホスティングサービスを限定するため使用しない
+    "@next/next/no-img-element": "off",
+    "react/jsx-boolean-value": "error",
+    "unused-imports/no-unused-imports": "error",
+    "no-restricted-imports": [
+      "error",
+      {
+        "patterns": ["./*", "../*", "!*.module.scss"],
+        "paths": [
+          {
+            "name": "react",
+            "importNames": ["default"]
+          }
+        ]
+      }
+    ],
+    "import/order": [
+      "error",
+      {
+        // グループごとの並び順
+        "groups": [
+          "builtin",
+          "external",
+          "internal",
+          ["parent", "sibling"],
+          "object",
+          "type",
+          "index"
+        ],
+        "newlines-between": "always",
+        "alphabetize": {
+          "order": "asc"
+        }
+      }
+    ]
+  },
+  "overrides": [
+    // This configuration will apply only to TypeScript files
+    {
+      "files": ["**/*.ts?(x)"],
+      "parser": "@typescript-eslint/parser",
+      "parserOptions": {
+        "sourceType": "module",
+        "ecmaFeatures": {
+          "jsx": true
+        },
+        "warnOnUnsupportedTypeScriptVersion": true
+      },
+      "settings": { "react": { "version": "detect" } },
+      "extends": [
+        "plugin:@typescript-eslint/recommended",
+        "plugin:import/typescript"
+      ],
+      "rules": {
+        "@typescript-eslint/no-var-requires": "off",
+        "@typescript-eslint/no-unused-vars": ["error"],
+        "@typescript-eslint/explicit-function-return-type": "off",
+        "@typescript-eslint/no-explicit-any": "off",
+        "@typescript-eslint/explicit-module-boundary-types": "off"
+      }
+    }
+  ]
 }

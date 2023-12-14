@@ -1,0 +1,16 @@
+{
+  // eslintの対象とするファイル形式
+  "eslint.validate": ["javascript", "typescript"],
+
+  // stylelintの対象とするファイル形式
+  "stylelint.validate": ["css", "scss"], // https://github.com/stylelint/vscode-stylelint#stylelintvalidate
+
+  // saveでlintエラーの修正をする
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true,
+    "source.fixAll.stylelint": true
+  },
+
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode"
+}
