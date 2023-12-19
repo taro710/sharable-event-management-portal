@@ -1,0 +1,47 @@
+@import '/src/assets/styles/resources';
+
+.checkbox-component {
+  display: flex;
+  gap: 24px;
+  align-items: center;
+
+  > .text {
+    font-size: 16px;
+    font-weight: bold;
+  }
+
+  > .text.-noticed {
+    color: #fe3535;
+  }
+
+  > .answer {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+
+    > .check {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 20px;
+      height: 20px;
+      border: 2px solid #fe3535;
+      border-radius: 100px;
+    }
+
+    > .check2 {
+      margin-bottom: 4px;
+
+      // display: flex;
+      // align-items: center;
+      // justify-content: center;
+      // width: 20px;
+      // height: 20px;
+      font-size: 32px;
+      color: #5f45ff;
+
+      // border: 2px solid #5f45ff;
+      // border-radius: 100px;
+    }
+  }
+}

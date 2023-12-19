@@ -1,3 +1,5 @@
+@import '/src/assets/styles/resources';
+
 .sub-panel {
   height: 100%;
   background: $white;
@@ -10,4 +12,18 @@
     -6px 6px 12px 0 rgb(191 191 191 / 20%),
     -1px -1px 2px 0 rgb(191 191 191 / 50%) inset,
     1px 1px 2px 0 rgb(255 255 255 / 30%) inset;
+
+  > .title {
+    font-weight: bold;
+  }
+}
+
+@include media-query-sp {
+  .sub-panel {
+    padding: 12px;
+
+    > .title {
+      font-size: 24px;
+    }
+  }
 }
