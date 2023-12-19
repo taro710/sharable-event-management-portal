@@ -1,0 +1,59 @@
+@import '/src/assets/styles/resources';
+
+.header-component {
+  display: flex;
+  align-items: center;
+  height: 74px;
+  padding: 0 32px;
+  background-color: transparent;
+
+  > .logo {
+    font-size: 36px;
+  }
+
+  > .menu {
+    display: flex;
+    gap: 24px;
+    margin-left: auto;
+    font-size: 16px;
+  }
+}
+
+@include media-query-sp {
+  .header-component {
+    height: 48px;
+    padding: 0 20px;
+
+    > .logo {
+      font-size: 24px;
+    }
+
+    > .menu {
+      display: none;
+    }
+  }
+}
+
+.main-component {
+  display: flex;
+  justify-content: center;
+  height: calc(100vh - 64px);
+  padding: 0 32px;
+  background-color: $background-white;
+
+  > .content {
+    width: 1200px;
+    height: 100%;
+    padding: 8px 0 32px;
+  }
+}
+
+@include media-query-sp {
+  .main-component {
+    padding: 0 20px;
+  }
+}
+
+.footer-component {
+  height: 120px;
+}

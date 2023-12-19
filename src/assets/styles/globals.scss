@@ -1,32 +1,32 @@
 /* stylelint-disable-next-line scss/at-import-no-partial-leading-underscore */
-@import "reset-css/sass/_reset.scss";
+@import 'reset-css/sass/_reset';
 
 @font-face {
   font-family: Roboto;
   font-style: normal;
   font-weight: normal;
-  src: url("../fonts/Roboto/Roboto-Regular.ttf");
+  src: url('../fonts/Roboto/Roboto-Regular.ttf');
 }
 
 @font-face {
   font-family: Roboto;
   font-style: normal;
   font-weight: bold;
-  src: url("../fonts/Roboto/Roboto-Bold.ttf");
+  src: url('../fonts/Roboto/Roboto-Bold.ttf');
 }
 
 @font-face {
-  font-family: "Noto Sans JP";
+  font-family: 'Noto Sans JP';
   font-style: normal;
   font-weight: normal;
-  src: url("../fonts/Noto_Sans_JP/NotoSansJP-Regular.ttf");
+  src: url('../fonts/Noto_Sans_JP/NotoSansJP-Regular.ttf');
 }
 
 @font-face {
-  font-family: "Noto Sans JP";
+  font-family: 'Noto Sans JP';
   font-style: normal;
   font-weight: bold;
-  src: url("../fonts/Noto_Sans_JP/NotoSansJP-Bold.ttf");
+  src: url('../fonts/Noto_Sans_JP/NotoSansJP-Bold.ttf');
 }
 
 *,
@@ -46,18 +46,20 @@ body {
   height: 100%;
   padding: 0;
   margin: 0;
+
   // font-family: Roboto, "Noto Sans JP", sans-serif;
   color: black;
+  background-color: #dedede;
   -webkit-tap-highlight-color: transparent;
 }
 
 input,
 textarea,
 select {
-  appearance: none;
   padding: 0;
   font: inherit;
   color: black;
+  appearance: none;
 
   &:focus {
     outline: none;
@@ -67,10 +69,10 @@ select {
 button {
   padding: 0;
   color: black;
+  appearance: none;
   background: transparent;
   border: none;
   outline: none;
-  appearance: none;
 }
 
 svg {
