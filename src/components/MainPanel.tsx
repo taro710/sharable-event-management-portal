@@ -1,67 +1,11 @@
-import { useMemo, useState } from 'react';
-
-import Checkbox from '@/components/Checkbox';
-import Tag from '@/components/Tag';
-
 import style from './MainPanel.module.scss';
 
-const MainPanel = () => {
-  const [selectedIndex, setSelectedIndex] = useState<number>(0);
+type Props = {
+  children: React.ReactNode;
+};
 
-  const selectedData: { text: string; bring: string[] } | undefined = useMemo(
-    () => data[selectedIndex],
-    [selectedIndex],
-  );
-
-  return (
-    <div className={style['panel-component']}>
-      <div className={style['tags']}>
-        {data.map(({ text }, i) => (
-          <Tag
-            text={text}
-            isActive={i === selectedIndex}
-            onClick={() => setSelectedIndex(i)}
-            key={i}
-          />
-        ))}
-      </div>
-
-      <div className={style['content']}>
-        {selectedData.bring.map((item, i) => (
-          <Checkbox label={item} key={i} index={i} />
-        ))}
-      </div>
-
-      <button className={style['button']}>+</button>
-    </div>
-  );
+const MainPanel = ({ children }: Props) => {
+  return <div className={style['panel-component']}>{children}</div>;
 };
 
 export default MainPanel;
-
-const data: { text: string; bring: string[] }[] = [
-  {
-    text: 'たろ',
-    bring: ['イス', 'シュラフ', 'カメラ', 'クッカー'],
-  },
-  {
-    text: 'そめ',
-    bring: ['イス', 'シュラフ', 'テント'],
-  },
-  {
-    text: 'ハマ',
-    bring: ['イス', 'シュラフ', 'ランタン', 'クッカー'],
-  },
-  {
-    text: '黒田',
-    bring: ['イス', 'シュラフ', 'クッカー', 'コット'],
-  },
-  {
-    text: 'フラ',
-    bring: ['イス', 'シュラフ', 'コット'],
-  },
-  {
-    text: 'りゅー',
-    bring: ['イス', 'シュラフ'],
-  },
-];
