@@ -9,6 +9,10 @@ import Tab from '@/components/Tab';
 import style from './page.module.scss';
 
 const DashBoard: NextPage = () => {
+  const onTabChange = (index: number) => {
+    console.log(index);
+  };
+
   return (
     <div className={style['page-component']}>
       <div className={style['sub']}>
@@ -16,7 +20,7 @@ const DashBoard: NextPage = () => {
       </div>
       <div className={style['main']}>
         <div className={style['tab']}>
-          <Tab />
+          <Tab onChange={onTabChange} />
         </div>
         <div className={style['panel']}>
           <MainPanel />

@@ -1,6 +1,0 @@
-@mixin media-query-sp {
-  // 変更する場合はbreakpoint.tsの値と合わせて変更する
-  @media (width <= 767px) {
-    @content;
-  }
-}
