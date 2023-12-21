@@ -4,6 +4,7 @@ import { NextPage } from 'next';
 import { useMemo, useState } from 'react';
 
 import Checkbox from '@/components/Checkbox';
+import FadeIn from '@/components/FadeIn';
 import Tag from '@/components/Tag';
 
 import style from './page.module.scss';
@@ -17,7 +18,7 @@ const DashBoard: NextPage = () => {
   );
 
   return (
-    <div className={style['item-panel']}>
+    <FadeIn className={style['item-panel']}>
       <div className={style['tags']}>
         {data.map(({ text }, i) => (
           <Tag
@@ -34,7 +35,7 @@ const DashBoard: NextPage = () => {
         ))}
       </div>
       <button className={style['button']}>+</button>
-    </div>
+    </FadeIn>
   );
 };
 
