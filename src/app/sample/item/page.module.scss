@@ -1,6 +1,7 @@
 @import '/src/assets/styles/resources';
 
 .item-panel {
+  position: relative;
   width: 100%;
   height: 100%;
 
@@ -12,17 +13,10 @@
     overflow-x: scroll;
   }
 
-  > .content {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    padding: 32px;
-  }
-
   > .button {
-    position: fixed;
-    right: 48px;
-    bottom: 48px;
+    position: absolute;
+    right: 20px;
+    bottom: 20px;
     flex-shrink: 0;
     width: 56px;
     height: 56px;
@@ -39,5 +33,54 @@
       -1px -1px 2px 0 rgb(177 177 177 / 50%) inset,
       1px 1px 2px 0 rgb(255 255 255 / 30%) inset;
     fill: #f6f6f6;
+  }
+}
+
+.notice-text {
+  margin-bottom: -14px;
+  font-size: 14px;
+  color: #999;
+}
+
+.item-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 32px;
+
+  > .item {
+    display: flex;
+    gap: 24px;
+    align-items: center;
+
+    > .buttons {
+      display: flex;
+      gap: 8px;
+      font-size: 14px;
+
+      > .button {
+        padding: 8px 12px;
+        color: $white;
+        cursor: pointer;
+        background-color: $black;
+        border-radius: 100px;
+      }
+
+      > .button.-ok {
+        background-color: #e15555;
+      }
+
+      > .button.-ng {
+        background-color: $purple;
+      }
+
+      > .button:active {
+        background-color: $gray;
+      }
+
+      > .button:hover {
+        opacity: 0.8;
+      }
+    }
   }
 }

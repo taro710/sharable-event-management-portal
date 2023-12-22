@@ -7,11 +7,12 @@ import style from './Tab.module.scss';
 
 type Props = {
   onChange: (index: number) => void;
+  defaultIndex: number;
 };
 
-const Tab = ({ onChange }: Props) => {
+const Tab = ({ onChange, defaultIndex }: Props) => {
   const { isSp } = useResponsive();
-  const [selectedIndex, setSelectedIndex] = useState<number>(0);
+  const [selectedIndex, setSelectedIndex] = useState<number>(defaultIndex);
 
   const onTabChange = (index: number) => {
     onChange(index);

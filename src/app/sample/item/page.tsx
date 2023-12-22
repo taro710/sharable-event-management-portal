@@ -1,5 +1,6 @@
 'use client';
 
+import clsx from 'clsx';
 import { NextPage } from 'next';
 import { useMemo, useState } from 'react';
 
@@ -30,9 +31,29 @@ const DashBoard: NextPage = () => {
         ))}
       </div>
       <div className={style['content']}>
-        {selectedData.bring.map((item, i) => (
-          <Checkbox label={item} key={i} index={i} />
-        ))}
+        <div className={style['item-list']}>
+          {selectedData.bring.map((item, i) => (
+            <>
+              {(i === 2 || i === 3) && (
+                <p className={style['notice-text']}>Request from そめ</p>
+              )}
+              <div className={style['item']} key={i}>
+                <Checkbox label={item} index={i} />
+
+                {(i === 2 || i === 3) && (
+                  <div className={style['buttons']}>
+                    <button className={clsx(style['button'], style['-ok'])}>
+                      承認
+                    </button>
+                    <button className={clsx(style['button'], style['-ng'])}>
+                      却下
+                    </button>
+                  </div>
+                )}
+              </div>
+            </>
+          ))}
+        </div>
       </div>
       <button className={style['button']}>+</button>
     </FadeIn>

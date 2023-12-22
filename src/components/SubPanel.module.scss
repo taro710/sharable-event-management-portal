@@ -1,8 +1,12 @@
 @import '/src/assets/styles/resources';
 
 .sub-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
   height: 100%;
   padding: 20px;
+  color: $white;
   background: $white;
   background-color: $dark-gray;
   border: solid 12px $white;
@@ -18,13 +22,35 @@
   > .title {
     font-size: 24px;
     font-weight: bold;
-    color: $white;
+  }
+}
+
+.overview-table {
+  border-spacing: 0 24px;
+  border-collapse: separate;
+
+  > .row {
+    font-size: 16px;
+
+    > .caption {
+      font-weight: bold;
+    }
+
+    > .content {
+      > .list {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        font-size: 16px;
+      }
+    }
   }
 }
 
 @include media-query-sp {
   .sub-panel {
-    padding: 12px;
+    height: 100px;
+    padding: 20px;
 
     > .title {
       font-size: 24px;

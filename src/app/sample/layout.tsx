@@ -1,6 +1,7 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
+import { useMemo } from 'react';
 
 import MainPanel from '@/components/MainPanel';
 import SubPanel from '@/components/SubPanel';
@@ -15,6 +16,7 @@ import style from './layout.module.scss';
 
 const PageLayout = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter();
+  const pathName = usePathname();
 
   const onTabChange = (index: number) => {
     switch (index) {
@@ -32,6 +34,19 @@ const PageLayout = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
+  const tabIndex = useMemo(() => {
+    switch (pathName) {
+      case '/sample/item':
+        return 0;
+      case '/sample/expense':
+        return 1;
+      case '/sample/memo':
+        return 2;
+      default:
+        return 0;
+    }
+  }, [pathName]);
+
   return (
     <div className={style['page-component']}>
       <div className={style['sub']}>
@@ -39,7 +54,7 @@ const PageLayout = ({ children }: { children: React.ReactNode }) => {
       </div>
       <div className={style['main']}>
         <div className={style['tab']}>
-          <Tab onChange={onTabChange} />
+          <Tab onChange={onTabChange} defaultIndex={tabIndex} />
         </div>
         <div className={style['panel']}>
           <MainPanel>{children}</MainPanel>

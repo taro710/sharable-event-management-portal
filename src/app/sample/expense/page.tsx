@@ -14,7 +14,7 @@ const DashBoard: NextPage = () => {
           <tr>
             <th>品目</th>
             <th>値段</th>
-            <th>担当者</th>
+            <th>支払者</th>
           </tr>
         </thead>
         <tbody>
@@ -40,6 +40,8 @@ const DashBoard: NextPage = () => {
           </tr>
         </tbody>
       </table>
+
+      <button className={style['button']}>+</button>
     </FadeIn>
   );
 };
