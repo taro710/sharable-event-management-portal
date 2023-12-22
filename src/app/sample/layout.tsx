@@ -1,11 +1,13 @@
 'use client';
 
+import clsx from 'clsx';
 import { usePathname, useRouter } from 'next/navigation';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 
 import MainPanel from '@/components/MainPanel';
 import SubPanel from '@/components/SubPanel';
 import Tab from '@/components/Tab';
+import { useResponsive } from '@/hooks/useResponsive';
 
 import style from './layout.module.scss';
 
@@ -17,6 +19,9 @@ import style from './layout.module.scss';
 const PageLayout = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter();
   const pathName = usePathname();
+
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const { isSp } = useResponsive();
 
   const onTabChange = (index: number) => {
     switch (index) {
@@ -47,10 +52,20 @@ const PageLayout = ({ children }: { children: React.ReactNode }) => {
     }
   }, [pathName]);
 
+  const onClick = () => {
+    if (!isSp) return;
+    setIsOpen(!isOpen);
+  };
+
   return (
     <div className={style['page-component']}>
-      <div className={style['sub']}>
+      <div className={clsx(style['sub'], isOpen && style['-open'])}>
         <SubPanel />
+        {isSp && (
+          <span className={style['icon']} onClick={onClick}>
+            {isOpen ? '▲' : '▼'}
+          </span>
+        )}
       </div>
       <div className={style['main']}>
         <div className={style['tab']}>

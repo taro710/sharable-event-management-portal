@@ -25,3 +25,11 @@
     opacity: 0.8;
   }
 }
+
+@include media-query-sp {
+  .tag-component {
+    &:hover {
+      opacity: 1;
+    }
+  }
+}

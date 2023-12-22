@@ -49,8 +49,8 @@
 
 @include media-query-sp {
   .sub-panel {
-    height: 100px;
     padding: 20px;
+    overflow: hidden;
 
     > .title {
       font-size: 24px;
