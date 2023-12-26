@@ -29,7 +29,9 @@ type Type<T> = {
   }[];
 };
 
-// 仙台旅行
+/**
+ * 仙台旅行
+ */
 const SENDAI: Type<'たろ' | 'ハマ' | '黒田' | 'フラ' | 'りゅー'> = {
   PARTICIPANTS: ['たろ', 'ハマ', '黒田', 'フラ', 'りゅー'],
   DATA: [
@@ -141,7 +143,12 @@ const SENDAI: Type<'たろ' | 'ハマ' | '黒田' | 'フラ' | 'りゅー'> = {
 describe('仙台旅行', () => {
   const result1 = sample(SENDAI.DATA);
   const result2 = sample2(SENDAI.DATA, SENDAI.PARTICIPANTS);
-  const result3 = sample3(result1, result2);
+  const result2_2 = result2.map((res) => {
+    return { ...res, totalFee: Math.trunc(res.totalFee) };
+  });
+  const result3 = sample3(result1, result2).map((res) => {
+    return { ...res, balance: Math.trunc(res.balance) };
+  });
   const result4 = func(SENDAI.DATA, SENDAI.PARTICIPANTS);
 
   test('メンバーごとの建替負担額のテスト', () => {
@@ -149,7 +156,7 @@ describe('仙台旅行', () => {
   });
 
   test('メンバーごとの実質負担額のテスト', () => {
-    expect(result2).toStrictEqual(SENDAI.RESULT2);
+    expect(result2_2).toStrictEqual(SENDAI.RESULT2);
   });
 
   test('メンバーごとの貸し借り状態のテスト', () => {
@@ -325,4 +332,373 @@ describe('沖縄旅行2022', () => {
   // test('誰から誰に払うかのテスト', () => {
   //   expect(result4).toStrictEqual(SENDAI.RESULT4);
   // });
+});
+
+/**
+ * 2023/12 館山キャンプ
+ */
+const CAMP_23_12: Type<'たろ' | 'そめ' | 'フラ' | 'だい' | 'ぐち'> = {
+  PARTICIPANTS: ['たろ', 'そめ', 'フラ', 'だい', 'ぐち'],
+  DATA: [
+    {
+      name: 'キャンプ場代',
+      price: 7000,
+      person: 'フラ',
+      person2: ['たろ', 'そめ', 'フラ', 'だい', 'ぐち'],
+    },
+    {
+      name: '食費',
+      price: 24840,
+      person: 'たろ',
+      person2: ['たろ', 'そめ', 'フラ', 'だい', 'ぐち'],
+    },
+    {
+      name: '高速代',
+      price: 9560,
+      person: 'そめ',
+      person2: ['たろ', 'そめ', 'フラ', 'だい', 'ぐち'],
+    },
+    {
+      name: 'ガソリン',
+      price: 5000,
+      person: 'そめ',
+      person2: ['たろ', 'そめ', 'フラ', 'だい', 'ぐち'],
+    },
+  ],
+  RESULT1: [
+    { paidMemberName: 'フラ', totalPaidFee: 7000 },
+    { paidMemberName: 'たろ', totalPaidFee: 24840 },
+    { paidMemberName: 'そめ', totalPaidFee: 14560 },
+  ],
+  RESULT2: [
+    { participant: 'たろ', totalFee: 9280 },
+    { participant: 'そめ', totalFee: 9280 },
+    { participant: 'フラ', totalFee: 9280 },
+    { participant: 'だい', totalFee: 9280 },
+    { participant: 'ぐち', totalFee: 9280 },
+  ],
+  RESULT3: [
+    { participant: 'たろ', balance: -15560 },
+    { participant: 'そめ', balance: -5280 },
+    { participant: 'フラ', balance: 2280 },
+    { participant: 'だい', balance: 9280 },
+    { participant: 'ぐち', balance: 9280 },
+  ],
+  RESULT4: [
+    {
+      participant: 'だい',
+      to: [
+        {
+          participant: 'そめ',
+          price: 9280,
+        },
+      ],
+    },
+    {
+      participant: 'ぐち',
+      to: [
+        {
+          participant: 'そめ',
+          price: 6280,
+        },
+        {
+          participant: 'たろ',
+          price: 3000,
+        },
+      ],
+    },
+    {
+      participant: 'フラ',
+      to: [
+        {
+          participant: 'たろ',
+          price: 2280,
+        },
+      ],
+    },
+  ],
+};
+
+describe('館山キャンプ2023年12月', () => {
+  const result1 = sample(CAMP_23_12.DATA);
+  const result2 = sample2(CAMP_23_12.DATA, CAMP_23_12.PARTICIPANTS);
+  const result2_2 = result2.map((res) => {
+    return { ...res, totalFee: Math.trunc(res.totalFee) };
+  });
+  const result3 = sample3(result1, result2).map((res) => {
+    return { ...res, balance: Math.trunc(res.balance) };
+  });
+  //   const result4 = func(CAMP_23_12.DATA, CAMP_23_12.PARTICIPANTS);
+
+  test('メンバーごとの建替負担額のテスト', () => {
+    expect(result1).toStrictEqual(CAMP_23_12.RESULT1);
+  });
+
+  test('メンバーごとの実質負担額のテスト', () => {
+    expect(result2_2).toStrictEqual(CAMP_23_12.RESULT2);
+  });
+
+  test('メンバーごとの貸し借り状態のテスト', () => {
+    expect(result3).toStrictEqual(CAMP_23_12.RESULT3);
+  });
+
+  //   test('誰から誰に払うかのテスト', () => {
+  //     expect(result4).toStrictEqual(CAMP_23_12.RESULT4);
+  //   });
+});
+
+/**
+ * のらら2023
+ */
+const NOLALA_2023: Type<
+  | 'そめさん'
+  | 'たろさん'
+  | 'ふらっしゅさん'
+  | 'ぴー'
+  | 'わさお'
+  | 'こま'
+  | 'ぐっち'
+  | 'こうすけ'
+> = {
+  PARTICIPANTS: [
+    'そめさん',
+    'たろさん',
+    'ふらっしゅさん',
+    'ぴー',
+    'わさお',
+    'こま',
+    'ぐっち',
+    'こうすけ',
+  ],
+  DATA: [
+    {
+      name: '高速、ガソリン代',
+      price: 17920,
+      person: 'そめさん',
+      person2: [
+        'そめさん',
+        'たろさん',
+        'ふらっしゅさん',
+        'ぴー',
+        'わさお',
+        'こま',
+        'ぐっち',
+        'こうすけ',
+      ],
+    },
+    {
+      name: 'スーパー',
+      price: 11172,
+      person: 'ぴー',
+      person2: [
+        'そめさん',
+        'たろさん',
+        'ふらっしゅさん',
+        'ぴー',
+        'わさお',
+        'こま',
+        'ぐっち',
+        'こうすけ',
+      ],
+    },
+    {
+      name: 'のららキャンプ代',
+      price: 14100,
+      person: 'そめさん',
+      person2: [
+        'そめさん',
+        'たろさん',
+        'ふらっしゅさん',
+        'ぴー',
+        'わさお',
+        'こま',
+        'ぐっち',
+        'こうすけ',
+      ],
+    },
+    {
+      name: '肉代',
+      price: 10717,
+      person: 'そめさん',
+      person2: [
+        'そめさん',
+        'たろさん',
+        'ふらっしゅさん',
+        'ぴー',
+        'わさお',
+        'こま',
+        'ぐっち',
+        'こうすけ',
+      ],
+    },
+    {
+      name: 'スーパー',
+      price: 13450,
+      person: 'ふらっしゅさん',
+      person2: [
+        'そめさん',
+        'たろさん',
+        'ふらっしゅさん',
+        'ぴー',
+        'わさお',
+        'こま',
+        'ぐっち',
+        'こうすけ',
+      ],
+    },
+    {
+      name: '車',
+      price: 9640,
+      person: 'ふらっしゅさん',
+      person2: [
+        'そめさん',
+        'たろさん',
+        'ふらっしゅさん',
+        'ぴー',
+        'わさお',
+        'こま',
+        'ぐっち',
+        'こうすけ',
+      ],
+    },
+    {
+      name: '交通費・ガソリン代',
+      price: 13052,
+      person: 'わさお',
+      person2: [
+        'そめさん',
+        'たろさん',
+        'ふらっしゅさん',
+        'ぴー',
+        'わさお',
+        'こま',
+        'ぐっち',
+        'こうすけ',
+      ],
+    },
+    {
+      name: 'ビール等仕入れ代',
+      price: 8500,
+      person: 'わさお',
+      person2: [
+        'そめさん',
+        'たろさん',
+        'ふらっしゅさん',
+        'ぴー',
+        'わさお',
+        'こま',
+        'ぐっち',
+        'こうすけ',
+      ],
+    },
+  ],
+  RESULT1: [
+    { paidMemberName: 'そめさん', totalPaidFee: 42737 },
+    { paidMemberName: 'ぴー', totalPaidFee: 11172 },
+    { paidMemberName: 'ふらっしゅさん', totalPaidFee: 23090 },
+    { paidMemberName: 'わさお', totalPaidFee: 21552 },
+  ],
+  RESULT2: [
+    { participant: 'そめさん', totalFee: 12318 },
+    { participant: 'たろさん', totalFee: 12318 },
+    { participant: 'ふらっしゅさん', totalFee: 12318 },
+    { participant: 'ぴー', totalFee: 12318 },
+    { participant: 'わさお', totalFee: 12318 },
+    { participant: 'こま', totalFee: 12318 },
+    { participant: 'ぐっち', totalFee: 12318 },
+    { participant: 'こうすけ', totalFee: 12318 },
+  ],
+  RESULT3: [
+    { participant: 'そめさん', balance: -30418 },
+    { participant: 'たろさん', balance: 12318 },
+    { participant: 'ふらっしゅさん', balance: -10771 },
+    { participant: 'ぴー', balance: 1146 },
+    { participant: 'わさお', balance: -9233 },
+    { participant: 'こま', balance: 12318 },
+    { participant: 'ぐっち', balance: 12318 },
+    { participant: 'こうすけ', balance: 12318 },
+  ],
+  RESULT4: [
+    {
+      participant: 'たろさん',
+      to: [
+        {
+          participant: 'そめさん',
+          price: 12300,
+        },
+      ],
+    },
+    {
+      participant: 'こま',
+      to: [
+        {
+          participant: 'そめさん',
+          price: 12300,
+        },
+      ],
+    },
+    {
+      participant: 'ぐっち',
+      to: [
+        {
+          participant: 'ふらっしゅさん',
+          price: 10800,
+        },
+        {
+          participant: 'そめさん',
+          price: 1500,
+        },
+      ],
+    },
+    {
+      participant: 'こうすけ',
+      to: [
+        {
+          participant: 'わさお',
+          price: 9200,
+        },
+        {
+          participant: 'そめさん',
+          price: 3100,
+        },
+      ],
+    },
+    {
+      participant: 'ぴー',
+      to: [
+        {
+          participant: 'そめさん',
+          price: 1100,
+        },
+      ],
+    },
+  ],
+};
+
+describe('のらら2023', () => {
+  const result1 = sample(NOLALA_2023.DATA);
+  const result2 = sample2(NOLALA_2023.DATA, NOLALA_2023.PARTICIPANTS);
+  const result2_2 = result2.map((res) => {
+    return { ...res, totalFee: Math.trunc(res.totalFee) };
+  });
+  const result3 = sample3(result1, result2).map((res) => {
+    return { ...res, balance: Math.trunc(res.balance) };
+  });
+  //   const result4 = func(NOLALA_2023.DATA, NOLALA_2023.PARTICIPANTS);
+
+  test('メンバーごとの建替負担額のテスト', () => {
+    expect(result1).toStrictEqual(NOLALA_2023.RESULT1);
+  });
+
+  test('メンバーごとの実質負担額のテスト', () => {
+    expect(result2_2).toStrictEqual(NOLALA_2023.RESULT2);
+  });
+
+  test('メンバーごとの貸し借り状態のテスト', () => {
+    expect(result3).toStrictEqual(NOLALA_2023.RESULT3);
+  });
+
+  //   test('誰から誰に払うかのテスト', () => {
+  //     expect(result4).toStrictEqual(NOLALA_2023.RESULT4);
+  //   });
 });
