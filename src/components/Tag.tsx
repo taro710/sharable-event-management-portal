@@ -1,3 +1,5 @@
+'use client';
+
 import clsx from 'clsx';
 
 import style from './Tag.module.scss';

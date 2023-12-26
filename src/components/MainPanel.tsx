@@ -1,3 +1,5 @@
+'use client';
+
 import style from './MainPanel.module.scss';
 
 type Props = {
