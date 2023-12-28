@@ -3,9 +3,8 @@
   "env": {
     "node": true,
     "browser": true,
-    "es2017": true
+    "es2023": true
   },
-  "parserOptions": { "ecmaVersion": 8 }, // to enable features such as async/await
   "plugins": ["unused-imports", "import"],
   "extends": [
     "next",

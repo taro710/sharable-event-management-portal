@@ -41,7 +41,7 @@ describe('沖縄旅行2022', () => {
   const result3 = sample3(result1, result2).map((res) => {
     return { ...res, balance: Math.trunc(res.balance) };
   });
-  // const result4 = func(SENDAI.DATA, SENDAI.PARTICIPANTS);
+  const result4 = func(OKINAWA2022.DATA, OKINAWA2022.PARTICIPANTS);
 
   test('メンバーごとの建替負担額のテスト', () => {
     expect(result1).toStrictEqual(OKINAWA2022.RESULT1);
@@ -55,9 +55,9 @@ describe('沖縄旅行2022', () => {
     expect(result3).toStrictEqual(OKINAWA2022.RESULT3);
   });
 
-  // test('誰から誰に払うかのテスト', () => {
-  //   expect(result4).toStrictEqual(SENDAI.RESULT4);
-  // });
+  test('誰から誰に払うかのテスト', () => {
+    expect(result4).toStrictEqual(OKINAWA2022.RESULT4);
+  });
 });
 
 describe('館山キャンプ2023年12月', () => {
@@ -69,7 +69,7 @@ describe('館山キャンプ2023年12月', () => {
   const result3 = sample3(result1, result2).map((res) => {
     return { ...res, balance: Math.trunc(res.balance) };
   });
-  //   const result4 = func(CAMP_23_12.DATA, CAMP_23_12.PARTICIPANTS);
+  const result4 = func(CAMP_23_12.DATA, CAMP_23_12.PARTICIPANTS);
 
   test('メンバーごとの建替負担額のテスト', () => {
     expect(result1).toStrictEqual(CAMP_23_12.RESULT1);
@@ -83,9 +83,9 @@ describe('館山キャンプ2023年12月', () => {
     expect(result3).toStrictEqual(CAMP_23_12.RESULT3);
   });
 
-  //   test('誰から誰に払うかのテスト', () => {
-  //     expect(result4).toStrictEqual(CAMP_23_12.RESULT4);
-  //   });
+  test('誰から誰に払うかのテスト', () => {
+    expect(result4).toStrictEqual(CAMP_23_12.RESULT4);
+  });
 });
 
 describe('のらら2023', () => {
@@ -97,7 +97,7 @@ describe('のらら2023', () => {
   const result3 = sample3(result1, result2).map((res) => {
     return { ...res, balance: Math.trunc(res.balance) };
   });
-  //   const result4 = func(NOLALA_2023.DATA, NOLALA_2023.PARTICIPANTS);
+  // const result4 = func(NOLALA_2023.DATA, NOLALA_2023.PARTICIPANTS);
 
   test('メンバーごとの建替負担額のテスト', () => {
     expect(result1).toStrictEqual(NOLALA_2023.RESULT1);
@@ -111,7 +111,7 @@ describe('のらら2023', () => {
     expect(result3).toStrictEqual(NOLALA_2023.RESULT3);
   });
 
-  //   test('誰から誰に払うかのテスト', () => {
-  //     expect(result4).toStrictEqual(NOLALA_2023.RESULT4);
-  //   });
+  // test('誰から誰に払うかのテスト', () => {
+  //   expect(result4).toStrictEqual(NOLALA_2023.RESULT4);
+  // });
 });

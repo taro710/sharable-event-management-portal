@@ -81,20 +81,36 @@ export const func = (
   // {paidMemberName:負担した人. totalPaidFee:その人のトータルの負担額}
   const paidMemberNameAndTotalPaidFeeList = sample(expenses);
 
+  console.log({ paidMemberNameAndTotalPaidFeeList });
+
   // {participant:参加者. totalFee: このイベントではらわないといけない実質額}
   const participantAndTotalFeeList = sample2(expenses, participants);
+
+  console.log({ participantAndTotalFeeList });
 
   // {participant:参加者. balance: 貸し借りの額}
   const participantAndPayBalanceList = sample3(
     paidMemberNameAndTotalPaidFeeList,
     participantAndTotalFeeList,
-  );
+  ).map((res) => {
+    return { ...res, balance: Math.round(res.balance) }; // TODO: !roundかtruncか
+  });
 
   console.log({ participantAndPayBalanceList });
 
+  const 誤差 = participantAndPayBalanceList.reduce(
+    (acc, cur) => acc + cur.balance,
+    0,
+  );
+
+  console.log({ 誤差 });
+
   const もらう人 = structuredClone(participantAndPayBalanceList) // TODO: 解除可能
     .filter((man) => man.balance < 0)
-    .sort((a, b) => a.balance - b.balance);
+    .sort((a, b) => a.balance - b.balance)
+    .map((man, i) => {
+      return { ...man, balance: i === 0 ? man.balance - 誤差 : man.balance };
+    });
   const 払う人 = structuredClone(participantAndPayBalanceList) // TODO: 解除可能
     .filter((man) => man.balance > 0)
     .sort((a, b) => b.balance - a.balance);
@@ -102,34 +118,41 @@ export const func = (
   console.log({ もらう人 });
   console.log({ 払う人 });
 
+  // もらう人と払う人の貸し借りの総和が0になることを確認 TODO:
+
   let i = 0; // answerを関数化して、中に入れる // TODO:
   const answer = 払う人.map((man) => {
     const to = [];
 
     console.warn(man.participant + 'が誰にいくら払うか計算開始');
 
-    let 余力 = man.balance;
+    let 貸し借り = man.balance;
 
     while (true) {
-      console.log(man.participant + 'の現在の余力は' + 余力);
+      console.log(man.participant + 'の現在の貸し借りは' + 貸し借り);
 
-      const もらう人のdiff = もらう人[i].balance;
+      const もらう人の現在の貸し借り = もらう人[i].balance;
 
       console.log('もらう人は' + もらう人[i].participant);
-      console.log(もらう人[i].participant + 'のdiffは' + もらう人のdiff);
+      console.log(
+        もらう人[i].participant + 'の貸し借りは' + もらう人の現在の貸し借り,
+      );
 
-      if (余力 + もらう人のdiff > 0) {
+      if (貸し借り + もらう人の現在の貸し借り > 0) {
         to.push({
           participant: もらう人[i].participant,
-          price: -もらう人のdiff,
+          price: -もらう人の現在の貸し借り,
         });
         // 余力がまだあるので次の人にも支払い
-        余力 += もらう人のdiff;
+        貸し借り += もらう人の現在の貸し借り;
         i++;
       } else {
         // 全部余力を使ったのでこのmanは支払い完了
-        to.push({ participant: もらう人[i].participant, price: 余力 });
-        もらう人[i].balance += 余力;
+        to.push({
+          participant: もらう人[i].participant,
+          price: 貸し借り,
+        });
+        もらう人[i].balance += 貸し借り;
 
         return {
           participant: man.participant,

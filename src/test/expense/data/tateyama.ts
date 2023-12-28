@@ -57,7 +57,7 @@ export const CAMP_23_12: ExpenseTestDataType<
       participant: 'だい',
       to: [
         {
-          participant: 'そめ',
+          participant: 'たろ',
           price: 9280,
         },
       ],
@@ -66,11 +66,11 @@ export const CAMP_23_12: ExpenseTestDataType<
       participant: 'ぐち',
       to: [
         {
-          participant: 'そめ',
+          participant: 'たろ',
           price: 6280,
         },
         {
-          participant: 'たろ',
+          participant: 'そめ',
           price: 3000,
         },
       ],
@@ -79,7 +79,7 @@ export const CAMP_23_12: ExpenseTestDataType<
       participant: 'フラ',
       to: [
         {
-          participant: 'たろ',
+          participant: 'そめ',
           price: 2280,
         },
       ],

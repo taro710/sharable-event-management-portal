@@ -128,12 +128,12 @@ export const OKINAWA2022: ExpenseTestDataType<
       participant: 'フラ',
       to: [
         {
-          participant: 'そめ',
-          price: 23773,
-        },
-        {
           participant: 'たろ',
           price: 3601,
+        },
+        {
+          participant: 'そめ',
+          price: 23773,
         },
       ],
     },

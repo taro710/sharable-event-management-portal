@@ -5,6 +5,7 @@ import { NextPage } from 'next';
 import { useState } from 'react';
 
 import FadeIn from '@/components/FadeIn';
+import { NOLALA_2023 } from '@/test/expense/data/nolala2023';
 import { func } from '@/util/sample';
 
 import style from './page.module.scss';
@@ -17,97 +18,9 @@ const DashBoard: NextPage = () => {
       person: string;
       person2: string[];
     }[]
-  >([
-    {
-      name: 'ガソリン代',
-      price: 3818,
-      person: 'そめ',
-      person2: ['たろ', 'そめ', 'フラ', 'りゅさん'],
-    },
-    {
-      name: '高速往復代',
-      price: 620,
-      person: 'そめ',
-      person2: ['たろ', 'そめ', 'りゅさん'],
-    },
-    {
-      name: '駐車代',
-      price: 620,
-      person: 'そめ',
-      person2: ['たろ', 'そめ', 'りゅさん'],
-    },
-    {
-      name: '寿司そば天ぷら唐揚げ',
-      price: 6204,
-      person: 'たろ',
-      person2: ['たろ', 'そめ', 'りゅさん'],
-    },
-    {
-      name: '帰り美海から',
-      price: 850,
-      person: 'りゅさん',
-      person2: ['たろ', 'そめ', 'フラ', 'りゅさん'],
-    },
-    {
-      name: 'ホテル代',
-      price: 42360,
-      person: 'そめ',
-      person2: ['たろ', 'そめ', 'フラ', 'りゅさん'],
-    },
-    {
-      name: '帰り美海まで',
-      price: 850,
-      person: 'たろ',
-      person2: ['たろ', 'そめ', 'フラ', 'りゅさん'],
-    },
-    {
-      name: 'マック',
-      price: 800,
-      person: 'たろ',
-      person2: ['たろ', 'そめ', 'フラ', 'りゅさん'],
-    },
-    {
-      name: '肉そば',
-      price: 800,
-      person: 'そめ',
-      person2: ['りゅさん'],
-    },
-    {
-      name: 'レンタカー',
-      price: 28900,
-      person: 'たろ',
-      person2: ['たろ', 'そめ', 'フラ', 'りゅさん'],
-    },
-    {
-      name: '味噌汁屋さん',
-      price: 3000,
-      person: 'たろ',
-      person2: ['たろ', 'そめ', 'フラ', 'りゅさん'],
-    },
-    {
-      name: '沖縄料理',
-      price: 11594,
-      person: 'たろ',
-      person2: ['たろ', 'そめ', 'フラ', 'りゅさん'],
-    },
-    {
-      name: '創作料理',
-      price: 15463,
-      person: 'たろ',
-      person2: ['たろ', 'そめ', 'フラ', 'りゅさん'],
-    },
-    {
-      name: 'タクシー代',
-      price: 1860,
-      person: 'そめ',
-      person2: ['たろ', 'そめ', 'フラ', 'りゅさん'],
-    },
-  ]);
+  >([...NOLALA_2023.DATA]);
 
-  console.log({ expenses });
-
-  // const participants = ['たろ', 'そめ', 'ハマ', '黒田', 'フラ', 'りゅー'];
-  const participants = ['たろ', 'そめ', 'フラ', 'りゅさん'];
+  const participants = NOLALA_2023.PARTICIPANTS;
 
   const answer = func(expenses, participants);
 
