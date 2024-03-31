@@ -67,6 +67,9 @@ const DashBoard: NextPage = () => {
               </div>
             ))}
           </div>
+          {data[selectedIndex].bring.length <= 0 && (
+            <p className={style['notice']}>持ち物はありません</p>
+          )}
         </div>
         <button
           className={style['button']}

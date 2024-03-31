@@ -2,9 +2,10 @@
 
 import clsx from 'clsx';
 import { useAtom } from 'jotai';
-import { useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import { itemAtom } from '@/atoms/itemAtom';
+import IconClose from '@/components/Icon/IconClose';
 
 import style from './DialogItemSelect.module.scss';
 
@@ -19,64 +20,77 @@ const DialogItemSelect = ({
   selectedItems = [],
 }: Props) => {
   const [items, setItems] = useAtom(itemAtom);
-  const [selectedItem, setSelectedItem] = useState<string[]>(selectedItems);
+  const [selectedItem, setSelectedItem] = useState<string[]>([]);
   const [value, setValue] = useState<string>('');
+
+  useEffect(() => setSelectedItem(selectedItems), [selectedItems]);
+
+  const updateSelectedItem = useCallback((selectedItem: string) => {
+    setSelectedItem((prev) => {
+      if (prev.includes(selectedItem))
+        return prev.filter((elm) => elm != selectedItem);
+      return [...prev, selectedItem];
+    });
+  }, []);
+
+  const addValue = useCallback(() => {
+    if (value === '') return;
+    if (items.includes(value)) return;
+    setItems((prev) => [...prev, value]);
+    setValue('');
+  }, [items, setItems, value]);
 
   return (
     <div className={style['dialog-content']}>
-      <p>持ち物を選択</p>
-      <span onClick={handleClose}>×</span>
-      <div className={style['buttons']}>
-        {items.map((item, i) => (
-          <p
-            className={clsx(
-              style['button'],
-              selectedItem.includes(item) && style['-selected'],
-            )}
-            onClick={() => {
-              setSelectedItem((prev) => {
-                if (prev.includes(item))
-                  return prev.filter((elm) => elm != item);
-                return [...prev, item];
-              });
-            }}
-            key={i}>
-            {item}
-          </p>
-        ))}
+      <div className={style['header']}>
+        <p className={style['title']}>持ち物を選択</p>
+        <div className={style['icon']} onClick={handleClose}>
+          <IconClose />
+        </div>
       </div>
-      <p>持ち物を登録</p>
-      <input
-        type="text"
-        value={value}
-        placeholder="item"
-        className={style['input-text']}
-        onChange={(e) => setValue(e.target.value)}
-      />
-      <button
-        onClick={() => {
-          if (items.includes(value)) return;
-          setItems((prev) => [...prev, value]);
-        }}>
-        追加
-      </button>
+      <div className={style['body']}>
+        <div className={style['buttons']}>
+          {items.map((item, i) => (
+            <p
+              className={clsx(
+                style['button'],
+                selectedItem.includes(item) && style['-selected'],
+              )}
+              onClick={() => updateSelectedItem(item)}
+              key={i}>
+              {item}
+            </p>
+          ))}
+        </div>
+        <p className={style['caption']}>持ち物を登録</p>
+        <div className={style['form']}>
+          <input
+            type="text"
+            value={value}
+            placeholder="item"
+            className={style['input']}
+            onChange={(e) => setValue(e.target.value)}
+          />
+          <button
+            className={style['action']}
+            onClick={() => {
+              addValue();
+              updateSelectedItem(value);
+            }}>
+            追加
+          </button>
+        </div>
 
-      <br />
-      <br />
-      <br />
-      {selectedItem.map((item) => (
-        <p key={item}>{item}</p>
-      ))}
-      <br />
-      <br />
-      <br />
-      <button
-        onClick={() => {
-          handleSubmit(selectedItem);
-          handleClose();
-        }}>
-        確定
-      </button>
+        <button
+          className={style['submit']}
+          onClick={() => {
+            handleSubmit(selectedItem);
+            handleClose();
+            setValue('');
+          }}>
+          確定
+        </button>
+      </div>
     </div>
   );
 };
