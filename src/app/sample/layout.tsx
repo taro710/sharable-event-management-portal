@@ -61,11 +61,9 @@ const PageLayout = ({ children }: { children: React.ReactNode }) => {
     <div className={style['page-component']}>
       <div className={clsx(style['sub'], isOpen && style['-open'])}>
         <SubPanel />
-        {isSp && (
-          <span className={style['icon']} onClick={onClick}>
-            {isOpen ? '▲' : '▼'}
-          </span>
-        )}
+        <span className={style['icon']} onClick={onClick}>
+          {isOpen ? '▲' : '▼'}
+        </span>
       </div>
       <div className={style['main']}>
         <div className={style['tab']}>

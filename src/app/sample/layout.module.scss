@@ -8,6 +8,10 @@
   > .sub {
     width: 256px;
     height: 100%;
+
+    > .icon {
+      display: none;
+    }
   }
 
   > .main {
