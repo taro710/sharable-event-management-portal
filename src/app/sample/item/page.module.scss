@@ -36,12 +36,6 @@
   }
 }
 
-.notice-text {
-  margin-bottom: -14px;
-  font-size: 14px;
-  color: #999;
-}
-
 .item-list {
   display: flex;
   flex-direction: column;
@@ -52,35 +46,16 @@
     display: flex;
     gap: 24px;
     align-items: center;
-
-    > .buttons {
-      display: flex;
-      gap: 8px;
-      font-size: 14px;
-
-      > .button {
-        padding: 8px 12px;
-        color: $white;
-        cursor: pointer;
-        background-color: $black;
-        border-radius: 100px;
-      }
-
-      > .button.-ok {
-        background-color: #e15555;
-      }
-
-      > .button.-ng {
-        background-color: $purple;
-      }
-
-      > .button:active {
-        background-color: $gray;
-      }
-
-      > .button:hover {
-        opacity: 0.8;
-      }
-    }
   }
+}
+
+.dialog-panel {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  width: 100vw;
+  height: 100dvh;
+  padding: 24px;
+  background-color: white;
 }
