@@ -5,17 +5,20 @@ import { useAtom } from 'jotai';
 import { useCallback, useEffect, useState } from 'react';
 
 import { itemAtom } from '@/atoms/itemAtom';
+import DialogWrapper from '@/components/Dialog/DialogWrapper';
 import IconClose from '@/components/Icon/IconClose';
 
 import style from './DialogItemSelect.module.scss';
 
 type Props = {
   selectedItems?: string[];
-  handleClose: () => void;
+  isOpen: boolean;
+  setIsOpen: (isOpen: boolean) => void;
   handleSubmit: (selectedItem: string[]) => void;
 };
 const DialogItemSelect = ({
-  handleClose,
+  isOpen,
+  setIsOpen,
   handleSubmit,
   selectedItems = [],
 }: Props) => {
@@ -40,58 +43,68 @@ const DialogItemSelect = ({
     setValue('');
   }, [items, setItems, value]);
 
+  const setIsDialogOpen = useCallback(
+    (isOpen: boolean) => {
+      if (!isOpen) setSelectedItem(selectedItems);
+      setIsOpen(isOpen);
+    },
+    [selectedItems, setIsOpen],
+  );
+
   return (
-    <div className={style['dialog-content']}>
-      <div className={style['header']}>
-        <p className={style['title']}>持ち物を選択</p>
-        <div className={style['icon']} onClick={handleClose}>
-          <IconClose />
+    <DialogWrapper isOpen={isOpen} setIsOpen={setIsDialogOpen}>
+      <div className={style['dialog-content']}>
+        <div className={style['header']}>
+          <p className={style['title']}>持ち物を選択</p>
+          <div className={style['icon']} onClick={() => setIsDialogOpen(false)}>
+            <IconClose />
+          </div>
         </div>
-      </div>
-      <div className={style['body']}>
-        <div className={style['buttons']}>
-          {items.map((item, i) => (
-            <p
-              className={clsx(
-                style['button'],
-                selectedItem.includes(item) && style['-selected'],
-              )}
-              onClick={() => updateSelectedItem(item)}
-              key={i}>
-              {item}
-            </p>
-          ))}
-        </div>
-        <p className={style['caption']}>持ち物を登録</p>
-        <div className={style['form']}>
-          <input
-            type="text"
-            value={value}
-            placeholder="item"
-            className={style['input']}
-            onChange={(e) => setValue(e.target.value)}
-          />
+        <div className={style['body']}>
+          <div className={style['buttons']}>
+            {items.map((item, i) => (
+              <p
+                className={clsx(
+                  style['button'],
+                  selectedItem.includes(item) && style['-selected'],
+                )}
+                onClick={() => updateSelectedItem(item)}
+                key={i}>
+                {item}
+              </p>
+            ))}
+          </div>
+          <p className={style['caption']}>持ち物を登録</p>
+          <div className={style['form']}>
+            <input
+              type="text"
+              value={value}
+              placeholder="item"
+              className={style['input']}
+              onChange={(e) => setValue(e.target.value)}
+            />
+            <button
+              className={style['action']}
+              onClick={() => {
+                addValue();
+                updateSelectedItem(value);
+              }}>
+              追加
+            </button>
+          </div>
+
           <button
-            className={style['action']}
+            className={style['submit']}
             onClick={() => {
-              addValue();
-              updateSelectedItem(value);
+              handleSubmit(selectedItem);
+              setIsDialogOpen(false);
+              setValue('');
             }}>
-            追加
+            確定
           </button>
         </div>
-
-        <button
-          className={style['submit']}
-          onClick={() => {
-            handleSubmit(selectedItem);
-            handleClose();
-            setValue('');
-          }}>
-          確定
-        </button>
       </div>
-    </div>
+    </DialogWrapper>
   );
 };
 
