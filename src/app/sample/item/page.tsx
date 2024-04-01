@@ -5,6 +5,7 @@ import { useMemo, useState } from 'react';
 
 import Checkbox from '@/components/Checkbox';
 import DialogItemSelect from '@/components/Dialog/DialogItemSelect';
+import DialogWrapper from '@/components/Dialog/DialogWrapper';
 import FadeIn from '@/components/FadeIn';
 import Tag from '@/components/Tag';
 
@@ -78,7 +79,7 @@ const DashBoard: NextPage = () => {
         </button>
       </FadeIn>
 
-      <dialog open={isDialogOpen} className={style['dialog-panel']}>
+      <DialogWrapper isOpen={isDialogOpen}>
         <DialogItemSelect
           selectedItems={data[selectedIndex].bring}
           handleClose={() => setIsDialogOpen(false)}
@@ -93,7 +94,7 @@ const DashBoard: NextPage = () => {
             })
           }
         />
-      </dialog>
+      </DialogWrapper>
     </>
   );
 };
