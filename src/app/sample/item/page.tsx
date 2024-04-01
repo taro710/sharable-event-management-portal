@@ -1,59 +1,52 @@
 'use client';
 
+import { useAtom } from 'jotai';
 import { NextPage } from 'next';
 import { useMemo, useState } from 'react';
 
+import { itemAtom } from '@/atoms/itemAtom';
 import Checkbox from '@/components/Checkbox';
 import DialogItemSelect from '@/components/Dialog/DialogItemSelect';
 import FadeIn from '@/components/FadeIn';
 import IconEdit from '@/components/Icon/IconEdit';
 import Tag from '@/components/Tag';
+import { Data, useItemPage } from '@/hooks/pages/useItemPage';
 
 import style from './page.module.scss';
 
 const DashBoard: NextPage = () => {
   const [selectedIndex, setSelectedIndex] = useState<number>(0);
-  const [data, setData] = useState<{ text: string; bring: string[] }[]>([
-    {
-      text: 'たろ',
-      bring: ['イス', 'シュラフ', 'カメラ', 'クッカー'],
-    },
-    {
-      text: 'そめ',
-      bring: ['イス', 'シュラフ', 'テント'],
-    },
-    {
-      text: 'ハマ',
-      bring: ['イス', 'シュラフ', 'ランタン', 'クッカー'],
-    },
-    {
-      text: '黒田',
-      bring: ['イス', 'シュラフ', 'クッカー', 'コット'],
-    },
-    {
-      text: 'フラ',
-      bring: ['イス', 'シュラフ', 'コット'],
-    },
-    {
-      text: 'りゅー',
-      bring: ['イス', 'シュラフ'],
-    },
-  ]);
 
-  const selectedData: { text: string; bring: string[] } | undefined = useMemo(
+  const [data, setData] = useState<Data[]>([]);
+
+  const selectedData: { name: string; bring: string[] } | undefined = useMemo(
     () => data[selectedIndex],
     [data, selectedIndex],
   );
 
-  const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
+  const [, setItems] = useAtom(itemAtom);
 
+  const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
+  const { updateBringList, getBringList, getItemMaster } = useItemPage();
+
+  if (data.length === 0)
+    return (
+      <p
+        onClick={async () => {
+          const data = await getBringList();
+          if (data === undefined) return;
+          setData(data);
+        }}>
+        loading...
+      </p>
+    );
   return (
     <>
       <FadeIn className={style['item-panel']}>
         <div className={style['tags']}>
-          {data.map(({ text }, i) => (
+          {data.map(({ name }, i) => (
             <Tag
-              text={text}
+              text={name}
               isActive={i === selectedIndex}
               onClick={() => setSelectedIndex(i)}
               key={i}
@@ -74,7 +67,12 @@ const DashBoard: NextPage = () => {
         </div>
         <button
           className={style['button']}
-          onClick={() => setIsDialogOpen(true)}>
+          onClick={async () => {
+            setIsDialogOpen(true);
+            const items = await getItemMaster();
+            if (items === undefined) return;
+            setItems(items);
+          }}>
           <IconEdit />
         </button>
       </FadeIn>
@@ -83,14 +81,15 @@ const DashBoard: NextPage = () => {
         selectedItems={data[selectedIndex].bring}
         isOpen={isDialogOpen}
         setIsOpen={setIsDialogOpen}
-        handleSubmit={(selectedItem) =>
-          setData((prev) => {
-            return prev.map((elm, i) => {
-              if (i === selectedIndex) return { ...elm, bring: selectedItem };
-              return elm;
-            });
-          })
-        }
+        handleSubmit={async (selectedItem) => {
+          const newData = data.map((elm, i) => {
+            if (i === selectedIndex) return { ...elm, bring: selectedItem };
+            return elm;
+          });
+          const result = await updateBringList(newData);
+          if (result === undefined) return;
+          setData(result);
+        }}
       />
     </>
   );
