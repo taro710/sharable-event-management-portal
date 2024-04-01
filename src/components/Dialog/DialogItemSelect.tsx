@@ -4,7 +4,7 @@ import clsx from 'clsx';
 import { useAtom } from 'jotai';
 import { useCallback, useEffect, useState } from 'react';
 
-import { itemAtom } from '@/atoms/itemAtom';
+import { bringListAtom, itemAtom } from '@/atoms/itemAtom';
 import DialogWrapper from '@/components/Dialog/DialogWrapper';
 import IconClose from '@/components/Icon/IconClose';
 import IconEdit from '@/components/Icon/IconEdit';
@@ -28,7 +28,7 @@ const DialogItemSelect = ({
   const [selectedItem, setSelectedItem] = useState<string[]>([]);
   const [value, setValue] = useState<string>('');
 
-  const { updateItemMaster } = useItemPage(); // TODO: ページ側で呼び出す
+  const { updateBringList, updateItemMaster } = useItemPage(); // TODO: ページ側で呼び出す
 
   useEffect(() => setSelectedItem(selectedItems), [selectedItems]);
 
@@ -60,11 +60,19 @@ const DialogItemSelect = ({
   const [isEditMode, setIsEditMode] = useState<boolean>(false);
   const [tmpItem, setTmpItem] = useState<string[]>(items);
   useEffect(() => setTmpItem(items), [items]);
-  console.log(items);
+
+  const [data, setData] = useAtom(bringListAtom);
+
+  const [removedItem, setRemovedItem] = useState<string[]>([]);
+  const [isOpenNoticePanel, setIsOpenNoticePanel] = useState<boolean>(false);
 
   return (
     <DialogWrapper isOpen={isOpen} setIsOpen={setIsDialogOpen}>
-      <div className={style['dialog-content']}>
+      <div
+        className={clsx(
+          style['dialog-content'],
+          isOpenNoticePanel && style['-disabled'],
+        )}>
         <div className={style['header']}>
           <p className={style['title']}>持ち物を選択</p>
           <div className={style['icon']} onClick={() => setIsDialogOpen(false)}>
@@ -107,6 +115,7 @@ const DialogItemSelect = ({
                             (elm) => elm !== item,
                           );
                           setTmpItem(remainItem);
+                          setRemovedItem((prev) => [...prev, item]);
                         }}>
                         -
                       </span>
@@ -120,11 +129,12 @@ const DialogItemSelect = ({
             <div className={style['action']}>
               <button
                 className={style['submit']}
-                onClick={async () => {
-                  const newItemMaster = await updateItemMaster(tmpItem);
-                  if (newItemMaster === undefined) return;
-                  setItems(newItemMaster); // TODO:  bringListにも反映
-                  setIsEditMode(false);
+                onClick={() => {
+                  if (removedItem.length === 0) {
+                    setIsEditMode(false);
+                    return;
+                  }
+                  setIsOpenNoticePanel(true);
                 }}>
                 確定
               </button>
@@ -133,6 +143,7 @@ const DialogItemSelect = ({
                 onClick={() => {
                   setTmpItem(items);
                   setIsEditMode(false);
+                  setRemovedItem([]);
                 }}>
                 キャンセル
               </button>
@@ -169,6 +180,54 @@ const DialogItemSelect = ({
           </button>
         </div>
       </div>
+      {isOpenNoticePanel && (
+        <div className={style['notice-panel']}>
+          <p className={style['text']}>全員の持ち物から以下が削除されます</p>
+          <ul className={style['list']}>
+            {removedItem.map((item, i) => (
+              <li className={style['item']} key={i}>
+                {item}
+              </li>
+            ))}
+          </ul>
+          <div className={style['action']}>
+            <button
+              className={style['submit']}
+              onClick={async () => {
+                const newItemMaster = await updateItemMaster(tmpItem);
+                if (newItemMaster === undefined) return;
+                setItems(newItemMaster);
+
+                const _newBringList = data.map((elm) => {
+                  return {
+                    name: elm.name,
+                    bring: elm.bring.filter((item) => tmpItem.includes(item)),
+                  };
+                });
+                const newBringList = await updateBringList(_newBringList);
+                if (newBringList === undefined) {
+                  setIsEditMode(false);
+                  return;
+                }
+                setData(newBringList);
+                setIsEditMode(false);
+                setIsOpenNoticePanel(false);
+              }}>
+              確定
+            </button>
+            <button
+              className={style['cancel']}
+              onClick={() => {
+                setTmpItem(items);
+                setIsEditMode(false);
+                setRemovedItem([]);
+                setIsOpenNoticePanel(false);
+              }}>
+              キャンセル
+            </button>
+          </div>
+        </div>
+      )}
     </DialogWrapper>
   );
 };

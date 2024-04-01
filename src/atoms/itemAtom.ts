@@ -1,11 +1,7 @@
 import { atom } from 'jotai';
 
-export const itemAtom = atom<string[]>([
-  'イス',
-  'シュラフ',
-  'テント',
-  'ランタン',
-  'クッカー',
-  'コット',
-  'カメラ',
-]);
+import { Data } from '@/hooks/pages/useItemPage';
+
+export const itemAtom = atom<string[]>([]);
+
+export const bringListAtom = atom<Data[]>([]);

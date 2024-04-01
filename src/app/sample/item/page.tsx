@@ -4,20 +4,20 @@ import { useAtom } from 'jotai';
 import { NextPage } from 'next';
 import { useMemo, useState } from 'react';
 
-import { itemAtom } from '@/atoms/itemAtom';
+import { bringListAtom, itemAtom } from '@/atoms/itemAtom';
 import Checkbox from '@/components/Checkbox';
 import DialogItemSelect from '@/components/Dialog/DialogItemSelect';
 import FadeIn from '@/components/FadeIn';
 import IconEdit from '@/components/Icon/IconEdit';
 import Tag from '@/components/Tag';
-import { Data, useItemPage } from '@/hooks/pages/useItemPage';
+import { useItemPage } from '@/hooks/pages/useItemPage';
 
 import style from './page.module.scss';
 
 const DashBoard: NextPage = () => {
   const [selectedIndex, setSelectedIndex] = useState<number>(0);
 
-  const [data, setData] = useState<Data[]>([]);
+  const [data, setData] = useAtom(bringListAtom);
 
   const selectedData: { name: string; bring: string[] } | undefined = useMemo(
     () => data[selectedIndex],
