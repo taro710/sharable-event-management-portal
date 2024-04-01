@@ -7,6 +7,8 @@ export type Data = {
   bring: string[];
 };
 
+const basUrl = process.env.NEXT_PUBLIC_FE_BASE_URL;
+
 export const useItemPage = () => {
   const updateBringList = async (data: Data[]) => {
     const payload = { itemData: data };
@@ -20,7 +22,7 @@ export const useItemPage = () => {
   };
 
   const getBringList = async () => {
-    const res = await fetch('http://localhost:3001/api/api');
+    const res = await fetch(`${basUrl}/api/api`);
     return res.json();
   };
 
