@@ -20,15 +20,8 @@ export const useItemPage = () => {
   };
 
   const getBringList = async () => {
-    const docRef = doc(database, 'event01', 'bringList');
-
-    try {
-      const document = await getDoc(docRef);
-      const data: Data[] = document?.data()?.itemData || [];
-      return data;
-    } catch (error) {
-      console.error('Error get document: ', error);
-    }
+    const res = await fetch('http://localhost:3001/api/api');
+    return res.json();
   };
 
   const updateItemMaster = async (data: string[]) => {
