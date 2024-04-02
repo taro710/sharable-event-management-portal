@@ -44,6 +44,7 @@ const PageLayout = ({ children }: { children: React.ReactNode }) => {
       case '/sample/item':
         return 0;
       case '/sample/expense':
+      case '/sample/expense/seisan':
         return 1;
       case '/sample/memo':
         return 2;
