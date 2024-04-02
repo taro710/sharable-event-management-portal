@@ -15,8 +15,8 @@ type Props = {
   setIsOpen: (isOpen: boolean) => void;
   handleSubmit: (selectedItem: string[]) => void;
 };
-const DialogExpenseAdding = ({ isOpen, setIsOpen, handleSubmit }: Props) => {
-  const [isOpenNoticePanel, setIsOpenNoticePanel] = useState<boolean>(false);
+const DialogExpenseAdding = ({ isOpen, setIsOpen }: Props) => {
+  const [isOpenNoticePanel] = useState<boolean>(false);
 
   const [expenses, setExpenses] = useState<
     {

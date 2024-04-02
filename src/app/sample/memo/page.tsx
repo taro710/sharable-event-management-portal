@@ -9,7 +9,7 @@ import IconAdd from '@/components/Icon/IconAdd';
 import style from './page.module.scss';
 
 const DashBoard: NextPage = () => {
-  const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
+  const [, setIsDialogOpen] = useState<boolean>(false);
 
   return (
     <>
