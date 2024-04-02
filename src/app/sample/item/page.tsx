@@ -64,17 +64,18 @@ const DashBoard: NextPage = () => {
             <p className={style['notice']}>持ち物はありません</p>
           )}
         </div>
-        <button
-          className={style['button']}
-          onClick={async () => {
-            setIsDialogOpen(true);
-            const items = await getItemMaster();
-            if (items === undefined) return;
-            setItems(items);
-          }}>
-          <IconEdit />
-        </button>
       </FadeIn>
+
+      <button
+        className={style['add-button']}
+        onClick={async () => {
+          setIsDialogOpen(true);
+          const items = await getItemMaster();
+          if (items === undefined) return;
+          setItems(items);
+        }}>
+        <IconEdit />
+      </button>
 
       <DialogItemSelect
         selectedItems={data[selectedIndex].bring}

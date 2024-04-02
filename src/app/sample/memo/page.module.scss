@@ -13,49 +13,58 @@
 
   > .memo {
     padding: 32px;
-    background-color: #fff;
+    background-color: #eaeaea;
     border-radius: 12px;
+    box-shadow: 0 4px 12px 0 rgb(0 0 0 / 20%);
 
     > .text {
       overflow-wrap: break-word;
     }
   }
+}
 
-  > .button {
-    position: absolute;
-    right: 24px;
-    bottom: 24px;
-    flex-shrink: 0;
-    width: 56px;
-    height: 56px;
-    font-size: 32px;
-    font-weight: bold;
-    color: $purple;
-    background-color: $white;
-    filter: drop-shadow(5px 5px 13px rgb(177 177 177 / 90%))
-      drop-shadow(-5px -5px 10px rgb(255 255 255 / 90%))
-      drop-shadow(5px -5px 10px rgb(177 177 177 / 20%))
-      drop-shadow(-5px 5px 10px rgb(177 177 177 / 20%));
-    border-radius: 100px;
-    box-shadow:
-      -1px -1px 2px 0 rgb(177 177 177 / 50%) inset,
-      1px 1px 2px 0 rgb(255 255 255 / 30%) inset;
-    fill: #f6f6f6;
+.add-button {
+  position: fixed;
+  right: 40px;
+  bottom: 40px;
+  flex-shrink: 0;
+  width: 52px;
+  height: 52px;
+  padding: 12px;
+  background-color: $white;
+  border-radius: 100px;
+  box-shadow: 0 8px 16px 0 rgb(0 0 0 / 20%);
+  fill: transparent;
+  stroke: $black;
+
+  &:active {
+    background-color: $gray;
   }
 }
 
 @include media-query-sp {
   .memo-panel {
     gap: 20px;
-    padding: 20px;
+    padding: 12px;
 
     > .memo {
-      padding: 20px;
+      padding: 12px;
+      font-size: 14px;
     }
+  }
 
-    > .button {
-      position: static;
-      margin: 0 auto;
-    }
+  .add-button {
+    position: fixed;
+    right: 40px;
+    bottom: 40px;
+    flex-shrink: 0;
+    width: 52px;
+    height: 52px;
+    padding: 12px;
+    background-color: $white;
+    border-radius: 100px;
+    box-shadow: 0 8px 16px 0 rgb(0 0 0 / 20%);
+    fill: transparent;
+    stroke: $black;
   }
 }

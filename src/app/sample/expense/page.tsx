@@ -42,13 +42,14 @@ const DashBoard: NextPage = () => {
         <Link href="/sample/expense/seisan" className={style['link']}>
           清算金額を確認
         </Link>
-
-        <button
-          className={style['button']}
-          onClick={() => setIsDialogOpen(true)}>
-          <IconAdd />
-        </button>
       </FadeIn>
+
+      <button
+        className={style['add-button']}
+        onClick={() => setIsDialogOpen(true)}>
+        <IconAdd />
+      </button>
+
       <DialogExpenseAdding
         isOpen={isDialogOpen}
         setIsOpen={setIsDialogOpen}
