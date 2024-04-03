@@ -1,12 +1,8 @@
-import { Inter } from 'next/font/google';
-
 import style from './layout.module.scss';
 
 import type { Metadata } from 'next';
 
 import '@/assets/styles/globals.scss';
-
-const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -20,7 +16,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={style['page-layout']}>
         <header className={style['header-component']}>
           <div className={style['logo']}>LOGO</div>
           <ul className={style['menu']}>
@@ -32,7 +28,11 @@ export default function RootLayout({
         <main className={style['main-component']}>
           <div className={style['content']}>{children}</div>
         </main>
-        <footer className={style['footer-component']}></footer>
+        <footer className={style['footer-component']}>
+          <div className={style['footer']}>
+            <span>©</span>LOGO
+          </div>
+        </footer>
       </body>
     </html>
   );

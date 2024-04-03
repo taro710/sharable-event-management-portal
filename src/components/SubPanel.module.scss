@@ -1,27 +1,35 @@
 @import '/src/assets/styles/resources';
 
 .sub-panel {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
   height: 100%;
-  padding: 20px;
-  color: $white;
+  padding: 12px;
   background: $white;
-  background-color: $dark-gray;
-  border: solid 12px $white;
   border-radius: 20px;
   box-shadow:
-    6px 6px 15px 0 rgb(191 191 191 / 90%),
+    6px 6px 15px 0 rgb(204 204 204 / 90%),
     -6px -6px 12px 0 rgb(255 255 255 / 90%),
-    6px -6px 12px 0 rgb(191 191 191 / 20%),
-    -6px 6px 12px 0 rgb(191 191 191 / 20%),
-    -1px -1px 2px 0 rgb(191 191 191 / 50%) inset,
+    6px -6px 12px 0 rgb(204 204 204 / 20%),
+    -6px 6px 12px 0 rgb(204 204 204 / 20%),
+    -1px -1px 2px 0 rgb(204 204 204 / 50%) inset,
     1px 1px 2px 0 rgb(255 255 255 / 30%) inset;
 
-  > .title {
-    font-size: 24px;
-    font-weight: bold;
+  > .body {
+    height: 100%;
+
+    > .body2 {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      height: 100%;
+      color: $white;
+      background-color: $dark-gray;
+      border-radius: 12px;
+    }
+
+    > .title {
+      font-size: 24px;
+      font-weight: bold;
+    }
   }
 }
 
@@ -49,11 +57,16 @@
 
 @include media-query-sp {
   .sub-panel {
-    padding: 20px;
-    overflow: hidden;
+    > .body {
+      overflow: hidden;
 
-    > .title {
-      font-size: 24px;
+      > .body2 {
+        padding: 12px;
+
+        > .title {
+          font-size: 24px;
+        }
+      }
     }
   }
 }
