@@ -14,10 +14,12 @@
   > .memo {
     padding: 32px;
     background-color: #eaeaea;
+    background-color: $white;
     border-radius: 12px;
     box-shadow: 0 4px 12px 0 rgb(0 0 0 / 20%);
 
     > .text {
+      color: $black;
       overflow-wrap: break-word;
     }
   }

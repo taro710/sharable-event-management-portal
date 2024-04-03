@@ -1,5 +1,6 @@
 /* stylelint-disable-next-line scss/at-import-no-partial-leading-underscore */
 @import 'reset-css/sass/_reset';
+@import '/src/assets/styles/resources';
 
 @font-face {
   font-family: Roboto;
@@ -47,8 +48,8 @@ body {
   padding: 0;
   margin: 0;
   font-family: Roboto, 'Noto Sans JP', sans-serif;
-  color: black;
-  background-color: #dedede;
+  color: $black;
+  background-color: $white;
   -webkit-tap-highlight-color: transparent;
 }
 
@@ -57,7 +58,7 @@ textarea,
 select {
   padding: 0;
   font: inherit;
-  color: black;
+  color: $black;
 
   // appearance: none;
 
@@ -68,7 +69,7 @@ select {
 
 button {
   padding: 0;
-  color: black;
+  color: $black;
   appearance: none;
   background: transparent;
   border: none;
@@ -87,7 +88,7 @@ svg {
 
 a {
   color: inherit;
-  color: black;
+  color: $black;
   text-decoration: none;
 }
 
