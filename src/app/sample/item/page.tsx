@@ -2,7 +2,7 @@
 
 import { useAtom } from 'jotai';
 import { NextPage } from 'next';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import { bringListAtom, itemAtom } from '@/atoms/itemAtom';
 import Checkbox from '@/components/Checkbox';
@@ -27,20 +27,16 @@ const DashBoard: NextPage = () => {
   const [, setItems] = useAtom(itemAtom);
 
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
-  const {
-    updateBringList,
-    // , getBringList
-    getItemMaster,
-  } = useItemPage();
+  const { updateBringList, getBringList, getItemMaster } = useItemPage();
 
-  // // TODO:
-  // useEffect(() => {
-  //   (async () => {
-  //     const data = await getBringList();
-  //     if (data === undefined) return;
-  //     setData(data);
-  //   })();
-  // }, []);
+  // TODO:
+  useEffect(() => {
+    (async () => {
+      const data = await getBringList();
+      if (data === undefined) return;
+      setData(data);
+    })();
+  }, []);
 
   if (data.length === 0) return <p>loading...</p>;
   return (

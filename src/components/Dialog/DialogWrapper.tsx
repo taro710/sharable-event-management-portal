@@ -27,6 +27,10 @@ const DialogWrapper = ({ isOpen, setIsOpen, children }: Props) => {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [handleKeyDown]);
 
+  useEffect(() => {
+    document.body.style.overflow = isOpen ? 'hidden' : '';
+  }, [isOpen]);
+
   return (
     <div className={clsx(style['dialog-panel'], isOpen && style['-open'])}>
       <div className={clsx(style['dialog'], isOpen && style['-open'])}>
