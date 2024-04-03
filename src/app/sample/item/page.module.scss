@@ -8,7 +8,7 @@
 
   > .tags {
     display: flex;
-    gap: 24px;
+    gap: 12px;
     width: 100%;
     margin-bottom: 24px;
     overflow-x: scroll;
@@ -17,7 +17,7 @@
   > .content {
     > .notice {
       width: fit-content;
-      margin: 0 auto;
+      margin: 24px auto;
       color: $gray-400;
     }
   }
@@ -26,13 +26,7 @@
 .item-list {
   display: flex;
   flex-direction: column;
-  gap: 20px;
-
-  > .item {
-    display: flex;
-    gap: 24px;
-    align-items: center;
-  }
+  gap: 12px;
 }
 
 .add-button {
