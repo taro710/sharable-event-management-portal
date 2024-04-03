@@ -16,9 +16,9 @@ type Props = {
   setIsOpen: (isOpen: boolean) => void;
   handleSubmit: (selectedItem: string[]) => void;
 };
-const DialogOverviewEdit = ({ isOpen, setIsOpen, handleSubmit }: Props) => {
+const DialogOverviewEdit = ({ isOpen, setIsOpen }: Props) => {
   const [items, setItems] = useAtom(itemAtom);
-  const [selectedItem, setSelectedItem] = useState<string[]>([]);
+  const [, setSelectedItem] = useState<string[]>([]);
   const [value, setValue] = useState<string>('');
 
   const { updateBringList, updateItemMaster } = useItemPage(); // TODO: ページ側で呼び出す
@@ -47,7 +47,7 @@ const DialogOverviewEdit = ({ isOpen, setIsOpen, handleSubmit }: Props) => {
     [setIsOpen],
   );
 
-  const [isEditMode, setIsEditMode] = useState<boolean>(false);
+  const [, setIsEditMode] = useState<boolean>(false);
   const [tmpItem, setTmpItem] = useState<string[]>(items);
   useEffect(() => setTmpItem(items), [items]);
 
