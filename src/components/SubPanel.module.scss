@@ -24,32 +24,41 @@
       color: $white;
       background-color: $gray-500;
       border-radius: 12px;
-    }
 
-    > .title {
-      font-size: 24px;
-      font-weight: bold;
+      > .header {
+        padding-bottom: 12px;
+        border-bottom: solid 1px $gray-400;
+
+        > .title {
+          font-size: 24px;
+          font-weight: bold;
+        }
+      }
     }
   }
 }
 
 .overview-table {
-  border-spacing: 0 24px;
+  border-spacing: 0 12px;
   border-collapse: separate;
 
-  > .row {
-    font-size: 16px;
+  > .table {
+    > .row {
+      font-size: 16px;
+      line-height: 1.5;
 
-    > .caption {
-      font-weight: bold;
-    }
+      > .caption {
+        width: 100px;
+        font-weight: bold;
+      }
 
-    > .content {
-      > .list {
-        display: flex;
-        flex-direction: column;
-        gap: 8px;
-        font-size: 16px;
+      > .content {
+        > .list {
+          display: flex;
+          flex-direction: column;
+          gap: 8px;
+          font-size: 16px;
+        }
       }
     }
   }
@@ -58,13 +67,29 @@
 @include media-query-sp {
   .sub-panel {
     > .body {
-      overflow: hidden;
-
       > .body2 {
-        padding: 12px;
+        padding: 12px 20px;
+        overflow-y: hidden;
 
-        > .title {
-          font-size: 24px;
+        > .header {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+
+          > .title {
+            font-size: 24px;
+          }
+
+          > .icon {
+            width: 16px;
+            height: 16px;
+            fill: transparent;
+            stroke: $white;
+          }
+        }
+
+        > .body {
+          overflow-y: auto;
         }
       }
     }

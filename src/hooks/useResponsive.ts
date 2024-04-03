@@ -1,9 +1,11 @@
+import { useIsomorphicLayoutEffect } from 'framer-motion';
+import { useState } from 'react';
 import { useMediaQuery } from 'react-responsive';
 
 import { BREAKPOINT } from '@/constants/breakpoint';
-// import { useIsomorphicLayoutEffect } from 'src/hooks/useIsomorphicLayoutEffect';
 
 type MediaType = {
+  isClient: boolean;
   isSp: boolean;
 };
 
@@ -11,9 +13,18 @@ type MediaType = {
  * SP / PC を出し分けるカスタムフック
  */
 export const useResponsive = (): MediaType => {
+  const [isClient, setIsClient] = useState(false);
+
   const isSp = useMediaQuery({ query: `(max-width: ${BREAKPOINT}px)` });
 
+  useIsomorphicLayoutEffect(() => {
+    if (typeof window !== undefined) {
+      setIsClient(true);
+    }
+  }, []);
+
   return {
-    isSp,
+    isClient,
+    isSp: isClient && isSp,
   };
 };

@@ -1,39 +1,81 @@
 'use client';
 
+import IconEdit from '@/components/Icon/IconEdit';
+
 import style from './SubPanel.module.scss';
 
-const SubPanel = () => {
+export type EventInfo = {
+  eventName: string;
+  members: string[];
+  startDate?: string;
+  endDate?: string;
+  meetingPlace?: string;
+  dissolutionPlace?: string;
+  message?: string;
+};
+
+type Props = {
+  isOpen?: boolean;
+  eventInfo: EventInfo;
+};
+const SubPanel = ({ isOpen = true, eventInfo }: Props) => {
+  const members = ['たろ', 'そめ', 'ハマ', '黒田', 'フラ', 'りゅー'];
+
   return (
     <div className={style['sub-panel']}>
       <div className={style['body']}>
         <div className={style['body2']}>
-          <h1 className={style['title']}>Nagano Camp</h1>
+          <div className={style['header']}>
+            <h1 className={style['title']}>Nagano Camp</h1>
+            {isOpen && (
+              <div className={style['icon']}>
+                <IconEdit />
+              </div>
+            )}
+          </div>
 
-          <table className={style['overview-table']}>
-            <tbody>
-              <tr className={style['row']}>
-                <td className={style['caption']}>集合場所</td>
-                <td className={style['text']}>池袋駅</td>
-              </tr>
-              <tr className={style['row']}>
-                <td className={style['caption']}>集合時間</td>
-                <td className={style['text']}>08:30</td>
-              </tr>
-              <tr className={style['row']}>
-                <td className={style['caption']}>参加者</td>
-                <td className={style['content']}>
-                  <ul className={style['list']}>
-                    <li className={style['name']}>たろ</li>
-                    <li className={style['name']}>そめ</li>
-                    <li className={style['name']}>ハマ</li>
-                    <li className={style['name']}>黒田</li>
-                    <li className={style['name']}>フラ</li>
-                    <li className={style['name']}>りゅー</li>
-                  </ul>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+          <div className={style['body']}>
+            <table className={style['overview-table']}>
+              <tbody className={style['table']}>
+                {eventInfo.meetingPlace && (
+                  <tr className={style['row']}>
+                    <td className={style['caption']}>集合場所</td>
+                    <td className={style['text']}>池袋駅</td>
+                  </tr>
+                )}
+                {eventInfo.dissolutionPlace && (
+                  <tr className={style['row']}>
+                    <td className={style['caption']}>解散場所</td>
+                    <td className={style['text']}>池袋駅</td>
+                  </tr>
+                )}
+                {eventInfo.startDate && (
+                  <tr className={style['row']}>
+                    <td className={style['caption']}>集合時間</td>
+                    <td className={style['text']}>08:30</td>
+                  </tr>
+                )}
+                {eventInfo.endDate && (
+                  <tr className={style['row']}>
+                    <td className={style['caption']}>解散時間</td>
+                    <td className={style['text']}>08:30</td>
+                  </tr>
+                )}
+                <tr className={style['row']}>
+                  <td className={style['caption']}>参加者</td>
+                  <td className={style['text']}>{members.join(', ')}</td>
+                </tr>
+                {eventInfo.message && (
+                  <tr className={style['row']}>
+                    <td className={style['caption']}>メッセージ</td>
+                    <td className={style['text']}>
+                      スウェーデントーチやりたいスウェーデントーチやりたいスウェーデントーチやりたいスウェーデントーチやりたい
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>
