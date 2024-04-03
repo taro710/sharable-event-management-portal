@@ -1,0 +1,159 @@
+@import '/src/assets/styles/resources';
+
+.dialog-content {
+  height: 100%;
+
+  > .header {
+    position: sticky;
+    top: 0;
+    display: flex;
+    height: 48px;
+    background-color: $white;
+
+    > .title {
+      margin-bottom: 24px;
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    > .icon {
+      width: 24px;
+      height: 24px;
+      margin-left: auto;
+      cursor: pointer;
+      fill: $black;
+    }
+  }
+
+  > .body {
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 32px;
+
+    > .action {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      margin-top: 24px;
+      font-size: 14px;
+
+      > .submit {
+        padding: 4px 12px;
+        color: $white;
+        background-color: $black;
+        border-radius: 12px;
+      }
+    }
+
+    > .form {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+
+      > .caption {
+        margin-top: 24px;
+        font-size: 16px;
+        font-weight: bold;
+      }
+
+      > .list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+
+        > .member {
+          display: flex;
+          padding: 8px 12px;
+          font-size: 16px;
+          color: $white;
+          background-color: $purple-400;
+          border-radius: 20px;
+        }
+
+        > .member.-disabled {
+          color: $white;
+          background-color: $gray-400;
+        }
+      }
+
+      > .field {
+        display: flex;
+        gap: 8px;
+
+        > .input {
+          width: 100%;
+          height: 32px;
+          padding: 12px;
+          background-color: #eaeaea;
+          border: 1px solid $black;
+          border-radius: 24px;
+        }
+
+        > .action {
+          flex-shrink: 0;
+          padding: 4px 12px;
+          color: white;
+          cursor: pointer;
+          background-color: $black;
+          border-radius: 24px;
+        }
+      }
+    }
+  }
+
+  &.-disabled::after {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100dvh;
+    content: '';
+    background-color: rgb(0 0 0 / 50%);
+  }
+}
+
+.notice-panel {
+  position: fixed;
+  top: 200px;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 30%;
+  padding: 12px;
+  background-color: $white;
+  border-radius: 12px;
+
+  > .text {
+    height: fit-content;
+    font-size: 16px;
+    font-weight: bold;
+    color: $black;
+  }
+
+  > .list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 16px;
+    font-size: 14px;
+  }
+
+  > .action {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    height: fit-content;
+    margin-top: 16px;
+    font-size: 14px;
+
+    > .submit {
+      padding: 4px 12px;
+      color: $white;
+      background-color: $black;
+      border-radius: 12px;
+    }
+  }
+}
