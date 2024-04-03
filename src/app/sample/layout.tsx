@@ -1,8 +1,7 @@
 'use client';
 
 import clsx from 'clsx';
-import { usePathname, useRouter } from 'next/navigation';
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 
 import IconTriangle from '@/components/Icon/IconTriangle';
 import MainPanel from '@/components/MainPanel';
@@ -27,41 +26,8 @@ const eventInfo = {
 };
 
 const PageLayout = ({ children }: { children: React.ReactNode }) => {
-  const router = useRouter();
-  const pathName = usePathname();
-
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const { isSp } = useResponsive();
-
-  const onTabChange = (index: number) => {
-    switch (index) {
-      case 0:
-        router.push('/sample/item');
-        break;
-      case 1:
-        router.push('/sample/expense');
-        break;
-      case 2:
-        router.push('/sample/memo');
-        break;
-      default:
-        break;
-    }
-  };
-
-  const tabIndex = useMemo(() => {
-    switch (pathName) {
-      case '/sample/item':
-        return 0;
-      case '/sample/expense':
-      case '/sample/expense/seisan':
-        return 1;
-      case '/sample/memo':
-        return 2;
-      default:
-        return 0;
-    }
-  }, [pathName]);
 
   const onClick = () => {
     if (!isSp) return;
@@ -80,7 +46,7 @@ const PageLayout = ({ children }: { children: React.ReactNode }) => {
       </div>
       <div className={style['main']}>
         <div className={style['tab']}>
-          <Tab onChange={onTabChange} defaultIndex={tabIndex} />
+          <Tab />
         </div>
         <div className={style['panel']}>
           <MainPanel>{children}</MainPanel>
