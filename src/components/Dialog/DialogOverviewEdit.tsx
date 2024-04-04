@@ -105,7 +105,7 @@ const DialogOverviewEdit = ({ isOpen, setIsOpen }: Props) => {
       </div>
       {isOpenNoticePanel && (
         <div className={style['notice-panel']}>
-          <p className={style['text']}>全員の持ち物から削除されます</p>
+          <p className={style['text']}>全員のアイテムから削除されます</p>
           <ul className={style['list']}>
             {removedItem.map((item, i) => (
               <li className={style['item']} key={i}>

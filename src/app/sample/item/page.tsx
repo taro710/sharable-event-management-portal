@@ -61,7 +61,7 @@ const DashBoard: NextPage = () => {
             ))}
           </div>
           {data[selectedIndex].bring.length <= 0 && (
-            <p className={style['notice']}>持ち物はありません</p>
+            <p className={style['notice']}>アイテムはありません</p>
           )}
         </div>
       </FadeIn>

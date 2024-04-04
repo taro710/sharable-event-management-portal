@@ -78,7 +78,7 @@ const DialogItemSelect = ({
           isOpenNoticePanel && style['-disabled'],
         )}>
         <div className={style['header']}>
-          <p className={style['title']}>持ち物を選択</p>
+          <p className={style['title']}>アイテムを選択</p>
           <div className={style['icon']} onClick={() => setIsDialogOpen(false)}>
             <IconClose />
           </div>
@@ -149,7 +149,7 @@ const DialogItemSelect = ({
           )}
 
           <div className={style['input']}>
-            <Input label="持ち物を登録" />
+            <Input label="アイテムを登録" />
             <Button
               text="追加"
               onClick={() => {
@@ -173,7 +173,7 @@ const DialogItemSelect = ({
       </div>
       {isOpenNoticePanel && (
         <div className={style['notice-panel']}>
-          <p className={style['text']}>全員の持ち物から削除されます</p>
+          <p className={style['text']}>全員のアイテムから削除されます</p>
           <ul className={style['list']}>
             {removedItem.map((item, i) => (
               <li className={style['item']} key={i}>

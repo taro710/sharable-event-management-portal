@@ -67,7 +67,7 @@ export default Tab;
 
 const tabItems = [
   {
-    label: '持ち物',
+    label: 'アイテム',
     path: '/sample/item',
   },
   {
