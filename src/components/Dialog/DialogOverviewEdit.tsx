@@ -1,16 +1,13 @@
 'use client';
 
 import clsx from 'clsx';
-import { useAtom } from 'jotai';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
 
-import { bringListAtom, itemAtom } from '@/atoms/itemAtom';
 import Button from '@/components/Button';
 import DialogWrapper from '@/components/Dialog/DialogWrapper';
 import IconClose from '@/components/Icon/IconClose';
 import Input from '@/components/Input';
 import TagButton from '@/components/TagButton';
-import { useItemPage } from '@/hooks/pages/useItemPage';
 
 import style from './DialogOverviewEdit.module.scss';
 
@@ -20,29 +17,6 @@ type Props = {
   handleSubmit: (selectedItem: string[]) => void;
 };
 const DialogOverviewEdit = ({ isOpen, setIsOpen }: Props) => {
-  const [items, setItems] = useAtom(itemAtom);
-  const [, setSelectedItem] = useState<string[]>([]);
-  const [value, setValue] = useState<string>('');
-
-  const { updateBringList, updateItemMaster } = useItemPage(); // TODO: ページ側で呼び出す
-
-  const updateSelectedItem = useCallback((selectedItem: string) => {
-    setSelectedItem((prev) => {
-      if (prev.includes(selectedItem))
-        return prev.filter((elm) => elm != selectedItem);
-      return [...prev, selectedItem];
-    });
-  }, []);
-
-  const addValue = useCallback(async () => {
-    if (value === '') return;
-    if (items.includes(value)) return;
-    const newItemMaster = await updateItemMaster([...items, value]);
-    if (newItemMaster === undefined) return;
-    setItems(newItemMaster);
-    setValue('');
-  }, [items, setItems, updateItemMaster, value]);
-
   const setIsDialogOpen = useCallback(
     (isOpen: boolean) => {
       setIsOpen(isOpen);
@@ -50,13 +24,6 @@ const DialogOverviewEdit = ({ isOpen, setIsOpen }: Props) => {
     [setIsOpen],
   );
 
-  const [, setIsEditMode] = useState<boolean>(false);
-  const [tmpItem, setTmpItem] = useState<string[]>(items);
-  useEffect(() => setTmpItem(items), [items]);
-
-  const [data, setData] = useAtom(bringListAtom);
-
-  const [removedItem, setRemovedItem] = useState<string[]>([]);
   const [isOpenNoticePanel, setIsOpenNoticePanel] = useState<boolean>(false);
 
   const members = ['たろ', 'そめ', 'ハマ', '黒田', 'フラ', 'りゅー'];
@@ -80,7 +47,7 @@ const DialogOverviewEdit = ({ isOpen, setIsOpen }: Props) => {
             <div className={style['member-field']}>
               <div className={style['member']}>
                 <Input label="メンバー" />
-                <Button text="追加" onClick={addValue} />
+                <Button text="追加" onClick={() => {}} />
               </div>
               <ul className={style['list']}>
                 {members.map((member, i) => (
@@ -103,7 +70,7 @@ const DialogOverviewEdit = ({ isOpen, setIsOpen }: Props) => {
           </div>
         </div>
       </div>
-      {isOpenNoticePanel && (
+      {/* {isOpenNoticePanel && (
         <div className={style['notice-panel']}>
           <p className={style['text']}>全員のアイテムから削除されます</p>
           <ul className={style['list']}>
@@ -150,7 +117,7 @@ const DialogOverviewEdit = ({ isOpen, setIsOpen }: Props) => {
             </button>
           </div>
         </div>
-      )}
+      )} */}
     </DialogWrapper>
   );
 };
