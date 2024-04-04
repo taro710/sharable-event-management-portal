@@ -5,9 +5,13 @@ import { useAtom } from 'jotai';
 import { useCallback, useEffect, useState } from 'react';
 
 import { bringListAtom, itemAtom } from '@/atoms/itemAtom';
+import Button from '@/components/Button';
 import DialogWrapper from '@/components/Dialog/DialogWrapper';
 import IconClose from '@/components/Icon/IconClose';
 import IconEdit from '@/components/Icon/IconEdit';
+import IconRemove from '@/components/Icon/IconRemove';
+import Input from '@/components/Input';
+import TagButton from '@/components/TagButton';
 import { useItemPage } from '@/hooks/pages/useItemPage';
 
 import style from './DialogItemSelect.module.scss';
@@ -84,16 +88,13 @@ const DialogItemSelect = ({
             {!isEditMode && (
               <>
                 {items.map((item, i) => (
-                  <p
-                    className={clsx(
-                      style['button'],
-                      selectedItem.includes(item) && style['-selected'],
-                      isEditMode && style['-edit'],
-                    )}
-                    onClick={() => updateSelectedItem(item)}
-                    key={i}>
-                    {item}
-                  </p>
+                  <div className={style['item']} key={i}>
+                    <TagButton
+                      text={item}
+                      isActive={selectedItem.includes(item)}
+                      onClick={() => updateSelectedItem(item)}
+                    />
+                  </div>
                 ))}
                 <div
                   className={style['icon']}
@@ -105,79 +106,69 @@ const DialogItemSelect = ({
             {isEditMode && (
               <>
                 {tmpItem.map((item, i) => (
-                  <p className={clsx(style['button'], style['-edit'])} key={i}>
-                    {item}
-                    {isEditMode && (
-                      <span
-                        className={style['remove']}
-                        onClick={() => {
-                          const remainItem = tmpItem.filter(
-                            (elm) => elm !== item,
-                          );
-                          setTmpItem(remainItem);
-                          setRemovedItem((prev) => [...prev, item]);
-                        }}>
-                        -
-                      </span>
-                    )}
-                  </p>
+                  <div className={style['item']} key={i}>
+                    <TagButton text={item} isActive={false} />
+                    <div
+                      className={style['icon']}
+                      onClick={() => {
+                        const remainItem = tmpItem.filter(
+                          (elm) => elm !== item,
+                        );
+                        setTmpItem(remainItem);
+                        setRemovedItem((prev) => [...prev, item]);
+                      }}>
+                      <IconRemove />
+                    </div>
+                  </div>
                 ))}
               </>
             )}
           </div>
           {isEditMode && (
             <div className={style['action']}>
-              <button
-                className={style['submit']}
+              <Button
+                text="確定"
                 onClick={() => {
                   if (removedItem.length === 0) {
                     setIsEditMode(false);
                     return;
                   }
                   setIsOpenNoticePanel(true);
-                }}>
-                確定
-              </button>
-              <button
-                className={style['cancel']}
+                }}
+              />
+              <Button
+                text="キャンセル"
+                type="secondary"
                 onClick={() => {
                   setTmpItem(items);
                   setIsEditMode(false);
                   setRemovedItem([]);
-                }}>
-                キャンセル
-              </button>
+                }}
+              />
             </div>
           )}
 
-          <p className={style['caption']}>持ち物を登録</p>
-          <div className={style['form']}>
-            <input
-              type="text"
-              value={value}
-              placeholder="item"
-              className={style['input']}
-              onChange={(e) => setValue(e.target.value)}
-            />
-            <button
-              className={style['action']}
+          <div className={style['input']}>
+            <Input label="持ち物を登録" />
+            <Button
+              text="追加"
               onClick={() => {
                 addValue();
                 updateSelectedItem(value);
-              }}>
-              追加
-            </button>
+              }}
+            />
           </div>
 
-          <button
-            className={style['submit']}
-            onClick={() => {
-              handleSubmit(selectedItem);
-              setIsDialogOpen(false);
-              setValue('');
-            }}>
-            確定
-          </button>
+          <div className={style['submit']}>
+            <Button
+              text="確定"
+              onClick={() => {
+                handleSubmit(selectedItem);
+                setIsDialogOpen(false);
+                setValue('');
+              }}
+            />
+          </div>
         </div>
       </div>
       {isOpenNoticePanel && (

@@ -5,8 +5,11 @@ import { useAtom } from 'jotai';
 import { useCallback, useEffect, useState } from 'react';
 
 import { bringListAtom, itemAtom } from '@/atoms/itemAtom';
+import Button from '@/components/Button';
 import DialogWrapper from '@/components/Dialog/DialogWrapper';
 import IconClose from '@/components/Icon/IconClose';
+import Input from '@/components/Input';
+import TagButton from '@/components/TagButton';
 import { useItemPage } from '@/hooks/pages/useItemPage';
 
 import style from './DialogOverviewEdit.module.scss';
@@ -73,113 +76,30 @@ const DialogOverviewEdit = ({ isOpen, setIsOpen }: Props) => {
         </div>
         <div className={style['body']}>
           <div className={style['form']}>
-            <p className={style['caption']}>イベント名</p>
-            <div className={style['field']}>
-              <input
-                type="text"
-                value={value}
-                placeholder="item"
-                className={style['input']}
-                onChange={(e) => setValue(e.target.value)}
-              />
+            <Input label="イベント名" />
+            <div className={style['member-field']}>
+              <div className={style['member']}>
+                <Input label="メンバー" />
+                <Button text="追加" onClick={addValue} />
+              </div>
+              <ul className={style['list']}>
+                {members.map((member, i) => (
+                  <TagButton text={member} key={i} isActive={false} />
+                ))}
+              </ul>
             </div>
-            <p className={style['caption']}>メンバー</p>
-            <ul className={style['list']}>
-              {members.map((member, i) => (
-                <li className={clsx(style['member'])} key={i}>
-                  {member}
-                </li>
-              ))}
-            </ul>
-            <div className={style['field']}>
-              <input
-                type="text"
-                value={value}
-                placeholder="メンバー"
-                className={style['input']}
-                onChange={(e) => setValue(e.target.value)}
-              />
-              <button
-                className={style['action']}
-                onClick={() => {
-                  addValue();
-                  updateSelectedItem(value);
-                }}>
-                追加
-              </button>
-            </div>
-            <p className={style['caption']}>集合場所</p>
-            <div className={style['field']}>
-              <input
-                type="text"
-                value={value}
-                placeholder="item"
-                className={style['input']}
-                onChange={(e) => setValue(e.target.value)}
-              />
-            </div>
-            <p className={style['caption']}>集合時間</p>
-            <div className={style['field']}>
-              <input
-                type="text"
-                value={value}
-                placeholder="item"
-                className={style['input']}
-                onChange={(e) => setValue(e.target.value)}
-              />
-            </div>
-            <p className={style['caption']}>集合場所</p>
-            <div className={style['field']}>
-              <input
-                type="text"
-                value={value}
-                placeholder="item"
-                className={style['input']}
-                onChange={(e) => setValue(e.target.value)}
-              />
-            </div>
-            <p className={style['caption']}>解散時間</p>
-            <div className={style['field']}>
-              <input
-                type="text"
-                value={value}
-                placeholder="item"
-                className={style['input']}
-                onChange={(e) => setValue(e.target.value)}
-              />
-            </div>
-            <p className={style['caption']}>解散場所</p>
-            <div className={style['field']}>
-              <input
-                type="text"
-                value={value}
-                placeholder="item"
-                className={style['input']}
-                onChange={(e) => setValue(e.target.value)}
-              />
-            </div>
+            <Input label="集合場所" />
+            <Input label="集合時間" />
+            <Input label="解散場所" />
+            <Input label="解散時間" />
           </div>
           <div className={style['action']}>
-            <button
-              className={style['submit']}
-              onClick={() => {
-                if (removedItem.length === 0) {
-                  setIsEditMode(false);
-                  return;
-                }
-                setIsOpenNoticePanel(true);
-              }}>
-              確定
-            </button>
-            <button
-              className={style['cancel']}
-              onClick={() => {
-                setTmpItem(items);
-                setIsEditMode(false);
-                setRemovedItem([]);
-              }}>
-              キャンセル
-            </button>
+            <Button text="確定" onClick={() => setIsOpenNoticePanel(true)} />
+            <Button
+              text="キャンセル"
+              type="secondary"
+              onClick={() => setIsOpenNoticePanel(true)}
+            />
           </div>
         </div>
       </div>

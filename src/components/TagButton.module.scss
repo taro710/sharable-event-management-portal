@@ -1,0 +1,27 @@
+@import '/src/assets/styles/resources';
+
+@include media-query-sp {
+  .tag-component {
+    flex-shrink: 0;
+
+    > .tag {
+      display: flex;
+      align-items: center;
+      height: 28px;
+      padding: 0 12px;
+      font-size: 14px;
+      color: $white;
+      cursor: pointer;
+      background-color: $gray-400;
+      border-radius: 20px;
+    }
+
+    > .tag.-active {
+      background-color: $purple-400;
+    }
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+}

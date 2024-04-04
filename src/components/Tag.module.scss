@@ -1,9 +1,12 @@
 @import '/src/assets/styles/resources';
 
 .tag-component {
+  display: flex;
   flex-shrink: 0;
+  align-items: center;
   width: fit-content;
-  padding: 6px 16px;
+  height: 28px;
+  padding: 0 12px;
   cursor: pointer;
   background-color: $gray-300;
   border-radius: 100px;

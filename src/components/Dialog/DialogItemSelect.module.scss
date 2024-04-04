@@ -22,6 +22,7 @@
   > .body {
     display: flex;
     flex-direction: column;
+    gap: 24px;
 
     > .buttons {
       display: flex;
@@ -29,27 +30,10 @@
       gap: 20px;
       align-items: center;
 
-      > .button {
+      > .item {
         position: relative;
-        flex-shrink: 0;
-        padding: 4px 8px;
-        font-size: 14px;
-        color: $black;
-        cursor: pointer;
-        background-color: $gray-300;
-        border-radius: 12px;
-      }
 
-      > .button.-selected {
-        color: white;
-        background-color: $purple-400;
-      }
-
-      > .button.-edit {
-        color: $black;
-        background-color: $gray-300;
-
-        > .remove {
+        > .icon {
           position: absolute;
           top: -4px;
           right: -4px;
@@ -59,8 +43,8 @@
           width: 14px;
           height: 14px;
           color: $white;
-          background-color: $red;
           border-radius: 100px;
+          fill: $red;
         }
       }
 
@@ -73,60 +57,20 @@
       }
     }
 
+    > .input {
+      display: flex;
+      gap: 8px;
+      align-items: flex-end;
+    }
+
     > .action {
       display: flex;
       gap: 12px;
       justify-content: center;
-      margin-top: 24px;
-      font-size: 14px;
-
-      > .submit {
-        padding: 4px 12px;
-        color: $white;
-        background-color: $black;
-        border-radius: 12px;
-      }
-    }
-
-    > .caption {
-      margin-top: 32px;
-      font-size: 16px;
-      font-weight: bold;
-    }
-
-    > .form {
-      display: flex;
-      gap: 12px;
-      margin-top: 12px;
-
-      > .input {
-        width: 100%;
-        height: 32px;
-        padding: 12px;
-        background-color: #eaeaea;
-        border: 1px solid $black;
-        border-radius: 24px;
-      }
-
-      > .action {
-        flex-shrink: 0;
-        padding: 4px 12px;
-        color: white;
-        cursor: pointer;
-        background-color: $black;
-        border-radius: 24px;
-      }
     }
 
     > .submit {
-      flex-shrink: 0;
-      width: 50%;
-      padding: 12px;
-      margin: 64px auto;
-      color: white;
-      cursor: pointer;
-      background-color: $black;
-      border-radius: 12px;
+      margin: 24px auto;
     }
   }
 
