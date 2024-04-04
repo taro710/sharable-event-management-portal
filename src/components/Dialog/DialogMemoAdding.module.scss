@@ -1,0 +1,49 @@
+@import '/src/assets/styles/resources';
+
+.dialog-content {
+  > .header {
+    display: flex;
+
+    > .title {
+      margin-bottom: 24px;
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    > .icon {
+      width: 24px;
+      height: 24px;
+      margin-left: auto;
+      cursor: pointer;
+      fill: $black;
+    }
+  }
+
+  > .body {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+
+    > .footer {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      justify-content: flex-end;
+
+      > .text {
+        font-size: 14px;
+        color: $gray-400;
+      }
+    }
+  }
+
+  &.-disabled::after {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100dvh;
+    content: '';
+    background-color: rgb(0 0 0 / 50%);
+  }
+}

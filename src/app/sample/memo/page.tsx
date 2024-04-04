@@ -3,18 +3,27 @@
 import { NextPage } from 'next';
 import { useState } from 'react';
 
+import DialogMemoAdding from '@/components/Dialog/DialogMemoAdding';
+import DialogMemoEdit from '@/components/Dialog/DialogMemoEdit';
 import FadeIn from '@/components/FadeIn';
 import IconAdd from '@/components/Icon/IconAdd';
+import IconEdit from '@/components/Icon/IconEdit';
 
 import style from './page.module.scss';
 
 const DashBoard: NextPage = () => {
-  const [, setIsDialogOpen] = useState<boolean>(false);
+  const [isAddDialogOpen, setIsAddDialogOpen] = useState<boolean>(false);
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState<boolean>(false);
 
   return (
     <>
       <FadeIn className={style['memo-panel']}>
         <div className={style['memo']}>
+          <div
+            className={style['icon']}
+            onClick={() => setIsEditDialogOpen(true)}>
+            <IconEdit />
+          </div>
           <p className={style['text']}>
             ■ 予約通知
             <br />
@@ -57,6 +66,11 @@ const DashBoard: NextPage = () => {
           </p>
         </div>
         <div className={style['memo']}>
+          <div
+            className={style['icon']}
+            onClick={() => setIsEditDialogOpen(true)}>
+            <IconEdit />
+          </div>
           <p className={style['text']}>
             ■ 温泉
             <br />
@@ -66,6 +80,11 @@ const DashBoard: NextPage = () => {
           </p>
         </div>
         <div className={style['memo']}>
+          <div
+            className={style['icon']}
+            onClick={() => setIsEditDialogOpen(true)}>
+            <IconEdit />
+          </div>
           <p className={style['text']}>
             ■ 温泉
             <br />
@@ -75,6 +94,11 @@ const DashBoard: NextPage = () => {
           </p>
         </div>
         <div className={style['memo']}>
+          <div
+            className={style['icon']}
+            onClick={() => setIsEditDialogOpen(true)}>
+            <IconEdit />
+          </div>
           <p className={style['text']}>
             ■ 温泉
             <br />
@@ -86,9 +110,20 @@ const DashBoard: NextPage = () => {
       </FadeIn>
       <button
         className={style['add-button']}
-        onClick={() => setIsDialogOpen(true)}>
+        onClick={() => setIsAddDialogOpen(true)}>
         <IconAdd />
       </button>
+
+      <DialogMemoAdding
+        isOpen={isAddDialogOpen}
+        setIsOpen={setIsAddDialogOpen}
+        handleSubmit={() => {}}
+      />
+      <DialogMemoEdit
+        isOpen={isEditDialogOpen}
+        setIsOpen={setIsEditDialogOpen}
+        handleSubmit={() => {}}
+      />
     </>
   );
 };
