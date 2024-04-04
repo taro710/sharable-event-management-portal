@@ -8,6 +8,12 @@
   overflow: auto scroll;
   border-radius: 24px;
 
+  > .cards {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
   > .link {
     display: block;
     width: fit-content;
@@ -22,52 +28,6 @@
 
   > .link:active {
     background-color: $gray;
-  }
-
-  > .cards {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-
-    > .card {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-      padding: 16px;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px 0 rgb(0 0 0 / 20%);
-
-      > .head {
-        display: flex;
-        justify-content: space-between;
-
-        > .title {
-          margin-bottom: 8px;
-          font-size: 18px;
-          font-weight: bold;
-          color: $blue-gray-400;
-        }
-
-        > .price {
-          font-size: 18px;
-          font-weight: bold;
-          color: $red;
-        }
-      }
-
-      > .member {
-        display: flex;
-        flex-shrink: 0;
-        font-size: 12px;
-        font-weight: bold;
-        line-height: 1.5;
-        color: $black;
-
-        > .prefix {
-          flex-shrink: 0;
-        }
-      }
-    }
   }
 }
 
