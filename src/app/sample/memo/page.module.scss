@@ -18,17 +18,30 @@
     border-radius: 12px;
     box-shadow: 0 4px 12px 0 rgb(0 0 0 / 20%);
 
-    > .icon {
-      width: 16px;
-      height: 16px;
-      margin-left: auto;
-      fill: none;
-      stroke: $black;
+    > .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-bottom: 12px;
+      margin-bottom: 12px;
+      border-bottom: solid 1px $gray;
+
+      > .member {
+        font-weight: bold;
+      }
+
+      > .icon {
+        width: 16px;
+        height: 16px;
+        fill: none;
+        stroke: $black;
+      }
     }
 
     > .text {
       color: $black;
       overflow-wrap: break-word;
+      white-space: pre-wrap;
     }
   }
 }
@@ -58,7 +71,7 @@
     padding: 12px;
 
     > .memo {
-      padding: 12px 12px 20px;
+      padding: 12px;
       font-size: 14px;
     }
   }

@@ -8,16 +8,20 @@ import DialogWrapper from '@/components/Dialog/DialogWrapper';
 import IconClose from '@/components/Icon/IconClose';
 import Input from '@/components/Input';
 import TextArea from '@/components/TextArea';
+import { MemoData } from '@/hooks/pages/useMemoPage';
 
 import style from './DialogMemoAdding.module.scss';
 
 type Props = {
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
-  handleSubmit: (selectedItem: string[]) => void;
+  handleSubmit: (memoData: MemoData) => void;
 };
-const DialogMemoAdding = ({ isOpen, setIsOpen }: Props) => {
+const DialogMemoAdding = ({ isOpen, setIsOpen, handleSubmit }: Props) => {
   const [isOpenNoticePanel] = useState(false);
+
+  const [memo, setMemo] = useState<string>('');
+  const [author, setAuthor] = useState<string>('');
 
   return (
     <DialogWrapper isOpen={isOpen} setIsOpen={setIsOpen}>
@@ -33,12 +37,27 @@ const DialogMemoAdding = ({ isOpen, setIsOpen }: Props) => {
           </div>
         </div>
         <div className={style['body']}>
-          <Input label="記入者" />
-          <TextArea label="メモ" />
+          <Input
+            label="記入者"
+            value={author}
+            onChange={(e) => {
+              setAuthor(e.target.value);
+            }}
+          />
+          <TextArea
+            label="メモ"
+            value={memo}
+            onChange={(e) => {
+              setMemo(e.target.value);
+            }}
+          />
 
           <div className={style['footer']}>
             <p className={style['text']}>残り1000文字</p>
-            <Button text="確定" onClick={() => {}} />
+            <Button
+              text="確定"
+              onClick={() => handleSubmit({ member: author, memo })}
+            />
           </div>
         </div>
       </div>
