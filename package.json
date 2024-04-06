@@ -12,6 +12,7 @@
     "test:watch": "jest --watch"
   },
   "dependencies": {
+    "@headlessui/react": "^1.7.18",
     "clsx": "^2.0.0",
     "firebase": "^10.10.0",
     "formik": "^2.4.5",

@@ -1,7 +1,7 @@
 'use client';
 
-import clsx from 'clsx';
-import { useCallback, useEffect } from 'react';
+import { Dialog, Transition } from '@headlessui/react';
+import { Fragment, useCallback, useEffect } from 'react';
 
 import style from './DialogWrapper.module.scss';
 
@@ -32,11 +32,22 @@ const DialogWrapper = ({ isOpen, setIsOpen, children }: Props) => {
   }, [isOpen]);
 
   return (
-    <div className={clsx(style['dialog-panel'], isOpen && style['-open'])}>
-      <div className={clsx(style['dialog'], isOpen && style['-open'])}>
-        {children}
-      </div>
-    </div>
+    <Transition appear show={isOpen} as={Fragment}>
+      <Dialog onClose={closeDialog} className={style['background-component']}>
+        <Transition.Child
+          as={Fragment}
+          enter={style['modal-transition-enter']}
+          enterFrom={style['modal-transition-enter-from']}
+          enterTo={style['modal-transition-enter-to']}
+          leave={style['modal-transition-leave']}
+          leaveFrom={style['modal-transition-leave-from']}
+          leaveTo={style['modal-transition-leave-to']}>
+          <Dialog.Panel className={style['dialog-panel']}>
+            {children}
+          </Dialog.Panel>
+        </Transition.Child>
+      </Dialog>
+    </Transition>
   );
 };
 
