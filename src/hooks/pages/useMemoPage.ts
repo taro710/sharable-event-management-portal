@@ -3,16 +3,17 @@ import { collection, setDoc, getDoc, doc } from 'firebase/firestore';
 import { database } from '@/firebase';
 
 export type MemoData = {
-  memoId?: string;
+  memoId?: number;
   member: string;
   memo: string;
 };
 
 export const useMemoPage = (currentMemoData: MemoData[]) => {
   const addMemo = async (data: MemoData) => {
-    const memoId = '111'; // TODO: memoIdを自動採番する
+    const ids = currentMemoData.map((memo) => memo.memoId || 0);
+    const newMemoId = Math.max(...ids) + 1;
     const payload: { memoList: MemoData[] } = {
-      memoList: [...currentMemoData, { ...data, memoId }],
+      memoList: [...currentMemoData, { ...data, memoId: newMemoId }],
     };
     const itemRef = collection(database, 'event01');
     try {
