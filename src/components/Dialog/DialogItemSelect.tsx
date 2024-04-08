@@ -11,7 +11,7 @@ import IconClose from '@/components/Icon/IconClose';
 import IconEdit from '@/components/Icon/IconEdit';
 import IconRemove from '@/components/Icon/IconRemove';
 import Input from '@/components/Input';
-import TagButton from '@/components/TagButton';
+import TagButton from '@/components/CheckboxTag';
 import { useItemPage } from '@/hooks/pages/useItemPage';
 
 import style from './DialogItemSelect.module.scss';

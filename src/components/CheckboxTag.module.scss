@@ -1,10 +1,14 @@
 @import '/src/assets/styles/resources';
 
 @include media-query-sp {
-  .tag-component {
+  .checkbox-component {
     flex-shrink: 0;
 
-    > .tag {
+    > .hidden {
+      display: none;
+    }
+
+    > .hidden + .visible {
       display: flex;
       align-items: center;
       height: 28px;
@@ -16,7 +20,7 @@
       border-radius: 20px;
     }
 
-    > .tag.-active {
+    > .hidden:checked + .visible {
       background-color: $purple-400;
     }
 
