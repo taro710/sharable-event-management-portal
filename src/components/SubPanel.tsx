@@ -4,6 +4,7 @@ import { useState } from 'react';
 
 import DialogOverviewEdit from '@/components/Dialog/DialogOverviewEdit';
 import IconEdit from '@/components/Icon/IconEdit';
+import { useSubPanel } from '@/hooks/useSubPanel';
 
 import style from './SubPanel.module.scss';
 
@@ -23,6 +24,7 @@ type Props = {
 };
 const SubPanel = ({ isOpen = true, eventInfo }: Props) => {
   const members = ['たろ', 'そめ', 'ハマ', '黒田', 'フラ', 'りゅー'];
+  const { updateEvent } = useSubPanel();
 
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
 
@@ -90,7 +92,7 @@ const SubPanel = ({ isOpen = true, eventInfo }: Props) => {
       <DialogOverviewEdit
         isOpen={isDialogOpen}
         setIsOpen={setIsDialogOpen}
-        handleSubmit={() => {}}
+        handleSubmit={updateEvent}
       />
     </>
   );

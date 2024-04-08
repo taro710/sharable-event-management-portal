@@ -8,15 +8,16 @@ import DialogWrapper from '@/components/Dialog/DialogWrapper';
 import IconClose from '@/components/Icon/IconClose';
 import Input from '@/components/Input';
 import TagButton from '@/components/TagButton';
+import { EventData } from '@/hooks/useSubPanel';
 
 import style from './DialogOverviewEdit.module.scss';
 
 type Props = {
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
-  handleSubmit: (selectedItem: string[]) => void;
+  handleSubmit: (data: EventData) => void;
 };
-const DialogOverviewEdit = ({ isOpen, setIsOpen }: Props) => {
+const DialogOverviewEdit = ({ isOpen, setIsOpen, handleSubmit }: Props) => {
   const setIsDialogOpen = useCallback(
     (isOpen: boolean) => {
       setIsOpen(isOpen);
@@ -24,7 +25,7 @@ const DialogOverviewEdit = ({ isOpen, setIsOpen }: Props) => {
     [setIsOpen],
   );
 
-  const [isOpenNoticePanel, setIsOpenNoticePanel] = useState<boolean>(false);
+  const [isOpenNoticePanel] = useState<boolean>(false);
 
   const members = ['たろ', 'そめ', 'ハマ', '黒田', 'フラ', 'りゅー'];
 
@@ -61,63 +62,28 @@ const DialogOverviewEdit = ({ isOpen, setIsOpen }: Props) => {
             <Input label="解散時間" />
           </div>
           <div className={style['action']}>
-            <Button text="確定" onClick={() => setIsOpenNoticePanel(true)} />
+            <Button
+              text="確定"
+              onClick={async () => {
+                await handleSubmit({
+                  eventName: 'Nagano Camp',
+                  members: ['たろ', 'そめ', 'ハマ', '黒田', 'フラ', 'りゅー'],
+                  startDate: '2022-10-01',
+                  endDate: '2022-10-03',
+                  meetingPlace: '池袋駅',
+                  dissolutionPlace: '池袋駅',
+                });
+                setIsOpen(false);
+              }}
+            />
             <Button
               text="キャンセル"
               type="secondary"
-              onClick={() => setIsOpenNoticePanel(true)}
+              onClick={() => setIsOpen(false)}
             />
           </div>
         </div>
       </div>
-      {/* {isOpenNoticePanel && (
-        <div className={style['notice-panel']}>
-          <p className={style['text']}>全員のアイテムから削除されます</p>
-          <ul className={style['list']}>
-            {removedItem.map((item, i) => (
-              <li className={style['item']} key={i}>
-                {item}
-              </li>
-            ))}
-          </ul>
-          <div className={style['action']}>
-            <button
-              className={style['submit']}
-              onClick={async () => {
-                const newItemMaster = await updateItemMaster(tmpItem);
-                if (newItemMaster === undefined) return;
-                setItems(newItemMaster);
-
-                const _newBringList = data.map((elm) => {
-                  return {
-                    name: elm.name,
-                    bring: elm.bring.filter((item) => tmpItem.includes(item)),
-                  };
-                });
-                const newBringList = await updateBringList(_newBringList);
-                if (newBringList === undefined) {
-                  setIsEditMode(false);
-                  return;
-                }
-                setData(newBringList);
-                setIsEditMode(false);
-                setIsOpenNoticePanel(false);
-              }}>
-              確定
-            </button>
-            <button
-              className={style['cancel']}
-              onClick={() => {
-                setTmpItem(items);
-                setIsEditMode(false);
-                setRemovedItem([]);
-                setIsOpenNoticePanel(false);
-              }}>
-              キャンセル
-            </button>
-          </div>
-        </div>
-      )} */}
     </DialogWrapper>
   );
 };
