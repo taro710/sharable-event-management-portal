@@ -10,8 +10,6 @@ import Input from '@/components/Input';
 import TextArea from '@/components/TextArea';
 import { MemoData } from '@/hooks/pages/useMemoPage';
 
-import style from './DialogMemoAdding.module.scss';
-
 type Props = {
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;

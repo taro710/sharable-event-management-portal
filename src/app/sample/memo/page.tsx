@@ -11,8 +11,11 @@ import IconEdit from '@/components/Icon/IconEdit';
 import { MemoData, useMemoPage } from '@/hooks/pages/useMemoPage';
 
 import style from './page.module.scss';
+import { useRouter } from 'next/navigation';
+import MemoAddingContainer from '@/components/containers/MemoAddingContainer';
 
 const DashBoard: NextPage = () => {
+  const router = useRouter();
   const [isAddDialogOpen, setIsAddDialogOpen] = useState<boolean>(false);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState<boolean>(false);
 
@@ -35,37 +38,55 @@ const DashBoard: NextPage = () => {
 
   return (
     <>
-      <FadeIn className={style['memo-panel']}>
-        {memoData.map(({ member, memo, memoId }) => (
-          <div className={style['memo']} key={memoId}>
-            <div className={style['header']}>
-              <p className={style['member']}>{member}</p>
-              <div
-                className={style['icon']}
-                onClick={() => setEditingMemo({ member, memo, memoId })}>
-                <IconEdit />
+      <div className={style['page-component']}>
+        <FadeIn className={style['memo-panel']}>
+          {memoData.map(({ member, memo, memoId }) => (
+            <div className={style['memo']} key={memoId}>
+              <div className={style['header']}>
+                <p className={style['member']}>{member}</p>
+                <div
+                  className={style['icon']}
+                  onClick={() => setEditingMemo({ member, memo, memoId })}>
+                  <IconEdit />
+                </div>
               </div>
+              <p className={style['text']}>{memo}</p>
             </div>
-            <p className={style['text']}>{memo}</p>
-          </div>
-        ))}
-      </FadeIn>
-      <button
-        className={style['add-button']}
-        onClick={() => setIsAddDialogOpen(true)}>
-        <IconAdd />
-      </button>
+          ))}
+        </FadeIn>
+        <button
+          className={style['add-button']}
+          onClick={() => {
+            setIsAddDialogOpen(true); // TODO:
+          }}>
+          <IconAdd />
+        </button>
 
-      <DialogMemoAdding
-        isOpen={isAddDialogOpen}
-        setIsOpen={setIsAddDialogOpen}
-        handleSubmit={async (memo) => {
-          const result = await addMemo(memo);
-          if (!result) return;
-          setMemoData(result);
-          setIsAddDialogOpen(false);
-        }}
-      />
+        <div className={style['container-component']}>
+          <MemoAddingContainer
+            setIsOpen={setIsAddDialogOpen}
+            handleSubmit={async (memo) => {
+              const result = await addMemo(memo);
+              if (!result) return;
+              setMemoData(result);
+              setIsAddDialogOpen(false);
+            }}
+          />
+        </div>
+      </div>
+
+      {isAddDialogOpen && (
+        <DialogMemoAdding
+          isOpen={isAddDialogOpen}
+          setIsOpen={setIsAddDialogOpen}
+          handleSubmit={async (memo) => {
+            const result = await addMemo(memo);
+            if (!result) return;
+            setMemoData(result);
+            setIsAddDialogOpen(false);
+          }}
+        />
+      )}
       {editingMemo && (
         <DialogMemoEdit
           isOpen={isEditDialogOpen}

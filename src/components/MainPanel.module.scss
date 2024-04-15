@@ -3,6 +3,7 @@
 .panel-component {
   width: 100%;
   min-height: 100%;
+  overflow-x: scroll;
   background: $white;
   border-radius: 20px;
   box-shadow:
