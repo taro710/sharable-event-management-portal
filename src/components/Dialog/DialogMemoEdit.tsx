@@ -1,8 +1,8 @@
 'use client';
 
 import DialogWrapper from '@/components/Dialog/DialogWrapper';
-import { MemoData } from '@/hooks/pages/useMemoPage';
 import MemoEditContainer from '@/components/containers/MemoEditContainer';
+import { MemoData } from '@/hooks/pages/useMemoPage';
 
 type Props = {
   isOpen: boolean;

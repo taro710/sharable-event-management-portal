@@ -5,15 +5,14 @@ import { useCallback, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import Button from '@/components/Button';
+import CheckboxTag from '@/components/CheckboxTag';
 import DialogWrapper from '@/components/Dialog/DialogWrapper';
 import IconClose from '@/components/Icon/IconClose';
 import Input from '@/components/Input';
-import CheckboxTag from '@/components/CheckboxTag';
+import TextArea from '@/components/TextArea';
 import { EventData } from '@/hooks/useSubPanel';
 
 import style from './DialogOverviewEdit.module.scss';
-import TextArea from '@/components/TextArea';
-import { set } from 'firebase/database';
 
 type Props = {
   isOpen: boolean;
@@ -43,7 +42,7 @@ const DialogOverviewEdit = ({
   }, [watch]);
 
   return (
-    <DialogWrapper isOpen={isOpen} setIsOpen={setIsDialogOpen}>
+    <DialogWrapper isOpen={isOpen} closeDialog={() => {}}>
       <div
         className={clsx(
           style['dialog-content'],

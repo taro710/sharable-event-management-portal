@@ -1,6 +1,7 @@
 'use client';
 
 import { forwardRef } from 'react';
+
 import style from './TextArea.module.scss';
 
 type Props = JSX.IntrinsicElements['textarea'] & {
@@ -17,5 +18,7 @@ const TextArea = forwardRef<HTMLTextAreaElement, Props>((props: Props, ref) => {
     </div>
   );
 });
+
+TextArea.displayName = 'TextArea';
 
 export default TextArea;

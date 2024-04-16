@@ -1,6 +1,7 @@
 'use client';
 
 import { forwardRef } from 'react';
+
 import style from './Input.module.scss';
 
 type Props = JSX.IntrinsicElements['input'] & {
@@ -17,5 +18,7 @@ const Input = forwardRef<HTMLInputElement, Props>((props: Props, ref) => {
     </div>
   );
 });
+
+Input.displayName = 'Input';
 
 export default Input;

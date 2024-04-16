@@ -1,6 +1,7 @@
 'use client';
 
 import { forwardRef } from 'react';
+
 import style from './CheckboxTag.module.scss';
 
 type Props = JSX.IntrinsicElements['input'] & {
@@ -24,5 +25,7 @@ const CheckboxTag = forwardRef<HTMLInputElement, Props>(
     );
   },
 );
+
+CheckboxTag.displayName = 'CheckboxTag';
 
 export default CheckboxTag;

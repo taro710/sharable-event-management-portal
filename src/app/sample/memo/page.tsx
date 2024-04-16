@@ -8,13 +8,12 @@ import DialogMemoEdit from '@/components/Dialog/DialogMemoEdit';
 import FadeIn from '@/components/FadeIn';
 import IconAdd from '@/components/Icon/IconAdd';
 import IconEdit from '@/components/Icon/IconEdit';
+import MemoAddingContainer from '@/components/containers/MemoAddingContainer';
+import MemoEditContainer from '@/components/containers/MemoEditContainer';
 import { MemoData, useMemoPage } from '@/hooks/pages/useMemoPage';
+import { useResponsive } from '@/hooks/useResponsive';
 
 import style from './page.module.scss';
-import { useRouter } from 'next/navigation';
-import MemoAddingContainer from '@/components/containers/MemoAddingContainer';
-import { useResponsive } from '@/hooks/useResponsive';
-import MemoEditContainer from '@/components/containers/MemoEditContainer';
 
 const DashBoard: NextPage = () => {
   const { isSp } = useResponsive();

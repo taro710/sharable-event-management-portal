@@ -1,6 +1,8 @@
 @import '/src/assets/styles/resources';
 
 .dialog-content {
+  width: 100%;
+
   > .header {
     display: flex;
 
@@ -85,6 +87,20 @@
   }
 }
 
+@include media-query-sp {
+  .dialog-content {
+    &.-disabled::after {
+      position: fixed;
+      top: 0;
+      left: 50%; // TODO:
+      width: 100vw;
+      height: 100dvh;
+      content: '';
+      background-color: rgb(0 0 0 / 50%);
+    }
+  }
+}
+
 .notice-panel {
   position: fixed;
   top: 200px;
@@ -128,5 +144,15 @@
       background-color: $black;
       border-radius: 12px;
     }
+  }
+}
+
+@include media-query-sp {
+  .notice-panel {
+    position: fixed;
+    top: 100px;
+    right: 0;
+    left: 50%; // TODO:
+    width: 50%; // TODO:
   }
 }

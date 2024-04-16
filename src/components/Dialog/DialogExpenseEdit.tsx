@@ -32,7 +32,7 @@ const DialogExpenseEdit = ({ isOpen, setIsOpen }: Props) => {
   const selectedMember = 'そめ';
 
   return (
-    <DialogWrapper isOpen={isOpen} setIsOpen={setIsOpen}>
+    <DialogWrapper isOpen={isOpen} closeDialog={() => {}}>
       <div
         className={clsx(
           style['dialog-content'],
