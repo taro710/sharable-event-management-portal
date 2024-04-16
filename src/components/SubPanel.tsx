@@ -1,9 +1,11 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 import DialogOverviewEdit from '@/components/Dialog/DialogOverviewEdit';
 import IconEdit from '@/components/Icon/IconEdit';
+import { useResponsive } from '@/hooks/useResponsive';
 import { useSubPanel } from '@/hooks/useSubPanel';
 
 import style from './SubPanel.module.scss';
@@ -23,10 +25,20 @@ type Props = {
   eventInfo: EventInfo;
 };
 const SubPanel = ({ isOpen = true, eventInfo }: Props) => {
+  const { isSp } = useResponsive();
+  const router = useRouter();
   const members = ['たろ', 'そめ', 'ハマ', '黒田', 'フラ', 'りゅー'];
   const { updateEvent } = useSubPanel();
 
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
+
+  const handleClickEdit = () => {
+    if (isSp) {
+      router.push('/edit'); // TODO: /asdasfasdf/edit
+      return;
+    }
+    setIsDialogOpen(true);
+  };
 
   return (
     <>
@@ -36,9 +48,7 @@ const SubPanel = ({ isOpen = true, eventInfo }: Props) => {
             <div className={style['header']}>
               <h1 className={style['title']}>Nagano Camp</h1>
               {isOpen && (
-                <div
-                  className={style['icon']}
-                  onClick={() => setIsDialogOpen(true)}>
+                <div className={style['icon']} onClick={handleClickEdit}>
                   <IconEdit />
                 </div>
               )}
@@ -91,7 +101,7 @@ const SubPanel = ({ isOpen = true, eventInfo }: Props) => {
       </div>
       <DialogOverviewEdit
         isOpen={isDialogOpen}
-        setIsOpen={setIsDialogOpen}
+        closeDialog={() => setIsDialogOpen(false)}
         handleSubmit={updateEvent}
       />
     </>

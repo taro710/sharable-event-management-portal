@@ -1,109 +1,21 @@
 'use client';
 
-import clsx from 'clsx';
-import { useCallback, useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
-
-import Button from '@/components/Button';
-import CheckboxTag from '@/components/CheckboxTag';
 import DialogWrapper from '@/components/Dialog/DialogWrapper';
-import IconClose from '@/components/Icon/IconClose';
-import Input from '@/components/Input';
-import TextArea from '@/components/TextArea';
+import EventEditContainer from '@/components/containers/EventEditContainer';
 import { EventData } from '@/hooks/useSubPanel';
-
-import style from './DialogOverviewEdit.module.scss';
 
 type Props = {
   isOpen: boolean;
-  setIsOpen: (isOpen: boolean) => void;
+  closeDialog: () => void;
   handleSubmit: (data: EventData) => Promise<EventData | undefined>;
 };
-const DialogOverviewEdit = ({
-  isOpen,
-  setIsOpen,
-  handleSubmit: onSubmit,
-}: Props) => {
-  const setIsDialogOpen = useCallback(
-    (isOpen: boolean) => {
-      setIsOpen(isOpen);
-    },
-    [setIsOpen],
-  );
-
-  const [isOpenNoticePanel] = useState<boolean>(false);
-
-  const members = ['たろ', 'そめ', 'ハマ', '黒田', 'フラ', 'りゅー'];
-
-  const { register, setValue, watch, handleSubmit } = useForm<EventData>();
-
-  useEffect(() => {
-    setValue('members', members);
-  }, [watch]);
-
+const DialogOverviewEdit = ({ isOpen, closeDialog, handleSubmit }: Props) => {
   return (
-    <DialogWrapper isOpen={isOpen} closeDialog={() => {}}>
-      <div
-        className={clsx(
-          style['dialog-content'],
-          isOpenNoticePanel && style['-disabled'],
-        )}>
-        <div className={style['header']}>
-          <p className={style['title']}>イベントを編集</p>
-          <div className={style['icon']} onClick={() => setIsDialogOpen(false)}>
-            <IconClose />
-          </div>
-        </div>
-        <div className={style['body']}>
-          <div className={style['form']}>
-            <Input label="イベント名" {...register('eventName')} />
-            <div className={style['member-field']}>
-              <div className={style['member']}>
-                <Input label="メンバー" />
-                <Button text="追加" onClick={() => {}} />
-              </div>
-              <ul className={style['list']}>
-                {members.map((member, i) => (
-                  <CheckboxTag
-                    label={member}
-                    key={i}
-                    defaultChecked
-                    value={member}
-                    {...register('members')}
-                  />
-                ))}
-              </ul>
-            </div>
-            <Input label="集合場所" {...register('meetingPlace')} />
-            <Input label="集合時間" {...register('startDate')} />
-            <Input label="解散場所" {...register('dissolutionPlace')} />
-            <Input label="解散時間" {...register('endDate')} />
-            <TextArea label="メッセージ" {...register('message')} />
-          </div>
-          <div className={style['action']}>
-            <Button
-              text="確定"
-              onClick={handleSubmit(async (value) => {
-                console.log(value);
-                await onSubmit({
-                  eventName: 'Nagano Camp',
-                  members: ['たろ', 'そめ', 'ハマ', '黒田', 'フラ', 'りゅー'],
-                  startDate: '2022-10-01',
-                  endDate: '2022-10-03',
-                  meetingPlace: '池袋駅',
-                  dissolutionPlace: '池袋駅',
-                });
-                // setIsOpen(false);
-              })}
-            />
-            <Button
-              text="キャンセル"
-              type="secondary"
-              onClick={() => setIsOpen(false)}
-            />
-          </div>
-        </div>
-      </div>
+    <DialogWrapper isOpen={isOpen} closeDialog={closeDialog}>
+      <EventEditContainer
+        closeDialog={closeDialog}
+        handleSubmit={handleSubmit}
+      />
     </DialogWrapper>
   );
 };
