@@ -4,11 +4,11 @@ import clsx from 'clsx';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
-import Button from '@/components/Button';
-import CheckboxTag from '@/components/CheckboxTag';
-import IconClose from '@/components/Icon/IconClose';
-import Input from '@/components/Input';
-import TextArea from '@/components/TextArea';
+import Button from '@/components/presentations/Button';
+import CheckboxTag from '@/components/presentations/CheckboxTag';
+import IconClose from '@/components/presentations/Icon/IconClose';
+import Input from '@/components/presentations/Input';
+import TextArea from '@/components/presentations/TextArea';
 import { EventData } from '@/hooks/useSubPanel';
 
 import style from './EventEditContainer.module.scss';

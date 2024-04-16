@@ -1,7 +1,7 @@
 'use client';
 
-import DialogWrapper from '@/components/Dialog/DialogWrapper';
-import MemoAddingContainer from '@/components/containers/MemoAddingContainer';
+import MemoAddingContainer from '@/components/containers/memo/MemoAddingContainer';
+import DialogWrapper from '@/components/presentations/Dialog/DialogWrapper';
 import { MemoData } from '@/hooks/pages/useMemoPage';
 
 type Props = {

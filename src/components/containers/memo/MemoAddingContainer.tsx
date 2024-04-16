@@ -3,24 +3,24 @@
 import clsx from 'clsx';
 import { useState } from 'react';
 
-import Button from '@/components/Button';
-import IconClose from '@/components/Icon/IconClose';
-import Input from '@/components/Input';
-import TextArea from '@/components/TextArea';
+import Button from '@/components/presentations/Button';
+import IconClose from '@/components/presentations/Icon/IconClose';
+import Input from '@/components/presentations/Input';
+import TextArea from '@/components/presentations/TextArea';
 import { MemoData } from '@/hooks/pages/useMemoPage';
 
 import style from './MemoAddingContainer.module.scss';
+
 type Props = {
-  memoData: MemoData;
-  handleSubmit: (data: MemoData) => void;
+  handleSubmit: (memoData: MemoData) => void;
   close: () => void;
 };
 
-const MemoEditContainer = ({ memoData, handleSubmit, close }: Props) => {
+const MemoAddingContainer = ({ handleSubmit, close }: Props) => {
   const [isOpenNoticePanel] = useState(false);
 
-  const [memo, setMemo] = useState<string>(memoData.memo);
-  const [author, setAuthor] = useState<string>(memoData.member);
+  const [memo, setMemo] = useState<string>('');
+  const [author, setAuthor] = useState<string>('');
 
   return (
     <div
@@ -29,7 +29,7 @@ const MemoEditContainer = ({ memoData, handleSubmit, close }: Props) => {
         isOpenNoticePanel && style['-disabled'],
       )}>
       <div className={style['header']}>
-        <p className={style['title']}>メモを編集</p>
+        <p className={style['title']}>メモを追加</p>
         <div className={style['icon']} onClick={close}>
           <IconClose />
         </div>
@@ -54,13 +54,11 @@ const MemoEditContainer = ({ memoData, handleSubmit, close }: Props) => {
           <p className={style['text']}>残り1000文字</p>
           <Button
             text="確定"
-            onClick={() =>
-              handleSubmit({ member: author, memo, memoId: memoData.memoId })
-            }
+            onClick={() => handleSubmit({ member: author, memo })}
           />
         </div>
       </div>
     </div>
   );
 };
-export default MemoEditContainer;
+export default MemoAddingContainer;

@@ -5,12 +5,12 @@ import { NextPage } from 'next';
 import { useEffect, useMemo, useRef, useState } from 'react';
 
 import { bringListAtom, itemAtom } from '@/atoms/itemAtom';
-import Checkbox from '@/components/Checkbox';
-import DialogItemSelect from '@/components/Dialog/DialogItemSelect';
-import FadeIn from '@/components/FadeIn';
-import IconEdit from '@/components/Icon/IconEdit';
-import Tag from '@/components/Tag';
-import ItemSelectContainer from '@/components/containers/ItemSelectContainer';
+import ItemSelectContainer from '@/components/containers/item/ItemSelectContainer';
+import Checkbox from '@/components/presentations/Checkbox';
+import DialogItemSelect from '@/components/presentations/Dialog/DialogItemSelect';
+import FadeIn from '@/components/presentations/FadeIn';
+import IconEdit from '@/components/presentations/Icon/IconEdit';
+import Tag from '@/components/presentations/Tag';
 import { useItemPage } from '@/hooks/pages/useItemPage';
 import { useResponsive } from '@/hooks/useResponsive';
 

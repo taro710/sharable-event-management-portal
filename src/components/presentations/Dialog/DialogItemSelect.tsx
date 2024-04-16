@@ -1,7 +1,7 @@
 'use client';
 
-import DialogWrapper from '@/components/Dialog/DialogWrapper';
-import ItemSelectContainer from '@/components/containers/ItemSelectContainer';
+import ItemSelectContainer from '@/components/containers/item/ItemSelectContainer';
+import DialogWrapper from '@/components/presentations/Dialog/DialogWrapper';
 
 type Props = {
   selectedItems?: string[];

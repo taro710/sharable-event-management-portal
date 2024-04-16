@@ -4,13 +4,13 @@ import { NextPage } from 'next';
 import Link from 'next/link';
 import { useRef, useState } from 'react';
 
-import CardExpense from '@/components/CardExpense';
-import DialogExpenseAdding from '@/components/Dialog/DialogExpenseAdding';
-import DialogExpenseEdit from '@/components/Dialog/DialogExpenseEdit';
-import FadeIn from '@/components/FadeIn';
-import IconAdd from '@/components/Icon/IconAdd';
-import ExpenseAddingContainer from '@/components/containers/ExpenseAddingContainer';
-import ExpenseEditContainer from '@/components/containers/ExpenseEditContainer';
+import ExpenseAddingContainer from '@/components/containers/expense/ExpenseAddingContainer';
+import ExpenseEditContainer from '@/components/containers/expense/ExpenseEditContainer';
+import CardExpense from '@/components/presentations/CardExpense';
+import DialogExpenseAdding from '@/components/presentations/Dialog/DialogExpenseAdding';
+import DialogExpenseEdit from '@/components/presentations/Dialog/DialogExpenseEdit';
+import FadeIn from '@/components/presentations/FadeIn';
+import IconAdd from '@/components/presentations/Icon/IconAdd';
 import { useResponsive } from '@/hooks/useResponsive';
 import { NOLALA_2023 } from '@/test/expense/data/nolala2023';
 

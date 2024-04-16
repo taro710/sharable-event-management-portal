@@ -3,10 +3,10 @@
 import clsx from 'clsx';
 import { useState } from 'react';
 
-import Button from '@/components/Button';
-import CheckboxTag from '@/components/CheckboxTag';
-import IconClose from '@/components/Icon/IconClose';
-import Input from '@/components/Input';
+import Button from '@/components/presentations/Button';
+import CheckboxTag from '@/components/presentations/CheckboxTag';
+import IconClose from '@/components/presentations/Icon/IconClose';
+import Input from '@/components/presentations/Input';
 import { NOLALA_2023 } from '@/test/expense/data/nolala2023';
 
 import style from './ExpenseAddingContainer.module.scss';
@@ -16,7 +16,7 @@ type Props = {
   close: () => void;
 };
 
-const ExpenseEditContainer = ({ handleSubmit, close }: Props) => {
+const ExpenseAddingContainer = ({ handleSubmit, close }: Props) => {
   const [isOpenNoticePanel] = useState<boolean>(false);
 
   const [expenses, setExpenses] = useState<
@@ -39,7 +39,7 @@ const ExpenseEditContainer = ({ handleSubmit, close }: Props) => {
         isOpenNoticePanel && style['-disabled'],
       )}>
       <div className={style['header']}>
-        <p className={style['title']}>支払い記録を変更</p>
+        <p className={style['title']}>支払い記録を追加</p>
         <div className={style['icon']} onClick={close}>
           <IconClose />
         </div>
@@ -64,4 +64,4 @@ const ExpenseEditContainer = ({ handleSubmit, close }: Props) => {
     </div>
   );
 };
-export default ExpenseEditContainer;
+export default ExpenseAddingContainer;

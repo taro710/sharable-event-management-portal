@@ -1,7 +1,7 @@
 'use client';
 
-import DialogWrapper from '@/components/Dialog/DialogWrapper';
-import ExpenseAddingContainer from '@/components/containers/ExpenseAddingContainer';
+import ExpenseAddingContainer from '@/components/containers/expense/ExpenseAddingContainer';
+import DialogWrapper from '@/components/presentations/Dialog/DialogWrapper';
 
 type Props = {
   isOpen: boolean;

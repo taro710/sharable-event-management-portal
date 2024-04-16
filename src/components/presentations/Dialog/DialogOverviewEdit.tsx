@@ -1,7 +1,7 @@
 'use client';
 
-import DialogWrapper from '@/components/Dialog/DialogWrapper';
-import EventEditContainer from '@/components/containers/EventEditContainer';
+import EventEditContainer from '@/components/containers/event/EventEditContainer';
+import DialogWrapper from '@/components/presentations/Dialog/DialogWrapper';
 import { EventData } from '@/hooks/useSubPanel';
 
 type Props = {

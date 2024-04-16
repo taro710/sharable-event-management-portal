@@ -3,7 +3,7 @@
 import { NextPage } from 'next';
 import Link from 'next/link';
 
-import FadeIn from '@/components/FadeIn';
+import FadeIn from '@/components/presentations/FadeIn';
 import { NOLALA_2023 } from '@/test/expense/data/nolala2023';
 import { func } from '@/util/sample';
 

@@ -2,7 +2,7 @@
 
 import { NextPage } from 'next';
 
-import EventEditContainer from '@/components/containers/EventEditContainer';
+import EventEditContainer from '@/components/containers/event/EventEditContainer';
 
 import style from './page.module.scss';
 

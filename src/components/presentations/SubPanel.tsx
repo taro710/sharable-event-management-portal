@@ -3,8 +3,8 @@
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
-import DialogOverviewEdit from '@/components/Dialog/DialogOverviewEdit';
-import IconEdit from '@/components/Icon/IconEdit';
+import DialogOverviewEdit from '@/components/presentations/Dialog/DialogOverviewEdit';
+import IconEdit from '@/components/presentations/Icon/IconEdit';
 import { useResponsive } from '@/hooks/useResponsive';
 import { useSubPanel } from '@/hooks/useSubPanel';
 
@@ -34,7 +34,7 @@ const SubPanel = ({ isOpen = true, eventInfo }: Props) => {
 
   const handleClickEdit = () => {
     if (isSp) {
-      router.push('/edit'); // TODO: /asdasfasdf/edit
+      router.push('sdfasdf/edit'); // TODO: /asdasfasdf/edit
       return;
     }
     setIsDialogOpen(true);

@@ -3,13 +3,13 @@
 import { NextPage } from 'next';
 import { useEffect, useRef, useState } from 'react';
 
-import DialogMemoAdding from '@/components/Dialog/DialogMemoAdding';
-import DialogMemoEdit from '@/components/Dialog/DialogMemoEdit';
-import FadeIn from '@/components/FadeIn';
-import IconAdd from '@/components/Icon/IconAdd';
-import IconEdit from '@/components/Icon/IconEdit';
-import MemoAddingContainer from '@/components/containers/MemoAddingContainer';
-import MemoEditContainer from '@/components/containers/MemoEditContainer';
+import MemoAddingContainer from '@/components/containers/memo/MemoAddingContainer';
+import MemoEditContainer from '@/components/containers/memo/MemoEditContainer';
+import DialogMemoAdding from '@/components/presentations/Dialog/DialogMemoAdding';
+import DialogMemoEdit from '@/components/presentations/Dialog/DialogMemoEdit';
+import FadeIn from '@/components/presentations/FadeIn';
+import IconAdd from '@/components/presentations/Icon/IconAdd';
+import IconEdit from '@/components/presentations/Icon/IconEdit';
 import { MemoData, useMemoPage } from '@/hooks/pages/useMemoPage';
 import { useResponsive } from '@/hooks/useResponsive';
 

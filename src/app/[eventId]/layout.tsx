@@ -3,10 +3,10 @@
 import clsx from 'clsx';
 import { useState } from 'react';
 
-import IconTriangle from '@/components/Icon/IconTriangle';
-import MainPanel from '@/components/MainPanel';
-import SubPanel from '@/components/SubPanel';
-import Tab from '@/components/Tab';
+import IconTriangle from '@/components/presentations/Icon/IconTriangle';
+import MainPanel from '@/components/presentations/MainPanel';
+import SubPanel from '@/components/presentations/SubPanel';
+import Tab from '@/components/presentations/Tab';
 import { useResponsive } from '@/hooks/useResponsive';
 
 import style from './layout.module.scss';
