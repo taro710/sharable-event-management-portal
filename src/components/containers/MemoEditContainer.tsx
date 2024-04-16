@@ -10,17 +10,17 @@ import TextArea from '@/components/TextArea';
 import { MemoData } from '@/hooks/pages/useMemoPage';
 
 import style from './MemoAddingContainer.module.scss';
-
 type Props = {
-  handleSubmit: (memoData: MemoData) => void;
+  memoData: MemoData;
+  handleSubmit: (data: MemoData) => void;
   close: () => void;
 };
 
-const MemoAddingContainer = ({ handleSubmit, close }: Props) => {
+const MemoEditContainer = ({ memoData, handleSubmit, close }: Props) => {
   const [isOpenNoticePanel] = useState(false);
 
-  const [memo, setMemo] = useState<string>('');
-  const [author, setAuthor] = useState<string>('');
+  const [memo, setMemo] = useState<string>(memoData.memo);
+  const [author, setAuthor] = useState<string>(memoData.member);
 
   return (
     <div
@@ -29,7 +29,7 @@ const MemoAddingContainer = ({ handleSubmit, close }: Props) => {
         isOpenNoticePanel && style['-disabled'],
       )}>
       <div className={style['header']}>
-        <p className={style['title']}>メモを追加</p>
+        <p className={style['title']}>メモを編集</p>
         <div className={style['icon']} onClick={close}>
           <IconClose />
         </div>
@@ -54,11 +54,13 @@ const MemoAddingContainer = ({ handleSubmit, close }: Props) => {
           <p className={style['text']}>残り1000文字</p>
           <Button
             text="確定"
-            onClick={() => handleSubmit({ member: author, memo })}
+            onClick={() =>
+              handleSubmit({ member: author, memo, memoId: memoData.memoId })
+            }
           />
         </div>
       </div>
     </div>
   );
 };
-export default MemoAddingContainer;
+export default MemoEditContainer;

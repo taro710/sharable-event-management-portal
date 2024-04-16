@@ -7,14 +7,10 @@ import style from './DialogWrapper.module.scss';
 
 type Props = {
   isOpen: boolean;
-  setIsOpen: (isOpen: boolean) => void;
+  closeDialog: () => void;
   children: React.ReactNode;
 };
-const DialogWrapper = ({ isOpen, setIsOpen, children }: Props) => {
-  const closeDialog = useCallback(() => {
-    setIsOpen(false);
-  }, [setIsOpen]);
-
+const DialogWrapper = ({ isOpen, closeDialog, children }: Props) => {
   const handleKeyDown = useCallback(
     (e: KeyboardEvent) => {
       if (!isOpen) return;

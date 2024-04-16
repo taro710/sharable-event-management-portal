@@ -8,13 +8,13 @@ import MemoAddingContainer from '@/components/containers/MemoAddingContainer';
 
 type Props = {
   isOpen: boolean;
-  setIsOpen: (isOpen: boolean) => void;
+  closeDialog: () => void;
   handleSubmit: (memoData: MemoData) => void;
 };
-const DialogMemoAdding = ({ isOpen, setIsOpen, handleSubmit }: Props) => {
+const DialogMemoAdding = ({ isOpen, closeDialog, handleSubmit }: Props) => {
   return (
-    <DialogWrapper isOpen={isOpen} setIsOpen={setIsOpen}>
-      <MemoAddingContainer setIsOpen={setIsOpen} handleSubmit={handleSubmit} />
+    <DialogWrapper isOpen={isOpen} closeDialog={closeDialog}>
+      <MemoAddingContainer handleSubmit={handleSubmit} close={closeDialog} />
     </DialogWrapper>
   );
 };
