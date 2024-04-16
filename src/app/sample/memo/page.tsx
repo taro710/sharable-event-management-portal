@@ -119,7 +119,7 @@ const DashBoard: NextPage = () => {
       </div>
 
       {/* PC専用 */}
-      {isAddDialogOpen && !isSp && (
+      {!isSp && (
         <DialogMemoAdding
           isOpen={isAddDialogOpen}
           closeDialog={closeAddPanel}
@@ -131,7 +131,7 @@ const DashBoard: NextPage = () => {
           }}
         />
       )}
-      {isEditDialogOpen && editingMemo && !isSp && (
+      {editingMemo && !isSp && (
         <DialogMemoEdit
           isOpen={isEditDialogOpen}
           closeDialog={closeEditPanel}
