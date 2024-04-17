@@ -13,10 +13,16 @@ import style from './MemoAddingContainer.module.scss';
 type Props = {
   memoData: MemoData;
   handleSubmit: (data: MemoData) => void;
+  handleDelete: (memoId: number) => void;
   close: () => void;
 };
 
-const MemoEditContainer = ({ memoData, handleSubmit, close }: Props) => {
+const MemoEditContainer = ({
+  memoData,
+  handleSubmit,
+  handleDelete,
+  close,
+}: Props) => {
   const [isOpenNoticePanel] = useState(false);
 
   const [memo, setMemo] = useState<string>(memoData.memo);
@@ -51,6 +57,11 @@ const MemoEditContainer = ({ memoData, handleSubmit, close }: Props) => {
         />
 
         <div className={style['footer']}>
+          <Button
+            text="メモを削除"
+            type="secondary"
+            onClick={() => handleDelete(memoData.memoId)}
+          />
           <p className={style['text']}>残り1000文字</p>
           <Button
             text="確定"

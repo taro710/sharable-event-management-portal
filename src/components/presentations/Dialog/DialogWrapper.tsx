@@ -23,10 +23,6 @@ const DialogWrapper = ({ isOpen, closeDialog, children }: Props) => {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [handleKeyDown]);
 
-  useEffect(() => {
-    document.body.style.overflow = isOpen ? 'hidden' : '';
-  }, [isOpen]);
-
   return (
     <Transition appear show={isOpen} as={Fragment}>
       <Dialog onClose={closeDialog} className={style['background-component']}>

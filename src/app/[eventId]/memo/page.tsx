@@ -21,7 +21,8 @@ const DashBoard: NextPage = () => {
   const [isEditDialogOpen, setIsEditDialogOpen] = useState<boolean>(false);
 
   const [memoData, setMemoData] = useState<MemoData[]>([]);
-  const { getMemoList, addMemo, updateMemo } = useMemoPage(memoData);
+  const { getMemoList, addMemo, updateMemo, deleteMemo } =
+    useMemoPage(memoData);
 
   // TODO:
   useEffect(() => {
@@ -107,11 +108,17 @@ const DashBoard: NextPage = () => {
             <MemoEditContainer
               close={closeEditPanel}
               memoData={editingMemo}
-              handleSubmit={async (memo) => {
-                const result = await addMemo(memo);
+              handleDelete={async (memoId) => {
+                const result = await deleteMemo(memoId);
                 if (!result) return;
                 setMemoData(result);
-                closeAddPanel();
+                closeEditPanel();
+              }}
+              handleSubmit={async (memo) => {
+                const result = await updateMemo(memo);
+                if (!result) return;
+                setMemoData(result);
+                closeEditPanel();
               }}
             />
           )}
@@ -136,11 +143,17 @@ const DashBoard: NextPage = () => {
           isOpen={isEditDialogOpen}
           closeDialog={closeEditPanel}
           memoData={editingMemo}
+          handleDelete={async (memoId) => {
+            const result = await deleteMemo(memoId);
+            if (!result) return;
+            setMemoData(result);
+            closeEditPanel();
+          }}
           handleSubmit={async (memo) => {
             const result = await updateMemo(memo);
             if (!result) return;
             setMemoData(result);
-            setIsEditDialogOpen(false);
+            closeEditPanel();
           }}
         />
       )}

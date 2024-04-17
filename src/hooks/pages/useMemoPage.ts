@@ -1,40 +1,44 @@
-import { collection, setDoc, getDoc, doc } from 'firebase/firestore';
+import { getDoc, doc, deleteField, updateDoc } from 'firebase/firestore';
 
 import { database } from '@/firebase';
 
 export type MemoData = {
-  memoId?: number;
+  memoId: number;
   member: string;
   memo: string;
 };
 
 export const useMemoPage = (currentMemoData: MemoData[]) => {
   const addMemo = async (data: MemoData) => {
-    const ids = currentMemoData.map((memo) => memo.memoId || 0);
-    const newMemoId = Math.max(...ids) + 1;
-    const payload: { memoList: MemoData[] } = {
-      memoList: [...currentMemoData, { ...data, memoId: newMemoId }],
-    };
-    const itemRef = collection(database, 'event01');
+    const newMemoId = (() => {
+      if (currentMemoData.length === 0) return 1;
+      const ids = currentMemoData.map((memo) => memo.memoId || 0);
+      return Math.max(...ids) + 1;
+    })();
+
+    const docRef = doc(database, 'event01', 'memo');
     try {
-      await setDoc(doc(itemRef, 'memo'), payload);
-      return payload.memoList; // TODO: 可能ならAPIの戻り値を使いたい
+      await updateDoc(docRef, { [newMemoId]: { ...data, memoId: newMemoId } });
+      const afterAddMemoData = [
+        ...currentMemoData,
+        { ...data, memoId: newMemoId },
+      ];
+      return afterAddMemoData;
     } catch (e) {
       console.error('Error adding document: ', e);
     }
   };
 
   const updateMemo = async (data: MemoData) => {
-    const payload: { memoList: MemoData[] } = {
-      memoList: [...currentMemoData].map((memo) => {
+    const docRef = doc(database, 'event01', 'memo');
+    try {
+      await updateDoc(docRef, { [data.memoId]: data });
+
+      const afterUpdateMemoData = [...currentMemoData].map((memo) => {
         if (memo.memoId === data.memoId) return data;
         return memo;
-      }),
-    };
-    const itemRef = collection(database, 'event01');
-    try {
-      await setDoc(doc(itemRef, 'memo'), payload);
-      return payload.memoList;
+      });
+      return afterUpdateMemoData;
     } catch (e) {
       console.error('Error adding document: ', e);
     }
@@ -45,10 +49,25 @@ export const useMemoPage = (currentMemoData: MemoData[]) => {
 
     try {
       const document = await getDoc(docRef);
-      const data: MemoData[] = document?.data()?.memoList || [];
-      return data;
+      const data = document?.data();
+      const memoList: MemoData[] = Object.values(data || {});
+      return memoList;
     } catch (error) {
       console.error('Error get document: ', error);
+    }
+  };
+
+  const deleteMemo = async (memoId: number) => {
+    const docRef = doc(database, 'event01', 'memo');
+    try {
+      await updateDoc(docRef, { [memoId]: deleteField() });
+
+      const afterDeleteMemoData = [...currentMemoData].filter(
+        (memo) => memo.memoId !== memoId,
+      );
+      return afterDeleteMemoData;
+    } catch (e) {
+      console.error('Error adding document: ', e);
     }
   };
 
@@ -56,5 +75,6 @@ export const useMemoPage = (currentMemoData: MemoData[]) => {
     addMemo,
     updateMemo,
     getMemoList,
+    deleteMemo,
   };
 };
