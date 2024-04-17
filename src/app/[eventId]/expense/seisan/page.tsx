@@ -2,24 +2,36 @@
 
 import { NextPage } from 'next';
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
 
 import FadeIn from '@/components/presentations/FadeIn';
-import { NOLALA_2023 } from '@/test/expense/data/nolala2023';
+import { ExpenseData, useExpensePage } from '@/hooks/pages/useExpensePage';
 import { func } from '@/util/sample';
 
 import style from './page.module.scss';
 
 const DashBoard: NextPage = () => {
-  const expenses = NOLALA_2023.DATA;
+  const members = ['たろ', 'そめ', 'ハマ', '黒田', 'フラ', 'りゅー'];
 
-  const participants = NOLALA_2023.PARTICIPANTS;
+  const [expenses, setExpenses] = useState<ExpenseData[]>([]);
 
-  const answer = func(expenses, participants);
+  const { getExpenseList } = useExpensePage([]);
+
+  // TODO:
+  useEffect(() => {
+    (async () => {
+      const data = await getExpenseList();
+      if (data === undefined) return;
+      setExpenses(data);
+    })();
+  }, []);
+
+  const answer = func(expenses, members);
 
   return (
     <>
       <FadeIn className={style['expense-panel']}>
-        <h2>やりとり</h2>
+        <h2 className={style['title']}>清算</h2>
         {answer.map((list, i) => (
           <p key={i}>
             <span>

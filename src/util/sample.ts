@@ -1,18 +1,13 @@
-export const sample = (
-  expenses: {
-    name: string;
-    price: number;
-    person: string;
-    person2: string[];
-  }[],
-) => {
-  const paidMemberNames = new Set(expenses.map((expense) => expense.person));
+import { ExpenseData } from '@/hooks/pages/useExpensePage';
+
+export const sample = (expenses: ExpenseData[]) => {
+  const paidMemberNames = new Set(expenses.map((expense) => expense.payerName));
 
   // {paidMemberName:負担した人. totalPaidFee:その人のトータルの負担額}
   const paidMemberNameAndTotalPaidFeeList = Array.from(paidMemberNames).map(
     (paidMemberName) => {
       const totalPaidFee = expenses
-        .filter((expense) => expense.person === paidMemberName)
+        .filter((expense) => expense.payerName === paidMemberName)
         .reduce((acc, cur) => acc + cur.price, 0);
       return { paidMemberName, totalPaidFee };
     },
@@ -21,22 +16,14 @@ export const sample = (
   return paidMemberNameAndTotalPaidFeeList;
 };
 
-export const sample2 = (
-  expenses: {
-    name: string;
-    price: number;
-    person: string;
-    person2: string[];
-  }[],
-  participants: string[],
-) => {
+export const sample2 = (expenses: ExpenseData[], participants: string[]) => {
   const participantAndTotalFeeList = participants.map((participant) => {
     const expenseList = expenses.filter((expense) =>
-      expense.person2.includes(participant),
+      expense.members.includes(participant),
     );
 
     const totalFee = expenseList.reduce((acc, cur) => {
-      return acc + cur.price / cur.person2.length;
+      return acc + cur.price / cur.members.length;
     }, 0);
 
     return { participant, totalFee };
@@ -69,15 +56,7 @@ export const sample3 = (
   return participantAndPayBalanceList;
 };
 
-export const func = (
-  expenses: {
-    name: string;
-    price: number;
-    person: string;
-    person2: string[];
-  }[],
-  participants: string[],
-) => {
+export const func = (expenses: ExpenseData[], participants: string[]) => {
   // {paidMemberName:負担した人. totalPaidFee:その人のトータルの負担額}
   const paidMemberNameAndTotalPaidFeeList = sample(expenses);
 
