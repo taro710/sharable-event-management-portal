@@ -5,8 +5,10 @@
   flex-direction: column;
   gap: 4px;
   padding: 16px;
+  cursor: pointer;
   border-radius: 12px;
   box-shadow: 0 4px 12px 0 rgb(0 0 0 / 20%);
+  transition: all 0.3s;
 
   > .head {
     display: flex;
@@ -36,6 +38,20 @@
 
     > .prefix {
       flex-shrink: 0;
+    }
+  }
+
+  &:hover {
+    opacity: 0.7;
+    transform: translateY(-4px);
+  }
+}
+
+@include media-query-sp {
+  .card-component {
+    :hover {
+      opacity: 1;
+      transform: none;
     }
   }
 }

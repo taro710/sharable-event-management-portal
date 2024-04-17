@@ -7,7 +7,7 @@ export type Data = {
   bring: string[];
 };
 
-const basUrl = process.env.NEXT_PUBLIC_FE_BASE_URL;
+// const basUrl = process.env.NEXT_PUBLIC_FE_BASE_URL;
 
 export const useItemPage = () => {
   const updateBringList = async (data: Data[]) => {
@@ -21,9 +21,21 @@ export const useItemPage = () => {
     }
   };
 
+  // const getBringList = async () => {
+  //   const res = await fetch(`${basUrl}/api/api`);
+  //   return res.json();
+  // };
+
   const getBringList = async () => {
-    const res = await fetch(`${basUrl}/api/api`);
-    return res.json();
+    const docRef = doc(database, 'event01', 'bringList');
+
+    try {
+      const document = await getDoc(docRef);
+      const data: Data[] = document?.data()?.itemData || [];
+      return data;
+    } catch (error) {
+      console.error('Error get document: ', error);
+    }
   };
 
   const updateItemMaster = async (data: string[]) => {

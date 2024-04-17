@@ -20,6 +20,38 @@
   }
 
   > .body {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+
+    > .price {
+      display: flex;
+      gap: 8px;
+      align-items: flex-end;
+
+      > .unit {
+        flex-shrink: 0;
+        padding-bottom: 8px;
+        font-weight: bold;
+      }
+    }
+
+    > .members {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+
+      > .caption {
+        font-size: 16px;
+        font-weight: bold;
+      }
+
+      > .tag {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+    }
   }
 
   &.-disabled::after {

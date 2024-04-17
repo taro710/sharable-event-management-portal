@@ -2,6 +2,7 @@
 
 .checkbox-component {
   flex-shrink: 0;
+  width: fit-content;
 
   > .hidden {
     display: none;
