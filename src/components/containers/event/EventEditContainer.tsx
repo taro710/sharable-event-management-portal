@@ -1,7 +1,7 @@
 'use client';
 
 import clsx from 'clsx';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import Button from '@/components/presentations/Button';
@@ -9,24 +9,25 @@ import CheckboxTag from '@/components/presentations/CheckboxTag';
 import IconClose from '@/components/presentations/Icon/IconClose';
 import Input from '@/components/presentations/Input';
 import TextArea from '@/components/presentations/TextArea';
-import { EventData } from '@/hooks/useSubPanel';
+import { EventData } from '@/hooks/useEvent';
 
 import style from './EventEditContainer.module.scss';
 
 type Props = {
-  closeDialog: () => void;
-  handleSubmit: (data: EventData) => Promise<EventData | undefined>;
+  event: EventData;
+  closeDialog?: () => void;
+  handleSubmit: (data: EventData) => void;
 };
-const EventEditContainer = ({ closeDialog, handleSubmit: onSubmit }: Props) => {
+const EventEditContainer = ({
+  event,
+  handleSubmit: onSubmit,
+  closeDialog,
+}: Props) => {
   const [isOpenNoticePanel] = useState<boolean>(false);
 
-  const members = ['たろ', 'そめ', 'ハマ', '黒田', 'フラ', 'りゅー'];
-
-  const { register, setValue, watch, handleSubmit } = useForm<EventData>();
-
-  useEffect(() => {
-    setValue('members', members);
-  }, [watch]);
+  const { register, handleSubmit } = useForm<EventData>({
+    defaultValues: event,
+  });
 
   return (
     <div
@@ -49,7 +50,7 @@ const EventEditContainer = ({ closeDialog, handleSubmit: onSubmit }: Props) => {
               <Button text="追加" onClick={() => {}} />
             </div>
             <ul className={style['list']}>
-              {members.map((member, i) => (
+              {event?.members.map((member, i) => (
                 <CheckboxTag
                   label={member}
                   key={i}
@@ -69,17 +70,9 @@ const EventEditContainer = ({ closeDialog, handleSubmit: onSubmit }: Props) => {
         <div className={style['action']}>
           <Button
             text="確定"
-            onClick={handleSubmit(async (value) => {
-              console.log(value);
-              await onSubmit({
-                eventName: 'Nagano Camp',
-                members: ['たろ', 'そめ', 'ハマ', '黒田', 'フラ', 'りゅー'],
-                startDate: '2022-10-01',
-                endDate: '2022-10-03',
-                meetingPlace: '池袋駅',
-                dissolutionPlace: '池袋駅',
-              });
-              // setIsOpen(false);
+            onClick={handleSubmit(async (event) => {
+              await onSubmit(event);
+              closeDialog?.();
             })}
           />
           <Button text="キャンセル" type="secondary" onClick={closeDialog} />

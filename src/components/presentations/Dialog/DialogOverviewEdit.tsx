@@ -2,17 +2,24 @@
 
 import EventEditContainer from '@/components/containers/event/EventEditContainer';
 import DialogWrapper from '@/components/presentations/Dialog/DialogWrapper';
-import { EventData } from '@/hooks/useSubPanel';
+import { EventData } from '@/hooks/useEvent';
 
 type Props = {
+  event: EventData;
   isOpen: boolean;
   closeDialog: () => void;
-  handleSubmit: (data: EventData) => Promise<EventData | undefined>;
+  handleSubmit: (data: EventData) => Promise<void>;
 };
-const DialogOverviewEdit = ({ isOpen, closeDialog, handleSubmit }: Props) => {
+const DialogOverviewEdit = ({
+  isOpen,
+  event,
+  closeDialog,
+  handleSubmit,
+}: Props) => {
   return (
     <DialogWrapper isOpen={isOpen} closeDialog={closeDialog}>
       <EventEditContainer
+        event={event}
         closeDialog={closeDialog}
         handleSubmit={handleSubmit}
       />
