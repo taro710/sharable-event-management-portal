@@ -1,7 +1,7 @@
 'use client';
 
 import { useAtom } from 'jotai';
-import { useRouter } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 import { eventAtom } from '@/atoms/eventAtom';
@@ -18,7 +18,8 @@ type Props = {
 const SubPanel = ({ isOpen = true }: Props) => {
   const { isSp } = useResponsive();
   const router = useRouter();
-  const { getEvent, updateEvent } = useEvent('event01');
+  const eventId = useParams()?.eventId as string;
+  const { getEvent, updateEvent } = useEvent(eventId);
 
   const [event, setEvent] = useAtom(eventAtom);
   useEffect(() => {
@@ -33,7 +34,7 @@ const SubPanel = ({ isOpen = true }: Props) => {
 
   const handleClickEdit = () => {
     if (isSp) {
-      router.push('sdfasdf/edit'); // TODO: /asdasfasdf/edit
+      router.push(`${eventId}/edit`);
       return;
     }
     setIsDialogOpen(true);

@@ -2,6 +2,7 @@
 
 import { NextPage } from 'next';
 import Link from 'next/link';
+import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 import FadeIn from '@/components/presentations/FadeIn';
@@ -12,6 +13,7 @@ import style from './page.module.scss';
 
 const DashBoard: NextPage = () => {
   const members = ['たろ', 'そめ', 'ハマ', '黒田', 'フラ', 'りゅー'];
+  const eventId = useParams()?.eventId as string;
 
   const [expenses, setExpenses] = useState<ExpenseData[]>([]);
 
@@ -42,7 +44,7 @@ const DashBoard: NextPage = () => {
         ))}
       </FadeIn>
 
-      <Link href="/sample/expense" className={style['link-button']}>
+      <Link href={`/${eventId}/expense`} className={style['link-button']}>
         会計一覧
       </Link>
     </>

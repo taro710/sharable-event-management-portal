@@ -2,7 +2,7 @@
 
 import { useAtom } from 'jotai';
 import { NextPage } from 'next';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 
 import { bringListAtom, itemAtom } from '@/atoms/itemAtom';
 import ItemSelectContainer from '@/components/containers/item/ItemSelectContainer';
@@ -22,24 +22,29 @@ const DashBoard: NextPage = () => {
 
   const [data, setData] = useAtom(bringListAtom);
 
-  const selectedData: { name: string; bring: string[] } | undefined = useMemo(
-    () => data[selectedIndex],
-    [data, selectedIndex],
-  );
+  const selectedData: { name: string; bring: string[] } | undefined =
+    useMemo(() => {
+      if (data.length <= 0) return;
+      return data[selectedIndex];
+    }, [data, selectedIndex]);
 
   const [, setItems] = useAtom(itemAtom);
 
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
-  const { updateBringList, getBringList, getItemMaster } = useItemPage();
+  const {
+    updateBringList,
+    //  getBringList,
+    getItemMaster,
+  } = useItemPage();
 
-  // TODO:
-  useEffect(() => {
-    (async () => {
-      const data = await getBringList();
-      if (data === undefined) return;
-      setData(data);
-    })();
-  }, []);
+  // // TODO:
+  // useEffect(() => {
+  //   (async () => {
+  //     const data = await getBringList();
+  //     if (data === undefined) return;
+  //     setData(data);
+  //   })();
+  // }, []);
 
   const ref = useRef<HTMLDivElement>(null);
 
@@ -57,7 +62,6 @@ const DashBoard: NextPage = () => {
     ref.current.style.transform = 'translateX(0)';
   };
 
-  if (data.length === 0) return <p>loading...</p>;
   return (
     <>
       <div className={style['page-component']} ref={ref}>
@@ -74,13 +78,13 @@ const DashBoard: NextPage = () => {
           </div>
           <div className={style['content']}>
             <div className={style['item-list']}>
-              {selectedData.bring.map((item, i) => (
+              {selectedData?.bring.map((item, i) => (
                 <div className={style['item']} key={i}>
                   <Checkbox label={item} index={i} />
                 </div>
               ))}
             </div>
-            {data[selectedIndex].bring.length <= 0 && (
+            {!selectedData?.bring && (
               <p className={style['notice']}>アイテムはありません</p>
             )}
           </div>
@@ -99,7 +103,7 @@ const DashBoard: NextPage = () => {
 
         <div className={style['container-component']}>
           <ItemSelectContainer
-            selectedItems={data[selectedIndex].bring}
+            selectedItems={selectedData?.bring}
             close={closePanel}
             handleSubmit={async (selectedItem) => {
               const newData = data.map((elm, i) => {
@@ -116,7 +120,7 @@ const DashBoard: NextPage = () => {
 
       {!isSp && (
         <DialogItemSelect
-          selectedItems={data[selectedIndex].bring}
+          selectedItems={selectedData?.bring}
           isOpen={isDialogOpen}
           closeDialog={closePanel}
           handleSubmit={async (selectedItem) => {

@@ -2,7 +2,7 @@
 
 import clsx from 'clsx';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { useParams, usePathname } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 
 import { useResponsive } from '@/hooks/useResponsive';
@@ -12,24 +12,40 @@ import style from './Tab.module.scss';
 const Tab = () => {
   const { isSp } = useResponsive();
   const pathName = usePathname();
+  const eventId = useParams()?.eventId as string;
   const [selectedIndex, setSelectedIndex] = useState<number>();
+
+  const tabItems = [
+    {
+      label: 'アイテム',
+      path: `/${eventId}/item`,
+    },
+    {
+      label: '会計',
+      path: `/${eventId}/expense`,
+    },
+    {
+      label: 'メモ',
+      path: `/${eventId}/memo`,
+    },
+  ];
 
   useEffect(() => {
     switch (pathName) {
-      case '/sample/item':
+      case `/${eventId}/item`:
         setSelectedIndex(0);
         break;
-      case '/sample/expense':
-      case '/sample/expense/seisan':
+      case `/${eventId}/expense`:
+      case `/${eventId}/expense/seisan`:
         setSelectedIndex(1);
         break;
-      case '/sample/memo':
+      case `/${eventId}/memo`:
         setSelectedIndex(2);
         break;
       default:
         break;
     }
-  }, [pathName]);
+  }, [eventId, pathName]);
 
   const ref = useRef<HTMLDivElement>(null);
 
@@ -64,18 +80,3 @@ const Tab = () => {
 };
 
 export default Tab;
-
-const tabItems = [
-  {
-    label: 'アイテム',
-    path: '/sample/item',
-  },
-  {
-    label: '会計',
-    path: '/sample/expense',
-  },
-  {
-    label: 'メモ',
-    path: '/sample/memo',
-  },
-];

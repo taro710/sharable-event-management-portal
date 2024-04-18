@@ -3,13 +3,15 @@
 import { NextPage } from 'next';
 import { useEffect, useState } from 'react';
 
-import EventEditContainer from '@/components/containers/event/EventEditContainer';
 import { EventData, useEvent } from '@/hooks/useEvent';
 
 import style from './page.module.scss';
 
 const EventEdit: NextPage = () => {
-  const { getEvent, updateEvent } = useEvent('event01');
+  const {
+    getEvent,
+    //  updateEvent
+  } = useEvent('event01');
 
   const [event, setEvent] = useState<EventData>();
   useEffect(() => {
@@ -25,7 +27,7 @@ const EventEdit: NextPage = () => {
   return (
     <>
       <h1 className={style['title']}>イベントを作成</h1>
-      <EventEditContainer event={event} handleSubmit={updateEvent} />
+      {/* <EventEditContainer event={event} handleSubmit={updateEvent} /> */}
     </>
   );
 };

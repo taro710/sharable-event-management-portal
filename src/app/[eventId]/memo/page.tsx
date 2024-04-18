@@ -88,9 +88,6 @@ const DashBoard: NextPage = () => {
             </div>
           ))}
         </FadeIn>
-        <button className={style['add-button']} onClick={openAddPanel}>
-          <IconAdd />
-        </button>
 
         <div className={style['container-component']}>
           {isAddDialogOpen && (
@@ -124,6 +121,12 @@ const DashBoard: NextPage = () => {
           )}
         </div>
       </div>
+
+      {!isAddDialogOpen && !isEditDialogOpen && (
+        <button className={style['add-button']} onClick={openAddPanel}>
+          <IconAdd />
+        </button>
+      )}
 
       {/* PC専用 */}
       {!isSp && (

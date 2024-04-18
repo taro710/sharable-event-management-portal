@@ -1,4 +1,11 @@
-import { getDoc, doc, updateDoc, deleteField } from 'firebase/firestore';
+import {
+  getDoc,
+  doc,
+  updateDoc,
+  deleteField,
+  setDoc,
+} from 'firebase/firestore';
+import { useParams } from 'next/navigation';
 
 import { database } from '@/firebase';
 
@@ -11,6 +18,8 @@ export type ExpenseData = {
 };
 
 export const useExpensePage = (currentExpenseData: ExpenseData[]) => {
+  const eventId = useParams()?.eventId as string;
+
   const addExpense = async (data: ExpenseData) => {
     const newExpenseId = (() => {
       if (currentExpenseData.length === 0) return 1;
@@ -18,11 +27,15 @@ export const useExpensePage = (currentExpenseData: ExpenseData[]) => {
       return Math.max(...ids) + 1;
     })();
 
-    const docRef = doc(database, 'event01', 'expense');
+    const docRef = doc(database, eventId, 'expense');
     try {
-      await updateDoc(docRef, {
-        [newExpenseId]: { ...data, expenseId: newExpenseId },
-      });
+      await setDoc(
+        docRef,
+        {
+          [newExpenseId]: { ...data, expenseId: newExpenseId },
+        },
+        { merge: true },
+      );
       const afterAddExpenseData = [
         ...currentExpenseData,
         { ...data, expenseId: newExpenseId },
@@ -34,7 +47,7 @@ export const useExpensePage = (currentExpenseData: ExpenseData[]) => {
   };
 
   const updateExpense = async (data: ExpenseData) => {
-    const docRef = doc(database, 'event01', 'expense');
+    const docRef = doc(database, eventId, 'expense');
     try {
       await updateDoc(docRef, { [data.expenseId]: data });
 
@@ -49,7 +62,7 @@ export const useExpensePage = (currentExpenseData: ExpenseData[]) => {
   };
 
   const getExpenseList = async () => {
-    const docRef = doc(database, 'event01', 'expense');
+    const docRef = doc(database, eventId, 'expense');
 
     try {
       const document = await getDoc(docRef);
@@ -62,7 +75,7 @@ export const useExpensePage = (currentExpenseData: ExpenseData[]) => {
   };
 
   const deleteExpense = async (expenseId: number) => {
-    const docRef = doc(database, 'event01', 'expense');
+    const docRef = doc(database, eventId, 'expense');
     try {
       await updateDoc(docRef, { [expenseId]: deleteField() });
 

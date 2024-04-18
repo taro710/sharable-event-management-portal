@@ -3,7 +3,7 @@
 .header-component {
   display: flex;
   align-items: center;
-  height: 74px;
+  height: $header-height-pc;
   padding: 0 32px;
   background-color: transparent;
 
@@ -21,7 +21,7 @@
 
 @include media-query-sp {
   .header-component {
-    height: 36px;
+    height: $header-height-sp;
     padding: 0 12px;
 
     > .logo {
@@ -37,10 +37,12 @@
 .main-component {
   display: flex;
   justify-content: center;
+  height: auto;
   padding: 0 32px;
 
   > .content {
     width: 1200px;
+    height: auto;
     padding: 8px 0 32px;
   }
 }

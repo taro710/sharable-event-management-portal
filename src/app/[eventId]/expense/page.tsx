@@ -2,6 +2,7 @@
 
 import { NextPage } from 'next';
 import Link from 'next/link';
+import { useParams } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 
 import ExpenseAddingContainer from '@/components/containers/expense/ExpenseAddingContainer';
@@ -18,6 +19,7 @@ import style from './page.module.scss';
 
 const DashBoard: NextPage = () => {
   const { isSp } = useResponsive();
+  const eventId = useParams()?.eventId as string;
 
   const [expenses, setExpenses] = useState<ExpenseData[]>([]);
   const [editingExpense, setEditingExpense] = useState<ExpenseData>();
@@ -82,14 +84,10 @@ const DashBoard: NextPage = () => {
               />
             ))}
           </ul>
-          <Link href="/sample/expense/seisan" className={style['link']}>
+          <Link href={`/${eventId}/expense/seisan`} className={style['link']}>
             清算金額を確認
           </Link>
         </FadeIn>
-
-        <button className={style['add-button']} onClick={openAddPanel}>
-          <IconAdd />
-        </button>
 
         <div className={style['container-component']}>
           {isAddDialogOpen && (
@@ -123,6 +121,12 @@ const DashBoard: NextPage = () => {
           )}
         </div>
       </div>
+
+      {!isAddDialogOpen && !isEditDialogOpen && (
+        <button className={style['add-button']} onClick={openAddPanel}>
+          <IconAdd />
+        </button>
+      )}
 
       {!isSp && (
         <DialogExpenseAdding

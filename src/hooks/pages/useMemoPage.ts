@@ -1,4 +1,11 @@
-import { getDoc, doc, deleteField, updateDoc } from 'firebase/firestore';
+import {
+  getDoc,
+  doc,
+  deleteField,
+  updateDoc,
+  setDoc,
+} from 'firebase/firestore';
+import { useParams } from 'next/navigation';
 
 import { database } from '@/firebase';
 
@@ -9,6 +16,8 @@ export type MemoData = {
 };
 
 export const useMemoPage = (currentMemoData: MemoData[]) => {
+  const eventId = useParams()?.eventId as string;
+
   const addMemo = async (data: Omit<MemoData, 'memoId'>) => {
     const newMemoId = (() => {
       if (currentMemoData.length === 0) return 1;
@@ -16,9 +25,13 @@ export const useMemoPage = (currentMemoData: MemoData[]) => {
       return Math.max(...ids) + 1;
     })();
 
-    const docRef = doc(database, 'event01', 'memo');
+    const docRef = doc(database, eventId, 'memo');
     try {
-      await updateDoc(docRef, { [newMemoId]: { ...data, memoId: newMemoId } });
+      await setDoc(
+        docRef,
+        { [newMemoId]: { ...data, memoId: newMemoId } },
+        { merge: true },
+      );
       const afterAddMemoData = [
         ...currentMemoData,
         { ...data, memoId: newMemoId },
@@ -30,7 +43,7 @@ export const useMemoPage = (currentMemoData: MemoData[]) => {
   };
 
   const updateMemo = async (data: MemoData) => {
-    const docRef = doc(database, 'event01', 'memo');
+    const docRef = doc(database, eventId, 'memo');
     try {
       await updateDoc(docRef, { [data.memoId]: data });
 
@@ -45,7 +58,7 @@ export const useMemoPage = (currentMemoData: MemoData[]) => {
   };
 
   const getMemoList = async () => {
-    const docRef = doc(database, 'event01', 'memo');
+    const docRef = doc(database, eventId, 'memo');
 
     try {
       const document = await getDoc(docRef);
@@ -58,7 +71,7 @@ export const useMemoPage = (currentMemoData: MemoData[]) => {
   };
 
   const deleteMemo = async (memoId: number) => {
-    const docRef = doc(database, 'event01', 'memo');
+    const docRef = doc(database, eventId, 'memo');
     try {
       await updateDoc(docRef, { [memoId]: deleteField() });
 
