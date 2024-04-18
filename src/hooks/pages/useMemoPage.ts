@@ -9,7 +9,7 @@ export type MemoData = {
 };
 
 export const useMemoPage = (currentMemoData: MemoData[]) => {
-  const addMemo = async (data: MemoData) => {
+  const addMemo = async (data: Omit<MemoData, 'memoId'>) => {
     const newMemoId = (() => {
       if (currentMemoData.length === 0) return 1;
       const ids = currentMemoData.map((memo) => memo.memoId || 0);

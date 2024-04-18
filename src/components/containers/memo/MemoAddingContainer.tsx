@@ -12,7 +12,7 @@ import { MemoData } from '@/hooks/pages/useMemoPage';
 import style from './MemoAddingContainer.module.scss';
 
 type Props = {
-  handleSubmit: (memoData: MemoData) => void;
+  handleSubmit: (memoData: Omit<MemoData, 'memoId'>) => void;
   close: () => void;
 };
 

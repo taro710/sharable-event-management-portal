@@ -7,7 +7,7 @@ import { MemoData } from '@/hooks/pages/useMemoPage';
 type Props = {
   isOpen: boolean;
   closeDialog: () => void;
-  handleSubmit: (memoData: MemoData) => void;
+  handleSubmit: (memoData: Omit<MemoData, 'memoId'>) => void;
 };
 const DialogMemoAdding = ({ isOpen, closeDialog, handleSubmit }: Props) => {
   return (
