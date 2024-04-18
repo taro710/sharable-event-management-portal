@@ -1,25 +1,26 @@
 'use client';
 
+import { useAtom } from 'jotai';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
+import { eventAtom } from '@/atoms/eventAtom';
 import DialogOverviewEdit from '@/components/presentations/Dialog/DialogOverviewEdit';
 import IconEdit from '@/components/presentations/Icon/IconEdit';
-import { EventData, useEvent } from '@/hooks/useEvent';
+import { useEvent } from '@/hooks/useEvent';
 import { useResponsive } from '@/hooks/useResponsive';
 
 import style from './SubPanel.module.scss';
 
 type Props = {
   isOpen?: boolean;
-  eventInfo: EventData;
 };
-const SubPanel = ({ isOpen = true, eventInfo }: Props) => {
+const SubPanel = ({ isOpen = true }: Props) => {
   const { isSp } = useResponsive();
   const router = useRouter();
   const { getEvent, updateEvent } = useEvent('event01');
 
-  const [event, setEvent] = useState<EventData>();
+  const [event, setEvent] = useAtom(eventAtom);
   useEffect(() => {
     (async () => {
       const data = await getEvent();
@@ -57,13 +58,13 @@ const SubPanel = ({ isOpen = true, eventInfo }: Props) => {
             <div className={style['body']}>
               <table className={style['overview-table']}>
                 <tbody className={style['table']}>
-                  {eventInfo.meetingPlace && (
+                  {event.meetingPlace && (
                     <tr className={style['row']}>
                       <td className={style['caption']}>集合場所</td>
                       <td className={style['text']}>{event.meetingPlace}</td>
                     </tr>
                   )}
-                  {eventInfo.dissolutionPlace && (
+                  {event.dissolutionPlace && (
                     <tr className={style['row']}>
                       <td className={style['caption']}>解散場所</td>
                       <td className={style['text']}>
@@ -71,13 +72,13 @@ const SubPanel = ({ isOpen = true, eventInfo }: Props) => {
                       </td>
                     </tr>
                   )}
-                  {eventInfo.startDate && (
+                  {event.startDate && (
                     <tr className={style['row']}>
                       <td className={style['caption']}>集合時間</td>
                       <td className={style['text']}>{event.startDate}</td>
                     </tr>
                   )}
-                  {eventInfo.endDate && (
+                  {event.endDate && (
                     <tr className={style['row']}>
                       <td className={style['caption']}>解散時間</td>
                       <td className={style['text']}>{event.endDate}</td>
@@ -89,7 +90,7 @@ const SubPanel = ({ isOpen = true, eventInfo }: Props) => {
                       {event.members.join(', ')}
                     </td>
                   </tr>
-                  {eventInfo.message && (
+                  {event.message && (
                     <tr className={style['row']}>
                       <td className={style['caption']}>メッセージ</td>
                       <td className={style['text']}>{event.message}</td>
@@ -102,7 +103,6 @@ const SubPanel = ({ isOpen = true, eventInfo }: Props) => {
         </div>
       </div>
       <DialogOverviewEdit
-        event={event}
         isOpen={isDialogOpen}
         closeDialog={() => setIsDialogOpen(false)}
         handleSubmit={updateEvent}

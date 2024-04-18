@@ -1,5 +1,8 @@
-import { getDoc, doc, updateDoc } from 'firebase/firestore';
+import { getDoc, doc, updateDoc, setDoc } from 'firebase/firestore';
+import { useAtom } from 'jotai';
+import { v4 } from 'uuid';
 
+import { eventAtom } from '@/atoms/eventAtom';
 import { database } from '@/firebase';
 
 export type EventData = {
@@ -7,40 +10,42 @@ export type EventData = {
   members: string[];
   meetingPlace?: string;
   startDate?: string;
+  startTime?: string;
   dissolutionPlace?: string;
   endDate?: string;
+  endTime?: string;
   message?: string;
 };
 
-export const useEvent = (eventId: string) => {
-  // const addExpense = async (data: EventData) => {
-  //   const newEventId = (() => {
-  //     if (currentExpenseData.length === 0) return 1;
-  //     const ids = currentExpenseData.map((expense) => expense.expenseId || 0);
-  //     return Math.max(...ids) + 1;
-  //   })();
+export const useEvent = (eventId?: string) => {
+  const [, setEvent] = useAtom(eventAtom);
 
-  //   const docRef = doc(database, 'event01', 'expense');
-  //   try {
-  //     await updateDoc(docRef, {
-  //       [newExpenseId]: { ...data, expenseId: newExpenseId },
-  //     });
+  const addEvent = async (data: EventData) => {
+    const newEventId = v4();
 
-  //   } catch (e) {
-  //     console.error('Error adding document: ', e);
-  //   }
-  // };
+    const docRef = doc(database, newEventId, 'event');
+    try {
+      await setDoc(docRef, data);
+      setEvent(data);
+      return newEventId;
+    } catch (e) {
+      console.error('Error adding document: ', e);
+    }
+  };
 
   const updateEvent = async (data: EventData) => {
+    if (!eventId) return;
     const docRef = doc(database, eventId, 'event');
     try {
       await updateDoc(docRef, data);
+      setEvent(data);
     } catch (e) {
       console.error('Error adding document: ', e);
     }
   };
 
   const getEvent = async () => {
+    if (!eventId) return;
     const docRef = doc(database, eventId, 'event');
 
     try {
@@ -53,7 +58,7 @@ export const useEvent = (eventId: string) => {
   };
 
   return {
-    // addExpense,
+    addEvent,
     updateEvent,
     getEvent,
   };

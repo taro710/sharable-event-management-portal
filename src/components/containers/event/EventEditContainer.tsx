@@ -1,9 +1,11 @@
 'use client';
 
 import clsx from 'clsx';
+import { useAtom } from 'jotai';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
+import { eventAtom } from '@/atoms/eventAtom';
 import Button from '@/components/presentations/Button';
 import CheckboxTag from '@/components/presentations/CheckboxTag';
 import IconClose from '@/components/presentations/Icon/IconClose';
@@ -14,20 +16,37 @@ import { EventData } from '@/hooks/useEvent';
 import style from './EventEditContainer.module.scss';
 
 type Props = {
-  event: EventData;
   closeDialog?: () => void;
   handleSubmit: (data: EventData) => void;
 };
-const EventEditContainer = ({
-  event,
-  handleSubmit: onSubmit,
-  closeDialog,
-}: Props) => {
+const EventEditContainer = ({ handleSubmit: onSubmit, closeDialog }: Props) => {
   const [isOpenNoticePanel] = useState<boolean>(false);
 
-  const { register, handleSubmit } = useForm<EventData>({
+  const [event] = useAtom(eventAtom);
+
+  const { register, handleSubmit, watch, setValue } = useForm<EventData>({
     defaultValues: event,
   });
+
+  const [inputtedMemberName, setInputtedMemberName] = useState<string>('');
+  const [members, setMembers] = useState<string[]>([]);
+
+  const handleAddMember = () => {
+    if (inputtedMemberName === '') return;
+    if (members.includes(inputtedMemberName)) return;
+    const updatedMembers = [...members, inputtedMemberName];
+    const currentMembers = watch('members');
+    const currentMembersArray = (() => {
+      if (Array.isArray(currentMembers)) return currentMembers;
+      if (typeof currentMembers === 'string') return [currentMembers];
+      return [];
+    })();
+
+    setValue('members', [...currentMembersArray, inputtedMemberName]);
+    setMembers(updatedMembers);
+    setInputtedMemberName('');
+  };
+  console.log(watch('members'));
 
   return (
     <div
@@ -46,11 +65,15 @@ const EventEditContainer = ({
           <Input label="イベント名" {...register('eventName')} />
           <div className={style['member-field']}>
             <div className={style['member']}>
-              <Input label="メンバー" />
-              <Button text="追加" onClick={() => {}} />
+              <Input
+                label="メンバー"
+                value={inputtedMemberName}
+                onChange={(e) => setInputtedMemberName(e.target.value)}
+              />
+              <Button text="追加" onClick={handleAddMember} />
             </div>
             <ul className={style['list']}>
-              {event?.members.map((member, i) => (
+              {members.map((member, i) => (
                 <CheckboxTag
                   label={member}
                   key={i}
@@ -62,9 +85,16 @@ const EventEditContainer = ({
             </ul>
           </div>
           <Input label="集合場所" {...register('meetingPlace')} />
-          <Input label="集合時間" {...register('startDate')} />
+          <div className={style['twin']}>
+            <Input label="集合日" type="date" {...register('startDate')} />
+            <Input label="集合時間" type="time" {...register('startTime')} />
+          </div>
+
           <Input label="解散場所" {...register('dissolutionPlace')} />
-          <Input label="解散時間" {...register('endDate')} />
+          <div className={style['twin']}>
+            <Input label="解散日" type="date" {...register('endDate')} />
+            <Input label="解散時間" type="time" {...register('endTime')} />
+          </div>
           <TextArea label="メッセージ" {...register('message')} />
         </div>
         <div className={style['action']}>
