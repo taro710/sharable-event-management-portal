@@ -1,5 +1,6 @@
 'use client';
 
+import Linkify from 'linkify-react';
 import { NextPage } from 'next';
 import { useEffect, useRef, useState } from 'react';
 
@@ -84,7 +85,11 @@ const DashBoard: NextPage = () => {
                   <IconEdit />
                 </div>
               </div>
-              <p className={style['text']}>{memo}</p>
+              <p className={style['text']}>
+                <Linkify as={'p'} options={{ className: style['link-text'] }}>
+                  {memo}
+                </Linkify>
+              </p>
             </div>
           ))}
         </FadeIn>
