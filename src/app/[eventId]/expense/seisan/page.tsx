@@ -1,10 +1,12 @@
 'use client';
 
+import { useAtom } from 'jotai';
 import { NextPage } from 'next';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
+import { eventAtom } from '@/atoms/eventAtom';
 import FadeIn from '@/components/presentations/FadeIn';
 import { ExpenseData, useExpensePage } from '@/hooks/pages/useExpensePage';
 import { func } from '@/util/sample';
@@ -12,7 +14,9 @@ import { func } from '@/util/sample';
 import style from './page.module.scss';
 
 const DashBoard: NextPage = () => {
-  const members = ['たろ', 'そめ', 'ハマ', '黒田', 'フラ', 'りゅー'];
+  const [event] = useAtom(eventAtom);
+  const members = event?.members || [];
+
   const eventId = useParams()?.eventId as string;
 
   const [expenses, setExpenses] = useState<ExpenseData[]>([]);
