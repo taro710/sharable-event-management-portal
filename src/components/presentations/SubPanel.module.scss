@@ -21,6 +21,7 @@
       flex-direction: column;
       gap: 24px;
       height: 100%;
+      padding: 12px 20px;
       color: $white;
       background-color: $gray-500;
       border-radius: 12px;
@@ -49,7 +50,6 @@
   .sub-panel {
     > .body {
       > .body2 {
-        padding: 12px 20px;
         overflow-y: hidden;
 
         > .header {
