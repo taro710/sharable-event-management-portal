@@ -86,7 +86,14 @@ const DashBoard: NextPage = () => {
                 </div>
               </div>
               <p className={style['text']}>
-                <Linkify as={'p'} options={{ className: style['link-text'] }}>
+                <Linkify
+                  as={'p'}
+                  options={{
+                    className: style['link-text'],
+                    target: {
+                      url: '_blank', // TODO: noopener
+                    },
+                  }}>
                   {memo}
                 </Linkify>
               </p>
