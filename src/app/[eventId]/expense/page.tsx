@@ -84,9 +84,11 @@ const DashBoard: NextPage = () => {
               />
             ))}
           </ul>
-          <Link href={`/${eventId}/expense/seisan`} className={style['link']}>
-            清算金額を確認
-          </Link>
+          {!!expenses.length && (
+            <Link href={`/${eventId}/expense/seisan`} className={style['link']}>
+              清算金額を確認
+            </Link>
+          )}
         </FadeIn>
 
         <div className={style['container-component']}>
