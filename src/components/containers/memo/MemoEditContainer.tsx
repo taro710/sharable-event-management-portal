@@ -1,11 +1,13 @@
 'use client';
 
 import clsx from 'clsx';
+import { useAtom } from 'jotai';
 import { useState } from 'react';
 
+import { eventAtom } from '@/atoms/eventAtom';
 import Button from '@/components/presentations/Button';
+import SelectBox from '@/components/presentations/Form/SelectBox';
 import IconClose from '@/components/presentations/Icon/IconClose';
-import Input from '@/components/presentations/Input';
 import TextArea from '@/components/presentations/TextArea';
 import { MemoData } from '@/hooks/pages/useMemoPage';
 
@@ -24,7 +26,7 @@ const MemoEditContainer = ({
   close,
 }: Props) => {
   const [isOpenNoticePanel] = useState(false);
-
+  const [event] = useAtom(eventAtom);
   const [memo, setMemo] = useState<string>(memoData.memo);
   const [author, setAuthor] = useState<string>(memoData.member);
 
@@ -41,13 +43,20 @@ const MemoEditContainer = ({
         </div>
       </div>
       <div className={style['body']}>
-        <Input
-          label="記入者"
-          value={author}
-          onChange={(e) => {
-            setAuthor(e.target.value);
-          }}
-        />
+        {event && (
+          <SelectBox
+            label="記入者"
+            value={author}
+            onChange={(e) => {
+              setAuthor(e.target.value);
+            }}>
+            {event.members.map((member) => (
+              <option key={member} value={member}>
+                {member}
+              </option>
+            ))}
+          </SelectBox>
+        )}
         <TextArea
           label="メモ"
           value={memo}
