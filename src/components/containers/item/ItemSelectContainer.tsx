@@ -11,28 +11,32 @@ import IconClose from '@/components/presentations/Icon/IconClose';
 import IconEdit from '@/components/presentations/Icon/IconEdit';
 import IconRemove from '@/components/presentations/Icon/IconRemove';
 import Input from '@/components/presentations/Input';
-import { useItemPage } from '@/hooks/pages/useItemPage';
+import { Data } from '@/hooks/pages/useItemPage';
 
 import style from './ItemSelectContainer.module.scss';
 
 type Props = {
   selectedItems: string[] | undefined;
+  updateItem: (data: Data[]) => Promise<Data[] | undefined>;
+  updateItemMaster: (data: string[]) => void;
   handleSubmit: (selectedItem: string[]) => void;
   close: () => void;
 };
 
 const ItemSelectContainer = ({
   selectedItems = [],
+  updateItem,
+  updateItemMaster,
   handleSubmit,
   close,
 }: Props) => {
   const [items, setItems] = useAtom(itemAtom);
-  const [selectedItem, setSelectedItem] = useState<string[]>([]);
+  const [selectedItem, setSelectedItem] = useState<string[]>(selectedItems);
   const [value, setValue] = useState<string>('');
 
-  const { updateBringList, updateItemMaster } = useItemPage(); // TODO: ページ側で呼び出す
+  console.log(selectedItem);
 
-  useEffect(() => setSelectedItem(selectedItems), [selectedItems]);
+  // useEffect(() => setSelectedItem(selectedItems), [selectedItems]);
 
   const updateSelectedItem = useCallback((selectedItem: string) => {
     setSelectedItem((prev) => {
@@ -47,9 +51,10 @@ const ItemSelectContainer = ({
     if (items.includes(value)) return;
     const newItemMaster = await updateItemMaster([...items, value]);
     if (newItemMaster === undefined) return;
+    updateSelectedItem(value);
     setItems(newItemMaster);
     setValue('');
-  }, [items, setItems, updateItemMaster, value]);
+  }, [items, setItems, updateItemMaster, updateSelectedItem, value]);
 
   const [isEditMode, setIsEditMode] = useState<boolean>(false);
   const [tmpItem, setTmpItem] = useState<string[]>(items);
@@ -91,11 +96,13 @@ const ItemSelectContainer = ({
                     />
                   </div>
                 ))}
-                <div
-                  className={style['icon']}
-                  onClick={() => setIsEditMode(true)}>
-                  <IconEdit />
-                </div>
+                {items.length > 0 && (
+                  <div
+                    className={style['icon']}
+                    onClick={() => setIsEditMode(true)}>
+                    <IconEdit />
+                  </div>
+                )}
               </>
             )}
             {isEditMode && (
@@ -149,13 +156,7 @@ const ItemSelectContainer = ({
               value={value}
               onChange={(e) => setValue(e.target.value)}
             />
-            <Button
-              text="追加"
-              onClick={() => {
-                addValue();
-                updateSelectedItem(value);
-              }}
-            />
+            <Button text="追加" onClick={addValue} />
           </div>
 
           <div className={style['submit']}>
@@ -191,15 +192,15 @@ const ItemSelectContainer = ({
                 const _newBringList = data.map((elm) => {
                   return {
                     name: elm.name,
-                    bring: elm.bring.filter((item) => tmpItem.includes(item)),
+                    item: elm.item.filter((item) => tmpItem.includes(item)),
                   };
                 });
-                const newBringList = await updateBringList(_newBringList);
-                if (newBringList === undefined) {
+                const newItemList = await updateItem(_newBringList);
+                if (newItemList === undefined) {
                   setIsEditMode(false);
                   return;
                 }
-                setData(newBringList);
+                setData(newItemList);
                 setIsEditMode(false);
                 setIsOpenNoticePanel(false);
               }}>

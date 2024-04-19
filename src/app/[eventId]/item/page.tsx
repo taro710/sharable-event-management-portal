@@ -2,8 +2,9 @@
 
 import { useAtom } from 'jotai';
 import { NextPage } from 'next';
-import { useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 
+import { eventAtom } from '@/atoms/eventAtom';
 import { bringListAtom, itemAtom } from '@/atoms/itemAtom';
 import ItemSelectContainer from '@/components/containers/item/ItemSelectContainer';
 import Checkbox from '@/components/presentations/Checkbox';
@@ -18,33 +19,34 @@ import style from './page.module.scss';
 
 const DashBoard: NextPage = () => {
   const { isSp } = useResponsive();
-  const [selectedIndex, setSelectedIndex] = useState<number>(0);
-
   const [data, setData] = useAtom(bringListAtom);
+  const [event] = useAtom(eventAtom);
 
-  const selectedData: { name: string; bring: string[] } | undefined =
-    useMemo(() => {
-      if (data.length <= 0) return;
-      return data[selectedIndex];
-    }, [data, selectedIndex]);
+  console.log(data);
+
+  const members = event?.members;
+  const [selectedIndex, setSelectedIndex] = useState<number>(0);
+  const selectedMember = members?.[selectedIndex];
+  const selectedData = useMemo(() => {
+    if (data.length <= 0) return;
+    return data.find((elm) => elm.name === selectedMember);
+  }, [data, selectedMember]);
 
   const [, setItems] = useAtom(itemAtom);
 
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
-  const {
-    updateBringList,
-    //  getBringList,
-    getItemMaster,
-  } = useItemPage();
+  const { getItemList, updateItem, updateItemMaster, getItemMaster } =
+    useItemPage();
 
-  // // TODO:
-  // useEffect(() => {
-  //   (async () => {
-  //     const data = await getBringList();
-  //     if (data === undefined) return;
-  //     setData(data);
-  //   })();
-  // }, []);
+  // TODO:
+  useEffect(() => {
+    (async () => {
+      const data = await getItemList();
+      console.log(data);
+      if (data === undefined) return;
+      setData(data);
+    })();
+  }, []);
 
   const ref = useRef<HTMLDivElement>(null);
 
@@ -67,7 +69,7 @@ const DashBoard: NextPage = () => {
       <div className={style['page-component']} ref={ref}>
         <FadeIn className={style['item-panel']}>
           <div className={style['tags']}>
-            {data.map(({ name }, i) => (
+            {members?.map((name, i) => (
               <Tag
                 text={name}
                 isActive={i === selectedIndex}
@@ -78,18 +80,62 @@ const DashBoard: NextPage = () => {
           </div>
           <div className={style['content']}>
             <div className={style['item-list']}>
-              {selectedData?.bring.map((item, i) => (
+              {selectedData?.item.map((item, i) => (
                 <div className={style['item']} key={i}>
                   <Checkbox label={item} index={i} />
                 </div>
               ))}
             </div>
-            {!selectedData?.bring && (
+            {selectedData && selectedData.item.length <= 0 && (
               <p className={style['notice']}>アイテムはありません</p>
             )}
           </div>
         </FadeIn>
 
+        <div className={style['container-component']}>
+          {isDialogOpen && (
+            <ItemSelectContainer
+              selectedItems={selectedData?.item}
+              close={closePanel}
+              updateItem={updateItem}
+              updateItemMaster={updateItemMaster}
+              handleSubmit={async (selectedItem) => {
+                if (selectedMember === undefined) return;
+                const args = (() => {
+                  if (
+                    data.find((elm) => elm.name === selectedMember) ===
+                    undefined
+                  ) {
+                    return [
+                      ...data,
+                      {
+                        name: selectedMember,
+                        item: selectedItem,
+                      },
+                    ];
+                  }
+
+                  return data.map((elm) => {
+                    if (elm.name === selectedMember) {
+                      return {
+                        name: elm.name,
+                        item: selectedItem,
+                      };
+                    }
+                    return elm;
+                  });
+                })();
+
+                const result = await updateItem(args);
+                if (result === undefined) return;
+                setData(result);
+              }}
+            />
+          )}
+        </div>
+      </div>
+
+      {!isDialogOpen && (
         <button
           className={style['add-button']}
           onClick={async () => {
@@ -100,35 +146,42 @@ const DashBoard: NextPage = () => {
           }}>
           <IconEdit />
         </button>
-
-        <div className={style['container-component']}>
-          <ItemSelectContainer
-            selectedItems={selectedData?.bring}
-            close={closePanel}
-            handleSubmit={async (selectedItem) => {
-              const newData = data.map((elm, i) => {
-                if (i === selectedIndex) return { ...elm, bring: selectedItem };
-                return elm;
-              });
-              const result = await updateBringList(newData);
-              if (result === undefined) return;
-              setData(result);
-            }}
-          />
-        </div>
-      </div>
+      )}
 
       {!isSp && (
         <DialogItemSelect
-          selectedItems={selectedData?.bring}
+          selectedItems={selectedData?.item}
           isOpen={isDialogOpen}
           closeDialog={closePanel}
+          updateItem={updateItem}
+          updateItemMaster={updateItemMaster}
           handleSubmit={async (selectedItem) => {
-            const newData = data.map((elm, i) => {
-              if (i === selectedIndex) return { ...elm, bring: selectedItem };
-              return elm;
-            });
-            const result = await updateBringList(newData);
+            if (selectedMember === undefined) return;
+            const args = (() => {
+              if (
+                data.find((elm) => elm.name === selectedMember) === undefined
+              ) {
+                return [
+                  ...data,
+                  {
+                    name: selectedMember,
+                    item: selectedItem,
+                  },
+                ];
+              }
+
+              return data.map((elm) => {
+                if (elm.name === selectedMember) {
+                  return {
+                    name: elm.name,
+                    item: selectedItem,
+                  };
+                }
+                return elm;
+              });
+            })();
+
+            const result = await updateItem(args);
             if (result === undefined) return;
             setData(result);
           }}
