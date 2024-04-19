@@ -73,7 +73,7 @@
     > .main {
       gap: 18px;
       width: 100%;
-      height: calc(100dvh - 150px);
+      min-height: calc(100dvh - 150px);
 
       > .panel {
         width: 100%;
