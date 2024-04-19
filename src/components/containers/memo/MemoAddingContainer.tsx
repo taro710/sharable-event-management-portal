@@ -23,7 +23,7 @@ const MemoAddingContainer = ({ handleSubmit, close }: Props) => {
   const [event] = useAtom(eventAtom);
 
   const [memo, setMemo] = useState<string>('');
-  const [author, setAuthor] = useState<string>('');
+  const [author, setAuthor] = useState<string>(event?.members[0] || '');
 
   return (
     <div
