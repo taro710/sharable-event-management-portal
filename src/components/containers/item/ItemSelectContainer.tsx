@@ -34,10 +34,6 @@ const ItemSelectContainer = ({
   const [selectedItem, setSelectedItem] = useState<string[]>(selectedItems);
   const [value, setValue] = useState<string>('');
 
-  console.log(selectedItem);
-
-  // useEffect(() => setSelectedItem(selectedItems), [selectedItems]);
-
   const updateSelectedItem = useCallback((selectedItem: string) => {
     setSelectedItem((prev) => {
       if (prev.includes(selectedItem))

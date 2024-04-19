@@ -46,7 +46,6 @@ const EventEditContainer = ({ handleSubmit: onSubmit, closeDialog }: Props) => {
     setMembers(updatedMembers);
     setInputtedMemberName('');
   };
-  console.log(watch('members'));
 
   return (
     <div

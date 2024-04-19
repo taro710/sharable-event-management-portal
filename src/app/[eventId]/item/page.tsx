@@ -22,8 +22,6 @@ const DashBoard: NextPage = () => {
   const [data, setData] = useAtom(bringListAtom);
   const [event] = useAtom(eventAtom);
 
-  console.log(data);
-
   const members = event?.members;
   const [selectedIndex, setSelectedIndex] = useState<number>(0);
   const selectedMember = members?.[selectedIndex];
@@ -86,7 +84,7 @@ const DashBoard: NextPage = () => {
                 </div>
               ))}
             </div>
-            {selectedData && selectedData.item.length <= 0 && (
+            {(!selectedData || selectedData.item.length <= 0) && (
               <p className={style['notice']}>アイテムはありません</p>
             )}
           </div>

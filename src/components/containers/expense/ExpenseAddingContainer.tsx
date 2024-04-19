@@ -1,7 +1,9 @@
 'use client';
 
+import { useAtom } from 'jotai';
 import { useForm } from 'react-hook-form';
 
+import { eventAtom } from '@/atoms/eventAtom';
 import Button from '@/components/presentations/Button';
 import CheckboxTag from '@/components/presentations/CheckboxTag';
 import SelectBox from '@/components/presentations/Form/SelectBox';
@@ -17,7 +19,8 @@ type Props = {
 };
 
 const ExpenseAddingContainer = ({ handleSubmit: onSubmit, close }: Props) => {
-  const members = ['たろ', 'そめ', 'ハマ', '黒田', 'フラ', 'りゅー'];
+  const [event] = useAtom(eventAtom);
+  const members = event?.members || [];
 
   const { register, handleSubmit } = useForm<ExpenseData>({
     defaultValues: { members },
@@ -38,12 +41,11 @@ const ExpenseAddingContainer = ({ handleSubmit: onSubmit, close }: Props) => {
           <span className={style['unit']}>円</span>
         </div>
         <SelectBox label="支払い者" {...register('payerName')}>
-          <option value="" disabled selected>
-            選択してください
-          </option>
-          <option value="たろ">たろ</option>
-          <option value="そめ">そめ</option>
-          <option value="ハマ">ハマ</option>
+          {members.map((member, i) => (
+            <option value={member} key={i}>
+              {member}
+            </option>
+          ))}
         </SelectBox>
 
         <div className={style['members']}>

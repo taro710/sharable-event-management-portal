@@ -34,7 +34,7 @@ const SubPanel = ({ isOpen = true }: Props) => {
 
   const handleClickEdit = () => {
     if (isSp) {
-      router.push(`${eventId}/edit`);
+      router.push(`/edit`);
       return;
     }
     setIsDialogOpen(true);
@@ -73,16 +73,20 @@ const SubPanel = ({ isOpen = true }: Props) => {
                       </td>
                     </tr>
                   )}
-                  {event.startDate && (
+                  {(event.startDate || event.startTime) && (
                     <tr className={style['row']}>
-                      <td className={style['caption']}>集合時間</td>
-                      <td className={style['text']}>{event.startDate}</td>
+                      <td className={style['caption']}>集合日時</td>
+                      <td className={style['text']}>
+                        {event.startDate} {event.startTime}
+                      </td>
                     </tr>
                   )}
-                  {event.endDate && (
+                  {(event.endDate || event.endTime) && (
                     <tr className={style['row']}>
-                      <td className={style['caption']}>解散時間</td>
-                      <td className={style['text']}>{event.endDate}</td>
+                      <td className={style['caption']}>解散日時</td>
+                      <td className={style['text']}>
+                        {event.endDate} {event.endTime}
+                      </td>
                     </tr>
                   )}
                   <tr className={style['row']}>

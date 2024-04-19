@@ -19,7 +19,7 @@ const EventEdit: NextPage = () => {
 
   return (
     <>
-      <h1 className={style['title']}>イベントを編集</h1>
+      <h1 className={style['title']}>イベントを作成</h1>
       <EventEditContainer handleSubmit={handleSubmit} />
     </>
   );
