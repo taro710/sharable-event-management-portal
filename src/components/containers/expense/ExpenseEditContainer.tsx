@@ -45,7 +45,11 @@ const ExpenseEditContainer = ({
       <div className={style['body']}>
         <Input label="出費名" {...register('expenseName')} />
         <div className={style['price']}>
-          <Input label="金額" type="number" {...register('price')} />
+          <Input
+            label="金額"
+            type="number"
+            {...register('price', { valueAsNumber: true })}
+          />
           <span className={style['unit']}>円</span>
         </div>
         <SelectBox label="支払い者" {...register('payerName')}>
