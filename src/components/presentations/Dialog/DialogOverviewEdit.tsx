@@ -12,10 +12,7 @@ type Props = {
 const DialogOverviewEdit = ({ isOpen, closeDialog, handleSubmit }: Props) => {
   return (
     <DialogWrapper isOpen={isOpen} closeDialog={closeDialog}>
-      <EventEditContainer
-        closeDialog={closeDialog}
-        handleSubmit={handleSubmit}
-      />
+      <EventEditContainer handleSubmit={handleSubmit} />
     </DialogWrapper>
   );
 };

@@ -1,14 +1,11 @@
 'use client';
 
 import clsx from 'clsx';
-import { useAtom } from 'jotai';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
-import { eventAtom } from '@/atoms/eventAtom';
 import Button from '@/components/presentations/Button';
 import CheckboxTag from '@/components/presentations/CheckboxTag';
-import IconClose from '@/components/presentations/Icon/IconClose';
 import Input from '@/components/presentations/Input';
 import TextArea from '@/components/presentations/TextArea';
 import { EventData } from '@/hooks/useEvent';
@@ -16,13 +13,16 @@ import { EventData } from '@/hooks/useEvent';
 import style from './EventEditContainer.module.scss';
 
 type Props = {
-  closeDialog?: () => void;
+  event?: EventData;
   handleSubmit: (data: EventData) => void;
+  handleCancel?: () => void;
 };
-const EventEditContainer = ({ handleSubmit: onSubmit, closeDialog }: Props) => {
+const EventEditContainer = ({
+  event,
+  handleSubmit: onSubmit,
+  handleCancel,
+}: Props) => {
   const [isOpenNoticePanel] = useState<boolean>(false);
-
-  const [event] = useAtom(eventAtom);
 
   const { register, handleSubmit, watch, setValue } = useForm<EventData>({
     defaultValues: event,
@@ -53,12 +53,6 @@ const EventEditContainer = ({ handleSubmit: onSubmit, closeDialog }: Props) => {
         style['dialog-content'],
         isOpenNoticePanel && style['-disabled'],
       )}>
-      <div className={style['header']}>
-        <p className={style['title']}>イベントを編集</p>
-        <div className={style['icon']} onClick={closeDialog}>
-          <IconClose />
-        </div>
-      </div>
       <div className={style['body']}>
         <div className={style['form']}>
           <Input label="イベント名" {...register('eventName')} />
@@ -101,10 +95,11 @@ const EventEditContainer = ({ handleSubmit: onSubmit, closeDialog }: Props) => {
             text="確定"
             onClick={handleSubmit(async (event) => {
               await onSubmit(event);
-              closeDialog?.();
             })}
           />
-          <Button text="キャンセル" type="secondary" onClick={closeDialog} />
+          {handleCancel && (
+            <Button text="キャンセル" type="secondary" onClick={handleCancel} />
+          )}
         </div>
       </div>
     </div>

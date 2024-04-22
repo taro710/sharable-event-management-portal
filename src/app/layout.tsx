@@ -1,3 +1,7 @@
+import Link from 'next/link';
+
+import { PAGE_PATH } from '@/constants/pathname';
+
 import style from './layout.module.scss';
 
 import type { Metadata } from 'next';
@@ -18,7 +22,9 @@ export default function RootLayout({
     <html lang="en">
       <body className={style['page-layout']}>
         <header className={style['header-component']}>
-          <div className={style['logo']}>LOGO</div>
+          <Link className={style['logo']} href={{ pathname: PAGE_PATH.TOP }}>
+            LOGO
+          </Link>
           <ul className={style['menu']}>
             <li className={style['item']}>Events</li>
             <li className={style['item']}>Mypage</li>

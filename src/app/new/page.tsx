@@ -18,10 +18,10 @@ const EventEdit: NextPage = () => {
   };
 
   return (
-    <>
+    <div className={style['page-component']}>
       <h1 className={style['title']}>イベントを作成</h1>
       <EventEditContainer handleSubmit={handleSubmit} />
-    </>
+    </div>
   );
 };
 

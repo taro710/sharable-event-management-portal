@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react';
 import { eventAtom } from '@/atoms/eventAtom';
 import DialogOverviewEdit from '@/components/presentations/Dialog/DialogOverviewEdit';
 import IconEdit from '@/components/presentations/Icon/IconEdit';
+import { PAGE_PATH } from '@/constants/pathname';
 import { useEvent } from '@/hooks/useEvent';
 import { useResponsive } from '@/hooks/useResponsive';
 
@@ -34,7 +35,7 @@ const SubPanel = ({ isOpen = true }: Props) => {
 
   const handleClickEdit = () => {
     if (isSp) {
-      router.push(`/edit`);
+      router.push(PAGE_PATH.EDIT_EVENT(eventId));
       return;
     }
     setIsDialogOpen(true);
