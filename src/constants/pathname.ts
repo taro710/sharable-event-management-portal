@@ -1,5 +1,5 @@
 export const PAGE_PATH = {
-  TOPw: '/',
+  TOP: '/',
   NEW_EVENT: '/new',
   EDIT_EVENT: (eventId: string) => `/edit/${eventId}`,
   ITEM: (eventId: string) => `/${eventId}/item`,
