@@ -29,7 +29,7 @@ const EventEditContainer = ({
   });
 
   const [inputtedMemberName, setInputtedMemberName] = useState<string>('');
-  const [members, setMembers] = useState<string[]>([]);
+  const [members, setMembers] = useState<string[]>(event?.members || []);
 
   const handleAddMember = () => {
     if (inputtedMemberName === '') return;
