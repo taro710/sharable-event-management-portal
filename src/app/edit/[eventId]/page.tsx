@@ -36,7 +36,6 @@ const EventEdit: NextPage = () => {
 
   return (
     <div className={style['page-component']}>
-      <h1 className={style['title']}>イベントを編集</h1>
       <EventEditContainer
         event={event}
         handleSubmit={handleSubmit}

@@ -1,9 +1,21 @@
 @import '/src/assets/styles/resources';
 
 .page-component {
-  > .title {
-    padding: 24px 0;
-    font-size: 24px;
-    font-weight: bold;
+  width: calc($content-width-pc / 2);
+  padding: 32px;
+  margin: 0 auto;
+  border-radius: 20px;
+  box-shadow:
+    6px 6px 15px 0 rgb(204 204 204 / 90%),
+    -6px -6px 12px 0 rgb(255 255 255 / 90%),
+    6px -6px 12px 0 rgb(204 204 204 / 20%),
+    -6px 6px 12px 0 rgb(204 204 204 / 20%),
+    -1px -1px 2px 0 rgb(204 204 204 / 50%) inset,
+    1px 1px 2px 0 rgb(255 255 255 / 30%) inset;
+}
+
+@include media-query-sp {
+  .page-component {
+    width: 100%;
   }
 }

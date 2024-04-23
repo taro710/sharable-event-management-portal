@@ -63,6 +63,10 @@
       display: flex;
       gap: 8px;
       align-items: flex-end;
+
+      > .submit {
+        width: 72px;
+      }
     }
 
     > .action {
@@ -72,6 +76,7 @@
     }
 
     > .submit {
+      width: 160px;
       margin: 24px auto;
     }
   }

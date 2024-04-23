@@ -55,15 +55,18 @@ const EventEditContainer = ({
       )}>
       <div className={style['body']}>
         <div className={style['form']}>
-          <Input label="イベント名" {...register('eventName')} />
+          <Input label="イベント名" isRequired {...register('eventName')} />
           <div className={style['member-field']}>
             <div className={style['member']}>
               <Input
                 label="メンバー"
+                isRequired
                 value={inputtedMemberName}
                 onChange={(e) => setInputtedMemberName(e.target.value)}
               />
-              <Button text="追加" onClick={handleAddMember} />
+              <div className={style['submit']}>
+                <Button text="追加" onClick={handleAddMember} />
+              </div>
             </div>
             <ul className={style['list']}>
               {members.map((member, i) => (

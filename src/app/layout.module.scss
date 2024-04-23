@@ -1,7 +1,14 @@
 @import '/src/assets/styles/resources';
 
+.page-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
 .header-component {
   display: flex;
+  flex-shrink: 0;
   align-items: center;
   height: $header-height-pc;
   padding: 0 32px;
@@ -42,7 +49,7 @@
   padding: 0 32px;
 
   > .content {
-    width: 1200px;
+    width: $content-width-pc;
     height: auto;
     padding: 8px 0 32px;
   }

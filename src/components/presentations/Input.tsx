@@ -6,14 +6,18 @@ import style from './Input.module.scss';
 
 type Props = JSX.IntrinsicElements['input'] & {
   label: string;
+  isRequired?: boolean;
 };
 
 const Input = forwardRef<HTMLInputElement, Props>((props: Props, ref) => {
-  const { label, ...inputProps } = props;
+  const { label, isRequired, ...inputProps } = props;
 
   return (
     <div className={style['input-component']}>
-      <label className={style['caption']}>{label}</label>
+      <label className={style['caption']}>
+        {label}
+        {isRequired && <span className={style['required']}>*</span>}
+      </label>
       <input {...inputProps} className={style['input']} ref={ref} />
     </div>
   );

@@ -13,7 +13,7 @@
     align-items: center;
     height: 28px;
     padding: 0 12px;
-    font-size: 14px;
+    font-size: $small-text;
     color: $white;
     cursor: pointer;
     background-color: $gray-400;
@@ -24,7 +24,15 @@
     background-color: $purple-400;
   }
 
-  &:hover {
-    opacity: 1;
+  > .hidden + .visible:hover {
+    opacity: 0.8;
+  }
+}
+
+@include media-query-sp {
+  .checkbox-component {
+    > .hidden + .visible:hover {
+      opacity: 1;
+    }
   }
 }

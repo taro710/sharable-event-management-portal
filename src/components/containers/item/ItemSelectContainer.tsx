@@ -152,7 +152,9 @@ const ItemSelectContainer = ({
               value={value}
               onChange={(e) => setValue(e.target.value)}
             />
-            <Button text="追加" onClick={addValue} />
+            <div className={style['submit']}>
+              <Button text="追加" onClick={addValue} />
+            </div>
           </div>
 
           <div className={style['submit']}>
