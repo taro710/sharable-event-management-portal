@@ -8,7 +8,7 @@ import { eventAtom } from '@/atoms/eventAtom';
 import Button from '@/components/presentations/Button';
 import SelectBox from '@/components/presentations/Form/SelectBox';
 import IconClose from '@/components/presentations/Icon/IconClose';
-import TextArea from '@/components/presentations/TextArea';
+import TextArea from '@/components/presentations/Form/TextArea';
 import { MemoData } from '@/hooks/pages/useMemoPage';
 
 import style from './MemoAddingContainer.module.scss';

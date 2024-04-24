@@ -6,8 +6,8 @@ import { useForm } from 'react-hook-form';
 
 import Button from '@/components/presentations/Button';
 import CheckboxTag from '@/components/presentations/CheckboxTag';
+import TextArea from '@/components/presentations/Form/TextArea';
 import Input from '@/components/presentations/Input';
-import TextArea from '@/components/presentations/TextArea';
 import { EventData } from '@/hooks/useEvent';
 
 import style from './EventEditContainer.module.scss';
