@@ -1,9 +1,11 @@
 'use client';
 
+import { useAtom } from 'jotai';
 import Linkify from 'linkify-react';
 import { NextPage } from 'next';
 import { useEffect, useRef, useState } from 'react';
 
+import { memoAtom } from '@/atoms/memoAtom';
 import MemoAddingContainer from '@/components/containers/memo/MemoAddingContainer';
 import MemoEditContainer from '@/components/containers/memo/MemoEditContainer';
 import DialogMemoAdding from '@/components/presentations/Dialog/DialogMemoAdding';
@@ -21,18 +23,8 @@ const DashBoard: NextPage = () => {
   const [isAddDialogOpen, setIsAddDialogOpen] = useState<boolean>(false);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState<boolean>(false);
 
-  const [memoData, setMemoData] = useState<MemoData[]>([]);
-  const { getMemoList, addMemo, updateMemo, deleteMemo } =
-    useMemoPage(memoData);
-
-  // TODO:
-  useEffect(() => {
-    (async () => {
-      const data = await getMemoList();
-      if (data === undefined) return;
-      setMemoData(data);
-    })();
-  }, []);
+  const [memo, setMemo] = useAtom(memoAtom);
+  const { addMemo, updateMemo, deleteMemo } = useMemoPage(memo);
 
   const [editingMemo, setEditingMemo] = useState<MemoData>();
   useEffect(() => {
@@ -75,7 +67,7 @@ const DashBoard: NextPage = () => {
     <>
       <div className={style['page-component']} ref={ref}>
         <FadeIn className={style['memo-panel']}>
-          {memoData.map(({ member, memo, memoId }) => (
+          {memo.map(({ member, memo, memoId }) => (
             <div className={style['memo']} key={memoId}>
               <div className={style['header']}>
                 <p className={style['member']}>{member}</p>
@@ -85,7 +77,7 @@ const DashBoard: NextPage = () => {
                   <IconEdit />
                 </div>
               </div>
-              <p className={style['text']}>
+              <div className={style['text']}>
                 <Linkify
                   as={'p'}
                   options={{
@@ -96,7 +88,7 @@ const DashBoard: NextPage = () => {
                   }}>
                   {memo}
                 </Linkify>
-              </p>
+              </div>
             </div>
           ))}
         </FadeIn>
@@ -108,7 +100,7 @@ const DashBoard: NextPage = () => {
               handleSubmit={async (memo) => {
                 const result = await addMemo(memo);
                 if (!result) return;
-                setMemoData(result);
+                setMemo(result);
                 closeAddPanel();
               }}
             />
@@ -120,13 +112,13 @@ const DashBoard: NextPage = () => {
               handleDelete={async (memoId) => {
                 const result = await deleteMemo(memoId);
                 if (!result) return;
-                setMemoData(result);
+                setMemo(result);
                 closeEditPanel();
               }}
               handleSubmit={async (memo) => {
                 const result = await updateMemo(memo);
                 if (!result) return;
-                setMemoData(result);
+                setMemo(result);
                 closeEditPanel();
               }}
             />
@@ -148,7 +140,7 @@ const DashBoard: NextPage = () => {
           handleSubmit={async (memo) => {
             const result = await addMemo(memo);
             if (!result) return;
-            setMemoData(result);
+            setMemo(result);
             closeAddPanel();
           }}
         />
@@ -161,13 +153,13 @@ const DashBoard: NextPage = () => {
           handleDelete={async (memoId) => {
             const result = await deleteMemo(memoId);
             if (!result) return;
-            setMemoData(result);
+            setMemo(result);
             closeEditPanel();
           }}
           handleSubmit={async (memo) => {
             const result = await updateMemo(memo);
             if (!result) return;
-            setMemoData(result);
+            setMemo(result);
             closeEditPanel();
           }}
         />

@@ -2,7 +2,7 @@
 
 import { useAtom } from 'jotai';
 import { NextPage } from 'next';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 
 import { eventAtom } from '@/atoms/eventAtom';
 import { bringListAtom, itemAtom } from '@/atoms/itemAtom';
@@ -33,18 +33,7 @@ const DashBoard: NextPage = () => {
   const [, setItems] = useAtom(itemAtom);
 
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
-  const { getItemList, updateItem, updateItemMaster, getItemMaster } =
-    useItemPage();
-
-  // TODO:
-  useEffect(() => {
-    (async () => {
-      const data = await getItemList();
-      console.log(data);
-      if (data === undefined) return;
-      setData(data);
-    })();
-  }, []);
+  const { updateItem, updateItemMaster, getItemMaster } = useItemPage();
 
   const ref = useRef<HTMLDivElement>(null);
 

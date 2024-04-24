@@ -1,10 +1,12 @@
 'use client';
 
+import { useAtom } from 'jotai';
 import { NextPage } from 'next';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 
+import { expenseAtom } from '@/atoms/expenseAtom';
 import ExpenseAddingContainer from '@/components/containers/expense/ExpenseAddingContainer';
 import ExpenseEditContainer from '@/components/containers/expense/ExpenseEditContainer';
 import CardExpense from '@/components/presentations/CardExpense';
@@ -21,23 +23,13 @@ const DashBoard: NextPage = () => {
   const { isSp } = useResponsive();
   const eventId = useParams()?.eventId as string;
 
-  const [expenses, setExpenses] = useState<ExpenseData[]>([]);
+  const [expenses, setExpenses] = useAtom(expenseAtom);
   const [editingExpense, setEditingExpense] = useState<ExpenseData>();
 
   const [isAddDialogOpen, setIsAddDialogOpen] = useState<boolean>(false);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState<boolean>(false);
 
-  const { addExpense, updateExpense, getExpenseList, deleteExpense } =
-    useExpensePage(expenses);
-
-  // TODO:
-  useEffect(() => {
-    (async () => {
-      const data = await getExpenseList();
-      if (data === undefined) return;
-      setExpenses(data);
-    })();
-  }, []);
+  const { addExpense, updateExpense, deleteExpense } = useExpensePage(expenses);
 
   const ref = useRef<HTMLDivElement>(null);
   const openAddPanel = () => {
