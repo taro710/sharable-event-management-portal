@@ -1,6 +1,5 @@
 'use client';
 
-import clsx from 'clsx';
 import { useAtom } from 'jotai';
 import { useState } from 'react';
 
@@ -8,8 +7,10 @@ import { eventAtom } from '@/atoms/eventAtom';
 import Button from '@/components/presentations/Button';
 import SelectBox from '@/components/presentations/Form/SelectBox';
 import TextArea from '@/components/presentations/Form/TextArea';
+import IconArrow from '@/components/presentations/Icon/IconArrow';
 import IconClose from '@/components/presentations/Icon/IconClose';
 import { MemoData } from '@/hooks/pages/useMemoPage';
+import { useResponsive } from '@/hooks/useResponsive';
 
 import style from './MemoAddingContainer.module.scss';
 
@@ -19,22 +20,17 @@ type Props = {
 };
 
 const MemoAddingContainer = ({ handleSubmit, close }: Props) => {
-  const [isOpenNoticePanel] = useState(false);
+  const { isSp } = useResponsive();
   const [event] = useAtom(eventAtom);
 
   const [memo, setMemo] = useState<string>('');
   const [author, setAuthor] = useState<string>(event?.members[0] || '');
 
   return (
-    <div
-      className={clsx(
-        style['dialog-content'],
-        isOpenNoticePanel && style['-disabled'],
-      )}>
+    <div className={style['dialog-content']}>
       <div className={style['header']}>
-        <p className={style['title']}>メモを追加</p>
         <div className={style['icon']} onClick={close}>
-          <IconClose />
+          {isSp ? <IconArrow /> : <IconClose />}
         </div>
       </div>
       <div className={style['body']}>
@@ -56,14 +52,20 @@ const MemoAddingContainer = ({ handleSubmit, close }: Props) => {
           label="メモ"
           value={memo}
           onChange={(e) => {
+            const value = e.target.value;
+            if (value.length > 1000) {
+              setMemo(value.slice(0, 1000));
+              return;
+            }
             setMemo(e.target.value);
           }}
         />
 
         <div className={style['footer']}>
-          <p className={style['text']}>残り1000文字</p>
+          <p className={style['text']}>{`${memo.length}/1000`}</p>
           <Button
-            text="確定"
+            text="追加"
+            width={120}
             onClick={() => handleSubmit({ member: author, memo })}
           />
         </div>

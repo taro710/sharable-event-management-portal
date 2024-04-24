@@ -43,6 +43,7 @@
       > .icon {
         width: 16px;
         height: 16px;
+        cursor: pointer;
         fill: none;
         stroke: $black;
       }
@@ -64,6 +65,7 @@
   width: 52px;
   height: 52px;
   padding: 12px;
+  cursor: pointer;
   background-color: $white;
   border-radius: 100px;
   box-shadow: 0 8px 16px 0 rgb(0 0 0 / 20%);

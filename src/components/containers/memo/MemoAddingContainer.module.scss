@@ -4,12 +4,6 @@
   > .header {
     display: flex;
 
-    > .title {
-      margin-bottom: 24px;
-      font-size: 24px;
-      font-weight: bold;
-    }
-
     > .icon {
       width: 24px;
       height: 24px;
@@ -26,13 +20,17 @@
 
     > .footer {
       display: flex;
-      gap: 12px;
+      gap: 24px;
       align-items: center;
       justify-content: flex-end;
 
       > .text {
         font-size: 14px;
         color: $gray-400;
+      }
+
+      > .delete {
+        margin-right: auto;
       }
     }
   }
@@ -42,8 +40,22 @@
     top: 0;
     left: 0;
     width: 100vw;
-    height: 100dvh;
+    height: 100vh;
     content: '';
     background-color: rgb(0 0 0 / 50%);
+  }
+}
+
+@include media-query-sp {
+  .dialog-content {
+    > .header {
+      margin-bottom: 24px;
+
+      > .icon {
+        margin-left: 0;
+        fill: $black;
+        stroke: $black;
+      }
+    }
   }
 }

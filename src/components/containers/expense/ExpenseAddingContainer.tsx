@@ -8,8 +8,10 @@ import Button from '@/components/presentations/Button';
 import CheckboxTag from '@/components/presentations/CheckboxTag';
 import Input from '@/components/presentations/Form/Input';
 import SelectBox from '@/components/presentations/Form/SelectBox';
+import IconArrow from '@/components/presentations/Icon/IconArrow';
 import IconClose from '@/components/presentations/Icon/IconClose';
 import { ExpenseData } from '@/hooks/pages/useExpensePage';
+import { useResponsive } from '@/hooks/useResponsive';
 
 import style from './ExpenseAddingContainer.module.scss';
 
@@ -19,6 +21,7 @@ type Props = {
 };
 
 const ExpenseAddingContainer = ({ handleSubmit: onSubmit, close }: Props) => {
+  const { isSp } = useResponsive();
   const [event] = useAtom(eventAtom);
   const members = event?.members || [];
 
@@ -29,9 +32,8 @@ const ExpenseAddingContainer = ({ handleSubmit: onSubmit, close }: Props) => {
   return (
     <div className={style['dialog-content']}>
       <div className={style['header']}>
-        <p className={style['title']}>支払い記録を追加</p>
         <div className={style['icon']} onClick={close}>
-          <IconClose />
+          {isSp ? <IconArrow /> : <IconClose />}
         </div>
       </div>
       <div className={style['body']}>
@@ -39,7 +41,7 @@ const ExpenseAddingContainer = ({ handleSubmit: onSubmit, close }: Props) => {
         <div className={style['price']}>
           <Input
             label="金額"
-            type="tel"
+            type={`${isSp ? 'tel' : 'number'}`}
             {...register('price', { valueAsNumber: true })}
           />
           <span className={style['unit']}>円</span>
@@ -65,7 +67,14 @@ const ExpenseAddingContainer = ({ handleSubmit: onSubmit, close }: Props) => {
             ))}
           </div>
         </div>
-        <Button text="追加" type="primary" onClick={handleSubmit(onSubmit)} />
+        <div className={style['footer']}>
+          <Button
+            text="追加"
+            width={120}
+            type="primary"
+            onClick={handleSubmit(onSubmit)}
+          />
+        </div>
       </div>
     </div>
   );

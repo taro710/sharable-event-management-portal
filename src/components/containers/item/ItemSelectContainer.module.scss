@@ -6,12 +6,6 @@
   > .header {
     display: flex;
 
-    > .title {
-      margin-bottom: 24px;
-      font-size: 24px;
-      font-weight: bold;
-    }
-
     > .icon {
       width: 24px;
       height: 24px;
@@ -74,11 +68,14 @@
       gap: 12px;
       justify-content: center;
     }
+  }
 
-    > .submit {
-      width: 160px;
-      margin: 24px auto;
-    }
+  > .footer {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    justify-content: flex-end;
+    margin-top: 24px;
   }
 
   &.-disabled::after {
@@ -86,7 +83,7 @@
     top: 0;
     left: 0;
     width: 100vw;
-    height: 100dvh;
+    height: 100vh;
     content: '';
     background-color: rgb(0 0 0 / 50%);
   }
@@ -94,12 +91,22 @@
 
 @include media-query-sp {
   .dialog-content {
+    > .header {
+      margin-bottom: 24px;
+
+      > .icon {
+        margin-left: 0;
+        fill: $black;
+        stroke: $black;
+      }
+    }
+
     &.-disabled::after {
       position: fixed;
       top: 0;
       left: 50%; // TODO:
       width: 100vw;
-      height: 100dvh;
+      height: 100vh;
       content: '';
       background-color: rgb(0 0 0 / 50%);
     }

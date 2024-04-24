@@ -8,10 +8,12 @@ import { bringListAtom, itemAtom } from '@/atoms/itemAtom';
 import Button from '@/components/presentations/Button';
 import CheckboxTag from '@/components/presentations/CheckboxTag';
 import Input from '@/components/presentations/Form/Input';
+import IconArrow from '@/components/presentations/Icon/IconArrow';
 import IconClose from '@/components/presentations/Icon/IconClose';
 import IconEdit from '@/components/presentations/Icon/IconEdit';
 import IconRemove from '@/components/presentations/Icon/IconRemove';
 import { Data } from '@/hooks/pages/useItemPage';
+import { useResponsive } from '@/hooks/useResponsive';
 
 import style from './ItemSelectContainer.module.scss';
 
@@ -30,6 +32,7 @@ const ItemSelectContainer = ({
   handleSubmit,
   close,
 }: Props) => {
+  const { isSp } = useResponsive();
   const [items, setItems] = useAtom(itemAtom);
   const [selectedItem, setSelectedItem] = useState<string[]>(selectedItems);
   const [value, setValue] = useState<string>('');
@@ -69,14 +72,13 @@ const ItemSelectContainer = ({
           isOpenNoticePanel && style['-disabled'],
         )}>
         <div className={style['header']}>
-          <p className={style['title']}>アイテムを選択</p>
           <div
             className={style['icon']}
             onClick={() => {
               setSelectedItem(selectedItems);
               close();
             }}>
-            <IconClose />
+            {isSp ? <IconArrow /> : <IconClose />}
           </div>
         </div>
         <div className={style['body']}>
@@ -126,6 +128,7 @@ const ItemSelectContainer = ({
             <div className={style['action']}>
               <Button
                 text="確定"
+                width={80}
                 onClick={() => {
                   if (removedItem.length === 0) {
                     setIsEditMode(false);
@@ -137,6 +140,7 @@ const ItemSelectContainer = ({
               <Button
                 text="キャンセル"
                 type="secondary"
+                width={80}
                 onClick={() => {
                   setTmpItem(items);
                   setIsEditMode(false);
@@ -156,17 +160,17 @@ const ItemSelectContainer = ({
               <Button text="追加" onClick={addValue} />
             </div>
           </div>
-
-          <div className={style['submit']}>
-            <Button
-              text="確定"
-              onClick={() => {
-                handleSubmit(selectedItem);
-                close();
-                setValue('');
-              }}
-            />
-          </div>
+        </div>
+        <div className={style['footer']}>
+          <Button
+            text="確定"
+            width={120}
+            onClick={() => {
+              handleSubmit(selectedItem);
+              close();
+              setValue('');
+            }}
+          />
         </div>
       </div>
       {isOpenNoticePanel && (

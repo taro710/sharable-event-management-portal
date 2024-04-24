@@ -8,8 +8,10 @@ import { eventAtom } from '@/atoms/eventAtom';
 import Button from '@/components/presentations/Button';
 import SelectBox from '@/components/presentations/Form/SelectBox';
 import TextArea from '@/components/presentations/Form/TextArea';
+import IconArrow from '@/components/presentations/Icon/IconArrow';
 import IconClose from '@/components/presentations/Icon/IconClose';
 import { MemoData } from '@/hooks/pages/useMemoPage';
+import { useResponsive } from '@/hooks/useResponsive';
 
 import style from './MemoAddingContainer.module.scss';
 type Props = {
@@ -25,6 +27,7 @@ const MemoEditContainer = ({
   handleDelete,
   close,
 }: Props) => {
+  const { isSp } = useResponsive();
   const [isOpenNoticePanel] = useState(false);
   const [event] = useAtom(eventAtom);
   const [memo, setMemo] = useState<string>(memoData.memo);
@@ -37,9 +40,8 @@ const MemoEditContainer = ({
         isOpenNoticePanel && style['-disabled'],
       )}>
       <div className={style['header']}>
-        <p className={style['title']}>メモを編集</p>
         <div className={style['icon']} onClick={close}>
-          <IconClose />
+          {isSp ? <IconArrow /> : <IconClose />}
         </div>
       </div>
       <div className={style['body']}>
@@ -61,19 +63,28 @@ const MemoEditContainer = ({
           label="メモ"
           value={memo}
           onChange={(e) => {
+            const value = e.target.value;
+            if (value.length > 1000) {
+              setMemo(value.slice(0, 1000));
+              return;
+            }
             setMemo(e.target.value);
           }}
         />
 
         <div className={style['footer']}>
-          <Button
-            text="メモを削除"
-            type="secondary"
-            onClick={() => handleDelete(memoData.memoId)}
-          />
-          <p className={style['text']}>残り1000文字</p>
+          <div className={style['delete']}>
+            <Button
+              text="メモを削除"
+              type="secondary"
+              isAlert
+              onClick={() => handleDelete(memoData.memoId)}
+            />
+          </div>
+          <p className={style['text']}>{`${memo.length}/1000`}</p>
           <Button
             text="確定"
+            width={120}
             onClick={() =>
               handleSubmit({ member: author, memo, memoId: memoData.memoId })
             }

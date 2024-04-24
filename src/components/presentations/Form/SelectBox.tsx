@@ -2,7 +2,7 @@
 
 import { forwardRef } from 'react';
 
-import IconArrow from '@/components/presentations/Icon/IconArrowBottom';
+import IconDirection from '@/components/presentations/Icon/IconDirection';
 
 import style from './SelectBox.module.scss';
 
@@ -21,7 +21,7 @@ const SelectBox = forwardRef<HTMLSelectElement, Props>((props: Props, ref) => {
         {children}
       </select>
       <span className={style['icon']}>
-        <IconArrow />
+        <IconDirection />
       </span>
     </div>
   );

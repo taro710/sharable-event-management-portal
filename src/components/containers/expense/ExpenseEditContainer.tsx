@@ -8,8 +8,10 @@ import Button from '@/components/presentations/Button';
 import CheckboxTag from '@/components/presentations/CheckboxTag';
 import Input from '@/components/presentations/Form/Input';
 import SelectBox from '@/components/presentations/Form/SelectBox';
+import IconArrow from '@/components/presentations/Icon/IconArrow';
 import IconClose from '@/components/presentations/Icon/IconClose';
 import { ExpenseData } from '@/hooks/pages/useExpensePage';
+import { useResponsive } from '@/hooks/useResponsive';
 
 import style from './ExpenseAddingContainer.module.scss';
 
@@ -26,6 +28,7 @@ const ExpenseEditContainer = ({
   defaultExpense,
   deleteExpense,
 }: Props) => {
+  const { isSp } = useResponsive();
   const [event] = useAtom(eventAtom);
 
   const members = event?.members || [];
@@ -37,9 +40,8 @@ const ExpenseEditContainer = ({
   return (
     <div className={style['dialog-content']}>
       <div className={style['header']}>
-        <p className={style['title']}>支払い記録を変更</p>
         <div className={style['icon']} onClick={close}>
-          <IconClose />
+          {isSp ? <IconArrow /> : <IconClose />}
         </div>
       </div>
       <div className={style['body']}>
@@ -47,7 +49,7 @@ const ExpenseEditContainer = ({
         <div className={style['price']}>
           <Input
             label="金額"
-            type="tel"
+            type={`${isSp ? 'tel' : 'number'}`}
             {...register('price', { valueAsNumber: true })}
           />
           <span className={style['unit']}>円</span>
@@ -73,12 +75,22 @@ const ExpenseEditContainer = ({
             ))}
           </div>
         </div>
-        <Button
-          text="支払い記録を削除"
-          type="secondary"
-          onClick={() => deleteExpense(defaultExpense.expenseId)}
-        />
-        <Button text="追加" type="primary" onClick={handleSubmit(onSubmit)} />
+
+        <div className={style['footer']}>
+          <Button
+            text="支払い記録を削除"
+            width={160}
+            type="secondary"
+            isAlert
+            onClick={() => deleteExpense(defaultExpense.expenseId)}
+          />
+          <Button
+            text="確定"
+            width={120}
+            type="primary"
+            onClick={handleSubmit(onSubmit)}
+          />
+        </div>
       </div>
     </div>
   );

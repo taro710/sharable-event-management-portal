@@ -17,9 +17,14 @@
   transition: all 0.3s;
 
   &.-secondary {
+    padding: 0;
     color: $black;
     background-color: transparent;
     box-shadow: none;
+  }
+
+  &.-alert {
+    color: $red;
   }
 
   &:hover {
