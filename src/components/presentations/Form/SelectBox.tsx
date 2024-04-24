@@ -2,6 +2,8 @@
 
 import { forwardRef } from 'react';
 
+import IconArrow from '@/components/presentations/Icon/IconArrowBottom';
+
 import style from './SelectBox.module.scss';
 
 type Props = JSX.IntrinsicElements['select'] & {
@@ -18,6 +20,9 @@ const SelectBox = forwardRef<HTMLSelectElement, Props>((props: Props, ref) => {
       <select {...inputProps} className={style['select']} ref={ref}>
         {children}
       </select>
+      <span className={style['icon']}>
+        <IconArrow />
+      </span>
     </div>
   );
 });

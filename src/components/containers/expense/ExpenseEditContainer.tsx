@@ -47,7 +47,7 @@ const ExpenseEditContainer = ({
         <div className={style['price']}>
           <Input
             label="金額"
-            type="number"
+            type="tel"
             {...register('price', { valueAsNumber: true })}
           />
           <span className={style['unit']}>円</span>

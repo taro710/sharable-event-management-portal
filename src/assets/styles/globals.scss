@@ -59,6 +59,7 @@ select {
   padding: 0;
   font: inherit;
   color: $black;
+  appearance: none;
 
   &:focus {
     outline: none;
