@@ -7,10 +7,10 @@ import { useCallback, useEffect, useState } from 'react';
 import { bringListAtom, itemAtom } from '@/atoms/itemAtom';
 import Button from '@/components/presentations/Button';
 import CheckboxTag from '@/components/presentations/CheckboxTag';
+import Input from '@/components/presentations/Form/Input';
 import IconClose from '@/components/presentations/Icon/IconClose';
 import IconEdit from '@/components/presentations/Icon/IconEdit';
 import IconRemove from '@/components/presentations/Icon/IconRemove';
-import Input from '@/components/presentations/Input';
 import { Data } from '@/hooks/pages/useItemPage';
 
 import style from './ItemSelectContainer.module.scss';

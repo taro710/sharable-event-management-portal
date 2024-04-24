@@ -6,9 +6,9 @@ import { useForm } from 'react-hook-form';
 import { eventAtom } from '@/atoms/eventAtom';
 import Button from '@/components/presentations/Button';
 import CheckboxTag from '@/components/presentations/CheckboxTag';
+import Input from '@/components/presentations/Form/Input';
 import SelectBox from '@/components/presentations/Form/SelectBox';
 import IconClose from '@/components/presentations/Icon/IconClose';
-import Input from '@/components/presentations/Input';
 import { ExpenseData } from '@/hooks/pages/useExpensePage';
 
 import style from './ExpenseAddingContainer.module.scss';
