@@ -2,7 +2,7 @@
 
 import { useAtom } from 'jotai';
 import { useParams, useRouter } from 'next/navigation';
-import { MouseEvent, useEffect, useState } from 'react';
+import { MouseEvent, useState } from 'react';
 
 import { eventAtom } from '@/atoms/eventAtom';
 import DialogOverviewEdit from '@/components/presentations/Dialog/DialogOverviewEdit';
@@ -21,16 +21,9 @@ const SubPanel = ({ isOpen = true, setIsOpen }: Props) => {
   const { isSp } = useResponsive();
   const router = useRouter();
   const eventId = useParams()?.eventId as string;
-  const { getEvent, updateEvent } = useEvent(eventId);
+  const [event] = useAtom(eventAtom);
 
-  const [event, setEvent] = useAtom(eventAtom);
-  useEffect(() => {
-    (async () => {
-      const data = await getEvent();
-      if (data === undefined) return;
-      setEvent(data);
-    })();
-  }, []);
+  const { updateEvent } = useEvent(eventId);
 
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
 
@@ -115,7 +108,10 @@ const SubPanel = ({ isOpen = true, setIsOpen }: Props) => {
       <DialogOverviewEdit
         isOpen={isDialogOpen}
         closeDialog={() => setIsDialogOpen(false)}
-        handleSubmit={updateEvent}
+        handleSubmit={async (event) => {
+          await updateEvent(event);
+          setIsDialogOpen(false);
+        }}
       />
     </>
   );

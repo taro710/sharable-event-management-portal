@@ -2,7 +2,7 @@
 
 import EventEditContainer from '@/components/containers/event/EventEditContainer';
 import DialogWrapper from '@/components/presentations/Dialog/DialogWrapper';
-import { EventData } from '@/hooks/useEvent';
+import { EventData } from '@/domain/event';
 
 type Props = {
   isOpen: boolean;

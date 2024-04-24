@@ -2,8 +2,10 @@
 
 import clsx from 'clsx';
 import { useAtom } from 'jotai';
+import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
+import { eventAtom } from '@/atoms/eventAtom';
 import { expenseAtom } from '@/atoms/expenseAtom';
 import { bringListAtom } from '@/atoms/itemAtom';
 import { memoAtom } from '@/atoms/memoAtom';
@@ -14,6 +16,7 @@ import Tab from '@/components/presentations/Tab';
 import { useExpensePage } from '@/hooks/pages/useExpensePage';
 import { useItemPage } from '@/hooks/pages/useItemPage';
 import { useMemoPage } from '@/hooks/pages/useMemoPage';
+import { useEvent } from '@/hooks/useEvent';
 import { useResponsive } from '@/hooks/useResponsive';
 
 import style from './layout.module.scss';
@@ -21,6 +24,7 @@ import style from './layout.module.scss';
 const PageLayout = ({ children }: { children: React.ReactNode }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const { isSp } = useResponsive();
+  const eventId = useParams()?.eventId as string;
 
   const onClick = () => {
     if (!isSp) return;
@@ -61,6 +65,17 @@ const PageLayout = ({ children }: { children: React.ReactNode }) => {
       const data = await getExpenseList();
       if (data === undefined) return;
       setExpenses(data);
+    })();
+  }, []);
+
+  const { getEvent } = useEvent(eventId);
+
+  const [, setEvent] = useAtom(eventAtom);
+  useEffect(() => {
+    (async () => {
+      const data = await getEvent();
+      if (data === undefined) return;
+      setEvent(data);
     })();
   }, []);
 

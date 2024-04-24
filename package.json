@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@headlessui/react": "^1.7.18",
+    "@hookform/resolvers": "^3.3.4",
     "clsx": "^2.0.0",
     "firebase": "^10.10.0",
     "formik": "^2.4.5",
@@ -26,7 +27,8 @@
     "react-hook-form": "^7.51.2",
     "react-responsive": "^9.0.2",
     "reset-css": "^5.0.2",
-    "uuid": "^9.0.1"
+    "uuid": "^9.0.1",
+    "yup": "^1.4.0"
   },
   "devDependencies": {
     "@types/jest": "^29.5.11",

@@ -1,6 +1,6 @@
 import { atom } from 'jotai';
 
-import { EventData } from '@/hooks/useEvent';
+import { EventData } from '@/domain/event';
 
 export const eventAtom = atom<EventData | undefined>(undefined);
 

@@ -1,31 +1,41 @@
 'use client';
 
+import { yupResolver } from '@hookform/resolvers/yup';
 import clsx from 'clsx';
+import { useAtom } from 'jotai';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
+import { eventAtom } from '@/atoms/eventAtom';
 import Button from '@/components/presentations/Button';
 import CheckboxTag from '@/components/presentations/CheckboxTag';
 import Input from '@/components/presentations/Form/Input';
 import TextArea from '@/components/presentations/Form/TextArea';
-import { EventData } from '@/hooks/useEvent';
+import { EventData, eventFormSchema } from '@/domain/event';
 
 import style from './EventEditContainer.module.scss';
 
 type Props = {
-  event?: EventData;
   handleSubmit: (data: EventData) => Promise<void>;
   handleCancel?: () => void;
 };
 const EventEditContainer = ({
-  event,
   handleSubmit: onSubmit,
   handleCancel,
 }: Props) => {
   const [isOpenNoticePanel] = useState<boolean>(false);
+  const [event] = useAtom(eventAtom);
 
-  const { register, handleSubmit, watch, setValue } = useForm<EventData>({
-    defaultValues: event,
+  const {
+    register,
+    handleSubmit,
+    watch,
+    clearErrors,
+    setValue,
+    formState: { errors },
+  } = useForm<EventData>({
+    defaultValues: { ...event, members: event?.members || [] },
+    resolver: yupResolver(eventFormSchema),
   });
 
   const [inputtedMemberName, setInputtedMemberName] = useState<string>('');
@@ -45,6 +55,7 @@ const EventEditContainer = ({
     setValue('members', [...currentMembersArray, inputtedMemberName]);
     setMembers(updatedMembers);
     setInputtedMemberName('');
+    clearErrors('members');
   };
 
   return (
@@ -55,12 +66,18 @@ const EventEditContainer = ({
       )}>
       <div className={style['body']}>
         <div className={style['form']}>
-          <Input label="イベント名" isRequired {...register('eventName')} />
+          <Input
+            label="イベント名"
+            isRequired
+            hasError={!!errors.eventName}
+            {...register('eventName')}
+          />
           <div className={style['member-field']}>
             <div className={style['member']}>
               <Input
                 label="メンバー"
                 isRequired
+                hasError={!!errors.members}
                 value={inputtedMemberName}
                 onChange={(e) => setInputtedMemberName(e.target.value)}
               />
@@ -96,12 +113,7 @@ const EventEditContainer = ({
         <div className={style['action']}>
           <Button
             text="確定"
-            onClick={handleSubmit(async (event) => {
-              const _members = Array.isArray(event.members) // TODO: 他に方法を探す
-                ? event?.members
-                : [event.members];
-              await onSubmit({ ...event, members: _members });
-            })}
+            onClick={handleSubmit(async (event) => await onSubmit(event))}
           />
           {handleCancel && (
             <Button text="キャンセル" type="secondary" onClick={handleCancel} />

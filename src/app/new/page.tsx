@@ -5,7 +5,8 @@ import { useRouter } from 'next/navigation';
 
 import EventEditContainer from '@/components/containers/event/EventEditContainer';
 import { PAGE_PATH } from '@/constants/pathname';
-import { EventData, useEvent } from '@/hooks/useEvent';
+import { EventData } from '@/domain/event';
+import { useEvent } from '@/hooks/useEvent';
 
 import style from './page.module.scss';
 

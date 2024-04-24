@@ -3,19 +3,8 @@ import { useAtom } from 'jotai';
 import { v4 } from 'uuid';
 
 import { eventAtom } from '@/atoms/eventAtom';
+import { EventData } from '@/domain/event';
 import { database } from '@/firebase';
-
-export type EventData = {
-  eventName: string;
-  members: string[];
-  meetingPlace?: string;
-  startDate?: string;
-  startTime?: string;
-  dissolutionPlace?: string;
-  endDate?: string;
-  endTime?: string;
-  message?: string;
-};
 
 export const useEvent = (eventId?: string) => {
   const [, setEvent] = useAtom(eventAtom);

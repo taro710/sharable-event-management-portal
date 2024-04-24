@@ -1,5 +1,6 @@
 'use client';
 
+import clsx from 'clsx';
 import { forwardRef } from 'react';
 
 import style from './Input.module.scss';
@@ -7,10 +8,11 @@ import style from './Input.module.scss';
 type Props = JSX.IntrinsicElements['input'] & {
   label: string;
   isRequired?: boolean;
+  hasError?: boolean;
 };
 
 const Input = forwardRef<HTMLInputElement, Props>((props: Props, ref) => {
-  const { label, isRequired, ...inputProps } = props;
+  const { label, isRequired, hasError, ...inputProps } = props;
 
   return (
     <div className={style['input-component']}>
@@ -18,7 +20,11 @@ const Input = forwardRef<HTMLInputElement, Props>((props: Props, ref) => {
         {label}
         {isRequired && <span className={style['required']}>*</span>}
       </label>
-      <input {...inputProps} className={style['input']} ref={ref} />
+      <input
+        {...inputProps}
+        className={clsx(style['input'], hasError && style['-error'])}
+        ref={ref}
+      />
     </div>
   );
 });
