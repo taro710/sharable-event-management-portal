@@ -54,7 +54,7 @@ const SubPanel = ({ isOpen = true, setIsOpen }: Props) => {
               className={style['header']}
               onClick={() => setIsOpen?.(!isOpen)}>
               <h1 className={style['title']}>{event.eventName}</h1>
-              {isOpen && isSp && (
+              {isOpen && (
                 <div className={style['icon']} onClick={handleClickEdit}>
                   <IconEdit />
                 </div>

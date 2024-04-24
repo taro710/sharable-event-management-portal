@@ -71,11 +71,13 @@ const PageLayout = ({ children }: { children: React.ReactNode }) => {
           isOpen={isSp ? isOpen : true}
           setIsOpen={isSp ? setIsOpen : undefined}
         />
-        <span
-          className={clsx(style['icon'], isOpen && style['-reverse'])}
-          onClick={onClick}>
-          <IconTriangle />
-        </span>
+        {isSp && (
+          <span
+            className={clsx(style['icon'], isOpen && style['-reverse'])}
+            onClick={onClick}>
+            <IconTriangle />
+          </span>
+        )}
       </div>
       <div className={style['main']}>
         <div className={style['tab']}>
