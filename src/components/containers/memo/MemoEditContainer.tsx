@@ -7,8 +7,8 @@ import { useState } from 'react';
 import { eventAtom } from '@/atoms/eventAtom';
 import Button from '@/components/presentations/Button';
 import SelectBox from '@/components/presentations/Form/SelectBox';
-import IconClose from '@/components/presentations/Icon/IconClose';
 import TextArea from '@/components/presentations/Form/TextArea';
+import IconClose from '@/components/presentations/Icon/IconClose';
 import { MemoData } from '@/hooks/pages/useMemoPage';
 
 import style from './MemoAddingContainer.module.scss';

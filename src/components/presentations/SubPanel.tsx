@@ -41,6 +41,7 @@ const SubPanel = ({ isOpen = true }: Props) => {
     setIsDialogOpen(true);
   };
 
+  console.log(event);
   if (event === undefined) return null; // TODO:
 
   return (

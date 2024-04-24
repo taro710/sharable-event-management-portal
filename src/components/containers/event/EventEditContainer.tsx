@@ -14,7 +14,7 @@ import style from './EventEditContainer.module.scss';
 
 type Props = {
   event?: EventData;
-  handleSubmit: (data: EventData) => void;
+  handleSubmit: (data: EventData) => Promise<void>;
   handleCancel?: () => void;
 };
 const EventEditContainer = ({
@@ -97,7 +97,10 @@ const EventEditContainer = ({
           <Button
             text="確定"
             onClick={handleSubmit(async (event) => {
-              await onSubmit(event);
+              const _members = Array.isArray(event.members) // TODO: 他に方法を探す
+                ? event?.members
+                : [event.members];
+              await onSubmit({ ...event, members: _members });
             })}
           />
           {handleCancel && (
