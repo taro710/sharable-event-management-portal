@@ -2,7 +2,7 @@
 
 import { useAtom } from 'jotai';
 import { useParams, useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { MouseEvent, useEffect, useState } from 'react';
 
 import { eventAtom } from '@/atoms/eventAtom';
 import DialogOverviewEdit from '@/components/presentations/Dialog/DialogOverviewEdit';
@@ -15,8 +15,9 @@ import style from './SubPanel.module.scss';
 
 type Props = {
   isOpen?: boolean;
+  setIsOpen?: (isOpen: boolean) => void;
 };
-const SubPanel = ({ isOpen = true }: Props) => {
+const SubPanel = ({ isOpen = true, setIsOpen }: Props) => {
   const { isSp } = useResponsive();
   const router = useRouter();
   const eventId = useParams()?.eventId as string;
@@ -33,7 +34,8 @@ const SubPanel = ({ isOpen = true }: Props) => {
 
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
 
-  const handleClickEdit = () => {
+  const handleClickEdit = (e: MouseEvent) => {
+    e.stopPropagation();
     if (isSp) {
       router.push(PAGE_PATH.EDIT_EVENT(eventId));
       return;
@@ -41,7 +43,6 @@ const SubPanel = ({ isOpen = true }: Props) => {
     setIsDialogOpen(true);
   };
 
-  console.log(event);
   if (event === undefined) return null; // TODO:
 
   return (
@@ -49,9 +50,11 @@ const SubPanel = ({ isOpen = true }: Props) => {
       <div className={style['sub-panel']}>
         <div className={style['body']}>
           <div className={style['body2']}>
-            <div className={style['header']}>
+            <div
+              className={style['header']}
+              onClick={() => setIsOpen?.(!isOpen)}>
               <h1 className={style['title']}>{event.eventName}</h1>
-              {isOpen && (
+              {isOpen && isSp && (
                 <div className={style['icon']} onClick={handleClickEdit}>
                   <IconEdit />
                 </div>

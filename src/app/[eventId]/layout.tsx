@@ -28,7 +28,10 @@ const PageLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <div className={style['page-component']}>
       <div className={clsx(style['sub'], isOpen && style['-open'])}>
-        <SubPanel isOpen={isSp ? isOpen : true} />
+        <SubPanel
+          isOpen={isSp ? isOpen : true}
+          setIsOpen={isSp ? setIsOpen : undefined}
+        />
         <span
           className={clsx(style['icon'], isOpen && style['-reverse'])}
           onClick={onClick}>
