@@ -1,4 +1,4 @@
-import { ExpenseData } from '@/hooks/pages/useExpensePage';
+import { ExpenseData } from '@/domain/expense';
 
 export const sample = (expenses: ExpenseData[]) => {
   const paidMemberNames = new Set(expenses.map((expense) => expense.payerName));

@@ -2,13 +2,13 @@
 
 import ExpenseEditContainer from '@/components/containers/expense/ExpenseEditContainer';
 import DialogWrapper from '@/components/presentations/Dialog/DialogWrapper';
-import { ExpenseData } from '@/hooks/pages/useExpensePage';
+import { ExpenseData } from '@/domain/expense';
 
 type Props = {
   isOpen: boolean;
   closeDialog: () => void;
   defaultExpense: ExpenseData;
-  deleteExpense: (expenseId: number) => void;
+  deleteExpense: (expenseId?: number) => void;
   handleSubmit: (expense: ExpenseData) => void;
 };
 const DialogExpenseEdit = ({

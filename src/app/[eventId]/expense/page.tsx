@@ -140,7 +140,7 @@ const DashBoard: NextPage = () => {
           isOpen={isEditDialogOpen}
           closeDialog={closeEditPanel}
           defaultExpense={editingExpense}
-          deleteExpense={async (expenseId: number) => {
+          deleteExpense={async (expenseId?: number) => {
             const result = await deleteExpense(expenseId);
             if (result === undefined) return;
             setExpenses(result);

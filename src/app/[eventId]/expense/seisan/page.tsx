@@ -8,7 +8,8 @@ import { useEffect, useState } from 'react';
 
 import { eventAtom } from '@/atoms/eventAtom';
 import FadeIn from '@/components/presentations/FadeIn';
-import { ExpenseData, useExpensePage } from '@/hooks/pages/useExpensePage';
+import { ExpenseData } from '@/domain/expense';
+import { useExpensePage } from '@/hooks/pages/useExpensePage';
 import { func } from '@/util/sample';
 
 import style from './page.module.scss';

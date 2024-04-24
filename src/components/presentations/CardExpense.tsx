@@ -1,6 +1,6 @@
 'use client';
 
-import { ExpenseData } from '@/hooks/pages/useExpensePage';
+import { ExpenseData } from '@/domain/expense';
 
 import style from './CardExpense.module.scss';
 

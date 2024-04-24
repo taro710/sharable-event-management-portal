@@ -2,7 +2,7 @@
 
 import ExpenseAddingContainer from '@/components/containers/expense/ExpenseAddingContainer';
 import DialogWrapper from '@/components/presentations/Dialog/DialogWrapper';
-import { ExpenseData } from '@/hooks/pages/useExpensePage';
+import { ExpenseData } from '@/domain/expense';
 
 type Props = {
   isOpen: boolean;
