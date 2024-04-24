@@ -16,15 +16,19 @@ import { EventData, eventFormSchema } from '@/domain/event';
 import style from './EventEditContainer.module.scss';
 
 type Props = {
+  mode?: 'edit' | 'new';
   handleSubmit: (data: EventData) => Promise<void>;
   handleCancel?: () => void;
 };
 const EventEditContainer = ({
+  mode = 'edit',
   handleSubmit: onSubmit,
   handleCancel,
 }: Props) => {
   const [isOpenNoticePanel] = useState<boolean>(false);
-  const [event] = useAtom(eventAtom);
+  const [_event] = useAtom(eventAtom);
+
+  const event = mode === 'new' ? undefined : _event;
 
   const {
     register,
@@ -34,7 +38,10 @@ const EventEditContainer = ({
     setValue,
     formState: { errors },
   } = useForm<EventData>({
-    defaultValues: { ...event, members: event?.members || [] },
+    defaultValues:
+      mode === 'new'
+        ? { members: [] }
+        : { ...event, members: event?.members || [] },
     resolver: yupResolver(eventFormSchema),
   });
 

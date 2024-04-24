@@ -22,7 +22,7 @@ const EventEdit: NextPage = () => {
 
   return (
     <div className={style['page-component']}>
-      <EventEditContainer handleSubmit={handleSubmit} />
+      <EventEditContainer mode="new" handleSubmit={handleSubmit} />
     </div>
   );
 };
