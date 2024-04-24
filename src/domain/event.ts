@@ -2,10 +2,7 @@ import { InferType, array, object, string } from 'yup';
 
 export const eventFormSchema = object({
   eventName: string().required(),
-  members: array()
-    .of(string().required('err1'))
-    .min(1, 'err2')
-    .required('err3'),
+  members: array().of(string().required()).min(1).required(),
   meetingPlace: string(),
   startDate: string(),
   startTime: string(),

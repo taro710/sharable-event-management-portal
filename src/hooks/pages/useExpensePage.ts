@@ -7,15 +7,16 @@ import {
 } from 'firebase/firestore';
 import { useParams } from 'next/navigation';
 
+import { ExpenseData } from '@/domain/expense';
 import { database } from '@/firebase';
 
-export type ExpenseData = {
-  expenseId: number;
-  expenseName: string;
-  price: number;
-  payerName: string;
-  members: string[];
-};
+// export type ExpenseData = {
+//   expenseId: number;
+//   expenseName: string;
+//   price: number;
+//   payerName: string;
+//   members: string[];
+// };
 
 export const useExpensePage = (currentExpenseData: ExpenseData[]) => {
   const eventId = useParams()?.eventId as string;
@@ -49,6 +50,7 @@ export const useExpensePage = (currentExpenseData: ExpenseData[]) => {
   const updateExpense = async (data: ExpenseData) => {
     const docRef = doc(database, eventId, 'expense');
     try {
+      if (!data.expenseId) return;
       await updateDoc(docRef, { [data.expenseId]: data });
 
       const afterUpdateExpenseData = [...currentExpenseData].map((expense) => {
@@ -74,9 +76,10 @@ export const useExpensePage = (currentExpenseData: ExpenseData[]) => {
     }
   };
 
-  const deleteExpense = async (expenseId: number) => {
+  const deleteExpense = async (expenseId?: number) => {
     const docRef = doc(database, eventId, 'expense');
     try {
+      if (!expenseId) return;
       await updateDoc(docRef, { [expenseId]: deleteField() });
 
       const afterDeleteExpenseData = [...currentExpenseData].filter(

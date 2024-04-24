@@ -1,5 +1,6 @@
 'use client';
 
+import { yupResolver } from '@hookform/resolvers/yup';
 import { useAtom } from 'jotai';
 import { useForm } from 'react-hook-form';
 
@@ -10,7 +11,7 @@ import Input from '@/components/presentations/Form/Input';
 import SelectBox from '@/components/presentations/Form/SelectBox';
 import IconArrow from '@/components/presentations/Icon/IconArrow';
 import IconClose from '@/components/presentations/Icon/IconClose';
-import { ExpenseData } from '@/hooks/pages/useExpensePage';
+import { ExpenseData, expenseFormSchema } from '@/domain/expense';
 import { useResponsive } from '@/hooks/useResponsive';
 
 import style from './ExpenseAddingContainer.module.scss';
@@ -25,8 +26,13 @@ const ExpenseAddingContainer = ({ handleSubmit: onSubmit, close }: Props) => {
   const [event] = useAtom(eventAtom);
   const members = event?.members || [];
 
-  const { register, handleSubmit } = useForm<ExpenseData>({
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<ExpenseData>({
     defaultValues: { members },
+    resolver: yupResolver(expenseFormSchema),
   });
 
   return (
@@ -37,10 +43,15 @@ const ExpenseAddingContainer = ({ handleSubmit: onSubmit, close }: Props) => {
         </div>
       </div>
       <div className={style['body']}>
-        <Input label="出費名" {...register('expenseName')} />
+        <Input
+          label="出費名"
+          hasError={!!errors.expenseName}
+          {...register('expenseName')}
+        />
         <div className={style['price']}>
           <Input
             label="金額"
+            hasError={!!errors.price}
             type={`${isSp ? 'tel' : 'number'}`}
             {...register('price', { valueAsNumber: true })}
           />
@@ -66,6 +77,7 @@ const ExpenseAddingContainer = ({ handleSubmit: onSubmit, close }: Props) => {
               />
             ))}
           </div>
+          {!!errors.members && <span>対象者を選択してください</span>}
         </div>
         <div className={style['footer']}>
           <Button

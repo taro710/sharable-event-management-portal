@@ -14,7 +14,8 @@ import DialogExpenseAdding from '@/components/presentations/Dialog/DialogExpense
 import DialogExpenseEdit from '@/components/presentations/Dialog/DialogExpenseEdit';
 import FadeIn from '@/components/presentations/FadeIn';
 import IconAdd from '@/components/presentations/Icon/IconAdd';
-import { ExpenseData, useExpensePage } from '@/hooks/pages/useExpensePage';
+import { ExpenseData } from '@/domain/expense';
+import { useExpensePage } from '@/hooks/pages/useExpensePage';
 import { useResponsive } from '@/hooks/useResponsive';
 
 import style from './page.module.scss';
@@ -99,7 +100,7 @@ const DashBoard: NextPage = () => {
             <ExpenseEditContainer
               defaultExpense={editingExpense}
               close={closeEditPanel}
-              deleteExpense={async (expenseId: number) => {
+              deleteExpense={async (expenseId?: number) => {
                 const result = await deleteExpense(expenseId);
                 if (result === undefined) return;
                 setExpenses(result);
