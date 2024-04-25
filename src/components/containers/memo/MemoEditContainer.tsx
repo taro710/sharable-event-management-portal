@@ -2,7 +2,7 @@
 
 import clsx from 'clsx';
 import { useAtom } from 'jotai';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 
 import { eventAtom } from '@/atoms/eventAtom';
 import Button from '@/components/presentations/Button';
@@ -34,6 +34,15 @@ const MemoEditContainer = ({
   const [author, setAuthor] = useState<string>(memoData.member);
   const [isOpenNoticePanel, setIsOpenNoticePanel] = useState<boolean>(false);
 
+  // イベントから消されたユーザーの支払いデータもDBには残っている。それらユーザーも全て含めて清算する
+  const members: string[] = useMemo(() => {
+    const members = new Set<string>();
+    const eventMembers = event?.members || [];
+    eventMembers.forEach((member) => members.add(member));
+    members.add(memoData.member);
+    return Array.from(members);
+  }, [event, memoData]);
+
   return (
     <>
       <div
@@ -54,7 +63,7 @@ const MemoEditContainer = ({
               onChange={(e) => {
                 setAuthor(e.target.value);
               }}>
-              {event.members.map((member) => (
+              {members.map((member) => (
                 <option key={member} value={member}>
                   {member}
                 </option>

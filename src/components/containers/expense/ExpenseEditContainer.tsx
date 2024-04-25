@@ -2,7 +2,7 @@
 
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useAtom } from 'jotai';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { eventAtom } from '@/atoms/eventAtom';
@@ -35,7 +35,15 @@ const ExpenseEditContainer = ({
   const [event] = useAtom(eventAtom);
   const [isOpenNoticePanel, setIsOpenNoticePanel] = useState<boolean>(false);
 
-  const members = event?.members || [];
+  // イベントから消されたユーザーの支払いデータもDBには残っている。それらユーザーも全て含めて清算する
+  const members: string[] = useMemo(() => {
+    const members = new Set<string>();
+    const eventMembers = event?.members || [];
+    eventMembers.forEach((member) => members.add(member));
+    members.add(defaultExpense.payerName);
+    defaultExpense.members.forEach((member) => members.add(member));
+    return Array.from(members);
+  }, [event, defaultExpense]);
 
   const {
     register,
