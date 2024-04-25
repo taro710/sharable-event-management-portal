@@ -4,15 +4,16 @@ import clsx from 'clsx';
 
 import style from './Checkbox.module.scss';
 
-type Props = {
+type Props = JSX.IntrinsicElements['input'] & {
   label: string;
-  index: number;
 };
-const Checkbox = ({ label }: Props) => {
+const Checkbox = (props: Props) => {
+  const { label, ...inputProps } = props;
+
   return (
     <label className={style['checkbox-component']}>
       <div className={style['answer']}>
-        <input type="checkbox" className={style['check']} />
+        <input type="checkbox" className={style['check']} {...inputProps} />
       </div>
 
       <span className={clsx(style['text'])}>{label}</span>

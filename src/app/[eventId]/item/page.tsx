@@ -3,6 +3,7 @@
 import { useAtom } from 'jotai';
 import { NextPage } from 'next';
 import { useMemo, useRef, useState } from 'react';
+import { useLocalStorage } from 'react-use';
 
 import { eventAtom } from '@/atoms/eventAtom';
 import { bringListAtom, itemMasterAtom } from '@/atoms/itemAtom';
@@ -51,6 +52,24 @@ const DashBoard: NextPage = () => {
     ref.current.style.transform = 'translateX(0)';
   };
 
+  const [checkedItem, setCheckedItem] = useLocalStorage<string[]>(
+    'checkedItems',
+    [],
+  );
+
+  const checkItem = (item: string) => {
+    if (checkedItem === undefined) {
+      setCheckedItem([item]);
+      return;
+    }
+    if (checkedItem.includes(item)) return;
+    setCheckedItem([...checkedItem, item]);
+  };
+  const unCheckItem = (item: string) => {
+    if (checkedItem === undefined) return;
+    setCheckedItem(checkedItem.filter((elm) => elm !== item));
+  };
+
   return (
     <>
       <div className={style['page-component']} ref={ref}>
@@ -68,8 +87,21 @@ const DashBoard: NextPage = () => {
           <div className={style['content']}>
             <div className={style['item-list']}>
               {selectedData?.item.map((item, i) => (
-                <div className={style['item']} key={i}>
-                  <Checkbox label={item} index={i} />
+                <div className={style['item']} key={selectedData.name + item}>
+                  <Checkbox
+                    label={item}
+                    id={selectedData.name + i}
+                    onChange={(e) => {
+                      if (e.target.checked) {
+                        checkItem(selectedData.name + item);
+                        return;
+                      }
+                      unCheckItem(selectedData.name + item);
+                    }}
+                    defaultChecked={checkedItem?.includes(
+                      selectedData.name + item,
+                    )}
+                  />
                 </div>
               ))}
             </div>
