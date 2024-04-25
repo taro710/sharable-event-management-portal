@@ -79,29 +79,37 @@ const PageLayout = ({ children }: { children: React.ReactNode }) => {
   }, []);
 
   return (
-    <div className={style['page-component']}>
-      <div className={clsx(style['sub'], isOpen && style['-open'])}>
-        <SubPanel
-          isOpen={isSp ? isOpen : true}
-          setIsOpen={isSp ? setIsOpen : undefined}
-        />
-        {isSp && (
-          <span
-            className={clsx(style['icon'], isOpen && style['-reverse'])}
-            onClick={onClick}>
-            <IconTriangle />
-          </span>
-        )}
-      </div>
-      <div className={style['main']}>
-        <div className={style['tab']}>
-          <Tab />
+    <>
+      {/* FIXME: */}
+      <meta property="og:title" content="野らら" />
+      <meta
+        name="description"
+        content="のららです 配車はメモ欄 集合、解散は各車にて"
+      />
+      <div className={style['page-component']}>
+        <div className={clsx(style['sub'], isOpen && style['-open'])}>
+          <SubPanel
+            isOpen={isSp ? isOpen : true}
+            setIsOpen={isSp ? setIsOpen : undefined}
+          />
+          {isSp && (
+            <span
+              className={clsx(style['icon'], isOpen && style['-reverse'])}
+              onClick={onClick}>
+              <IconTriangle />
+            </span>
+          )}
         </div>
-        <div className={style['panel']}>
-          <MainPanel>{children}</MainPanel>
+        <div className={style['main']}>
+          <div className={style['tab']}>
+            <Tab />
+          </div>
+          <div className={style['panel']}>
+            <MainPanel>{children}</MainPanel>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
