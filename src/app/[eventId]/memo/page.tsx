@@ -67,6 +67,9 @@ const DashBoard: NextPage = () => {
     <>
       <div className={style['page-component']} ref={ref}>
         <FadeIn className={style['memo-panel']}>
+          {memo.length <= 0 && (
+            <p className={style['notice']}>メモはありません🙃</p>
+          )}
           {memo.map(({ member, memo, memoId }) => (
             <div className={style['memo']} key={memoId}>
               <div className={style['header']}>

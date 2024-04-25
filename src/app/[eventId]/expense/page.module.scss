@@ -20,6 +20,12 @@
   overflow: auto scroll;
   border-radius: 24px;
 
+  > .notice {
+    width: fit-content;
+    margin: 82px auto;
+    color: $gray-400;
+  }
+
   > .cards {
     display: flex;
     flex-direction: column;

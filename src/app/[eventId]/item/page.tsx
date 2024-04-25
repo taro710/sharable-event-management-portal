@@ -74,7 +74,7 @@ const DashBoard: NextPage = () => {
               ))}
             </div>
             {(!selectedData || selectedData.item.length <= 0) && (
-              <p className={style['notice']}>アイテムはありません</p>
+              <p className={style['notice']}>アイテムはありません😲</p>
             )}
           </div>
         </FadeIn>

@@ -68,6 +68,9 @@ const DashBoard: NextPage = () => {
     <>
       <div className={style['page-component']} ref={ref}>
         <FadeIn className={style['expense-panel']}>
+          {expenses.length <= 0 && (
+            <p className={style['notice']}>支払いはありません🤔</p>
+          )}
           <ul className={style['cards']}>
             {expenses.map((expense, i) => (
               <CardExpense
