@@ -83,8 +83,8 @@ const PageLayout = ({ children }: { children: React.ReactNode }) => {
       {/* FIXME: */}
       <meta property="og:title" content="野らら" />
       <meta
-        name="og:description"
-        content="のららです 配車はメモ欄 集合、解散は各車にて"
+        property="og:description"
+        content={'のららです 配車はメモ欄 集合、解散は各車にて'}
       />
       <div className={style['page-component']}>
         <div className={clsx(style['sub'], isOpen && style['-open'])}>
