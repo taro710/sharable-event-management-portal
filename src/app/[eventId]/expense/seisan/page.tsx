@@ -40,11 +40,11 @@ const DashBoard: NextPage = () => {
       <FadeIn className={style['expense-panel']}>
         <h2 className={style['title']}>清算</h2>
         {answer.map((list, i) => (
-          <p key={i}>
-            <span>
-              {list.participant}→
-              {list.to.map((to) => to.participant + 'に' + to.price + '円')}
-            </span>
+          <p key={i} className={style['text']}>
+            {list.participant}→{' '}
+            {list.to.map(
+              (to) => to.participant + 'に' + to.price + '円支払い。',
+            )}
           </p>
         ))}
       </FadeIn>
