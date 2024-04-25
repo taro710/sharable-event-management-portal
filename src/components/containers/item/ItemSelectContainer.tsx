@@ -73,29 +73,27 @@ const ItemSelectContainer = ({
   };
 
   const handleSubmitNoticePanel = useCallback(async () => {
-    async () => {
-      const newItemMaster = await updateItemMaster(tmpItem);
-      if (newItemMaster === undefined) return;
-      setItemMaster(newItemMaster);
+    const newItemMaster = await updateItemMaster(tmpItem);
+    if (newItemMaster === undefined) return;
+    setItemMaster(newItemMaster);
 
-      const _newBringList = bringList.map((elm) => {
-        return {
-          name: elm.name,
-          item: elm.item.filter((item) => tmpItem.includes(item)),
-        };
-      });
-      const newItemList = await updateItem(_newBringList);
-      if (newItemList === undefined) {
-        setIsEditMode(false);
-        return;
-      }
-      setSelectedItem((prev) =>
-        prev.filter((item) => newItemMaster.includes(item)),
-      );
-      setBringList(newItemList);
+    const _newBringList = bringList.map((elm) => {
+      return {
+        name: elm.name,
+        item: elm.item.filter((item) => tmpItem.includes(item)),
+      };
+    });
+    const newItemList = await updateItem(_newBringList);
+    if (newItemList === undefined) {
       setIsEditMode(false);
-      setIsOpenNoticePanel(false);
-    };
+      return;
+    }
+    setSelectedItem((prev) =>
+      prev.filter((item) => newItemMaster.includes(item)),
+    );
+    setBringList(newItemList);
+    setIsEditMode(false);
+    setIsOpenNoticePanel(false);
   }, [
     bringList,
     setBringList,
