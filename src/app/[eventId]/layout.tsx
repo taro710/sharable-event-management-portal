@@ -69,7 +69,7 @@ const PageLayout = ({ children }: { children: React.ReactNode }) => {
 
   const { getEvent } = useEvent(eventId);
 
-  const [, setEvent] = useAtom(eventAtom);
+  const [event, setEvent] = useAtom(eventAtom);
   useEffect(() => {
     (async () => {
       const data = await getEvent();
@@ -81,6 +81,7 @@ const PageLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <>
       {/* FIXME: */}
+      <title>{event?.eventName}</title>
       <meta property="og:title" content="野らら" />
       <meta
         property="og:description"
