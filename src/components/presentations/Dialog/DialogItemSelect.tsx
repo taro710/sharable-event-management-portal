@@ -8,7 +8,7 @@ type Props = {
   selectedItems?: string[];
   isOpen: boolean;
   updateItem: (data: Data[]) => Promise<Data[] | undefined>;
-  updateItemMaster: (data: string[]) => void;
+  updateItemMaster: (data: string[]) => Promise<string[] | undefined>;
   closeDialog: () => void;
   handleSubmit: (selectedItem: string[]) => void;
 };

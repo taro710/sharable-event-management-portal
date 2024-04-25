@@ -38,7 +38,6 @@ const PageLayout = ({ children }: { children: React.ReactNode }) => {
     (async () => {
       console.log('item');
       const data = await getItemList();
-      console.log(data);
       if (data === undefined) return;
       setData(data);
     })();

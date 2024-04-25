@@ -5,7 +5,7 @@ import { NextPage } from 'next';
 import { useMemo, useRef, useState } from 'react';
 
 import { eventAtom } from '@/atoms/eventAtom';
-import { bringListAtom, itemAtom } from '@/atoms/itemAtom';
+import { bringListAtom, itemMasterAtom } from '@/atoms/itemAtom';
 import ItemSelectContainer from '@/components/containers/item/ItemSelectContainer';
 import Checkbox from '@/components/presentations/Checkbox';
 import DialogItemSelect from '@/components/presentations/Dialog/DialogItemSelect';
@@ -19,18 +19,20 @@ import style from './page.module.scss';
 
 const DashBoard: NextPage = () => {
   const { isSp } = useResponsive();
-  const [data, setData] = useAtom(bringListAtom);
+  const [bringList, setBringList] = useAtom(bringListAtom);
   const [event] = useAtom(eventAtom);
+
+  console.log('bringList', bringList[0]);
 
   const members = event?.members;
   const [selectedIndex, setSelectedIndex] = useState<number>(0);
   const selectedMember = members?.[selectedIndex];
   const selectedData = useMemo(() => {
-    if (data.length <= 0) return;
-    return data.find((elm) => elm.name === selectedMember);
-  }, [data, selectedMember]);
+    if (bringList.length <= 0) return;
+    return bringList.find((elm) => elm.name === selectedMember);
+  }, [bringList, selectedMember]);
 
-  const [, setItems] = useAtom(itemAtom);
+  const [, setItems] = useAtom(itemMasterAtom);
 
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
   const { updateItem, updateItemMaster, getItemMaster } = useItemPage();
@@ -90,11 +92,11 @@ const DashBoard: NextPage = () => {
                 if (selectedMember === undefined) return;
                 const args = (() => {
                   if (
-                    data.find((elm) => elm.name === selectedMember) ===
+                    bringList.find((elm) => elm.name === selectedMember) ===
                     undefined
                   ) {
                     return [
-                      ...data,
+                      ...bringList,
                       {
                         name: selectedMember,
                         item: selectedItem,
@@ -102,7 +104,7 @@ const DashBoard: NextPage = () => {
                     ];
                   }
 
-                  return data.map((elm) => {
+                  return bringList.map((elm) => {
                     if (elm.name === selectedMember) {
                       return {
                         name: elm.name,
@@ -115,7 +117,7 @@ const DashBoard: NextPage = () => {
 
                 const result = await updateItem(args);
                 if (result === undefined) return;
-                setData(result);
+                setBringList(result);
               }}
             />
           )}
@@ -146,10 +148,11 @@ const DashBoard: NextPage = () => {
             if (selectedMember === undefined) return;
             const args = (() => {
               if (
-                data.find((elm) => elm.name === selectedMember) === undefined
+                bringList.find((elm) => elm.name === selectedMember) ===
+                undefined
               ) {
                 return [
-                  ...data,
+                  ...bringList,
                   {
                     name: selectedMember,
                     item: selectedItem,
@@ -157,7 +160,7 @@ const DashBoard: NextPage = () => {
                 ];
               }
 
-              return data.map((elm) => {
+              return bringList.map((elm) => {
                 if (elm.name === selectedMember) {
                   return {
                     name: elm.name,
@@ -170,7 +173,7 @@ const DashBoard: NextPage = () => {
 
             const result = await updateItem(args);
             if (result === undefined) return;
-            setData(result);
+            setBringList(result);
           }}
         />
       )}

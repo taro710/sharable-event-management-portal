@@ -4,7 +4,7 @@ import clsx from 'clsx';
 import { useAtom } from 'jotai';
 import { useCallback, useEffect, useState } from 'react';
 
-import { bringListAtom, itemAtom } from '@/atoms/itemAtom';
+import { bringListAtom, itemMasterAtom } from '@/atoms/itemAtom';
 import Button from '@/components/presentations/Button';
 import CheckboxTag from '@/components/presentations/CheckboxTag';
 import Input from '@/components/presentations/Form/Input';
@@ -20,7 +20,7 @@ import style from './ItemSelectContainer.module.scss';
 type Props = {
   selectedItems: string[] | undefined;
   updateItem: (data: Data[]) => Promise<Data[] | undefined>;
-  updateItemMaster: (data: string[]) => void;
+  updateItemMaster: (data: string[]) => Promise<string[] | undefined>;
   handleSubmit: (selectedItem: string[]) => void;
   close: () => void;
 };
@@ -33,7 +33,9 @@ const ItemSelectContainer = ({
   close,
 }: Props) => {
   const { isSp } = useResponsive();
-  const [items, setItems] = useAtom(itemAtom);
+  const [itemMaster, setItemMaster] = useAtom(itemMasterAtom);
+  const [bringList, setBringList] = useAtom(bringListAtom);
+
   const [selectedItem, setSelectedItem] = useState<string[]>(selectedItems);
   const [value, setValue] = useState<string>('');
 
@@ -47,19 +49,17 @@ const ItemSelectContainer = ({
 
   const addValue = useCallback(async () => {
     if (value === '') return;
-    if (items.includes(value)) return;
-    const newItemMaster = await updateItemMaster([...items, value]);
+    if (itemMaster.includes(value)) return;
+    const newItemMaster = await updateItemMaster([...itemMaster, value]);
     if (newItemMaster === undefined) return;
     updateSelectedItem(value);
-    setItems(newItemMaster);
+    setItemMaster(newItemMaster);
     setValue('');
-  }, [items, setItems, updateItemMaster, updateSelectedItem, value]);
+  }, [itemMaster, setItemMaster, updateItemMaster, updateSelectedItem, value]);
 
   const [isEditMode, setIsEditMode] = useState<boolean>(false);
-  const [tmpItem, setTmpItem] = useState<string[]>(items);
-  useEffect(() => setTmpItem(items), [items]);
-
-  const [data, setData] = useAtom(bringListAtom);
+  const [tmpItem, setTmpItem] = useState<string[]>(itemMaster);
+  useEffect(() => setTmpItem(itemMaster), [itemMaster]);
 
   const [removedItem, setRemovedItem] = useState<string[]>([]);
   const [isOpenNoticePanel, setIsOpenNoticePanel] = useState<boolean>(false);
@@ -85,7 +85,7 @@ const ItemSelectContainer = ({
           <div className={style['buttons']}>
             {!isEditMode && (
               <>
-                {items.map((item, i) => (
+                {itemMaster.map((item, i) => (
                   <div className={style['item']} key={i}>
                     <CheckboxTag
                       label={item}
@@ -94,7 +94,7 @@ const ItemSelectContainer = ({
                     />
                   </div>
                 ))}
-                {items.length > 0 && (
+                {itemMaster.length > 0 && (
                   <div
                     className={style['icon']}
                     onClick={() => setIsEditMode(true)}>
@@ -142,7 +142,7 @@ const ItemSelectContainer = ({
                 type="secondary"
                 width={80}
                 onClick={() => {
-                  setTmpItem(items);
+                  setTmpItem(itemMaster);
                   setIsEditMode(false);
                   setRemovedItem([]);
                 }}
@@ -189,9 +189,9 @@ const ItemSelectContainer = ({
               onClick={async () => {
                 const newItemMaster = await updateItemMaster(tmpItem);
                 if (newItemMaster === undefined) return;
-                setItems(newItemMaster);
+                setItemMaster(newItemMaster);
 
-                const _newBringList = data.map((elm) => {
+                const _newBringList = bringList.map((elm) => {
                   return {
                     name: elm.name,
                     item: elm.item.filter((item) => tmpItem.includes(item)),
@@ -202,7 +202,10 @@ const ItemSelectContainer = ({
                   setIsEditMode(false);
                   return;
                 }
-                setData(newItemList);
+                setSelectedItem((prev) =>
+                  prev.filter((item) => newItemMaster.includes(item)),
+                );
+                setBringList(newItemList);
                 setIsEditMode(false);
                 setIsOpenNoticePanel(false);
               }}>
@@ -211,7 +214,7 @@ const ItemSelectContainer = ({
             <button
               className={style['cancel']}
               onClick={() => {
-                setTmpItem(items);
+                setTmpItem(itemMaster);
                 setIsEditMode(false);
                 setRemovedItem([]);
                 setIsOpenNoticePanel(false);
