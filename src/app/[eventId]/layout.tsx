@@ -83,7 +83,7 @@ const PageLayout = ({ children }: { children: React.ReactNode }) => {
       {/* FIXME: */}
       <meta property="og:title" content="野らら" />
       <meta
-        name="description"
+        name="og:description"
         content="のららです 配車はメモ欄 集合、解散は各車にて"
       />
       <div className={style['page-component']}>
