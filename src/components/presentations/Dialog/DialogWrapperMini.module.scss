@@ -25,13 +25,14 @@
 
   > .title {
     height: fit-content;
+    margin-bottom: 32px;
     font-size: $normal-text;
     font-weight: bold;
     color: $black;
   }
 
   > .content {
-    padding: 32px;
+    margin-bottom: 32px;
   }
 
   > .action {

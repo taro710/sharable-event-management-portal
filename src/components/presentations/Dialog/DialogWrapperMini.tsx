@@ -12,8 +12,7 @@ type Props = {
   isOpen: boolean;
   closeDialog: () => void;
   handleOk: () => void;
-  handleCancel: () => void;
-  children: React.ReactNode;
+  children?: React.ReactNode;
 };
 
 const DialogWrapperMini = ({
@@ -22,7 +21,6 @@ const DialogWrapperMini = ({
   closeDialog,
   children,
   handleOk,
-  handleCancel,
 }: Props) => {
   return (
     <Transition appear show={isOpen} as={Fragment}>
@@ -37,13 +35,13 @@ const DialogWrapperMini = ({
           leaveTo={style['modal-transition-leave-to']}>
           <Dialog.Panel className={style['dialog-panel']}>
             <p className={style['title']}>{title}</p>
-            <div className={style['content']}>{children}</div>
+            {children && <div className={style['content']}>{children}</div>}
             <div className={style['action']}>
               <Button text="確定" onClick={handleOk} />
               <Button
                 text="キャンセル"
                 type="secondary"
-                onClick={handleCancel}
+                onClick={closeDialog}
               />
             </div>
           </Dialog.Panel>
