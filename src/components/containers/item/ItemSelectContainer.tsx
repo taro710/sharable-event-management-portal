@@ -7,6 +7,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { bringListAtom, itemMasterAtom } from '@/atoms/itemAtom';
 import Button from '@/components/presentations/Button';
 import CheckboxTag from '@/components/presentations/CheckboxTag';
+import DialogWrapperMini from '@/components/presentations/Dialog/DialogWrapperMini';
 import Input from '@/components/presentations/Form/Input';
 import IconArrow from '@/components/presentations/Icon/IconArrow';
 import IconClose from '@/components/presentations/Icon/IconClose';
@@ -173,57 +174,54 @@ const ItemSelectContainer = ({
           />
         </div>
       </div>
-      {isOpenNoticePanel && (
-        <div className={style['notice-panel']}>
-          <p className={style['text']}>全員のアイテムから削除されます</p>
-          <ul className={style['list']}>
-            {removedItem.map((item, i) => (
-              <li className={style['item']} key={i}>
-                {item}
-              </li>
-            ))}
-          </ul>
-          <div className={style['action']}>
-            <button
-              className={style['submit']}
-              onClick={async () => {
-                const newItemMaster = await updateItemMaster(tmpItem);
-                if (newItemMaster === undefined) return;
-                setItemMaster(newItemMaster);
 
-                const _newBringList = bringList.map((elm) => {
-                  return {
-                    name: elm.name,
-                    item: elm.item.filter((item) => tmpItem.includes(item)),
-                  };
-                });
-                const newItemList = await updateItem(_newBringList);
-                if (newItemList === undefined) {
-                  setIsEditMode(false);
-                  return;
-                }
-                setSelectedItem((prev) =>
-                  prev.filter((item) => newItemMaster.includes(item)),
-                );
-                setBringList(newItemList);
-                setIsEditMode(false);
-                setIsOpenNoticePanel(false);
-              }}>
-              確定
-            </button>
-            <button
-              className={style['cancel']}
-              onClick={() => {
-                setTmpItem(itemMaster);
-                setIsEditMode(false);
-                setRemovedItem([]);
-                setIsOpenNoticePanel(false);
-              }}>
-              キャンセル
-            </button>
-          </div>
-        </div>
-      )}
+      <DialogWrapperMini
+        title="全員のアイテムから削除されます"
+        isOpen={isOpenNoticePanel}
+        closeDialog={() => {
+          // TODO: handleCancelと共通化
+          setTmpItem(itemMaster);
+          setIsEditMode(false);
+          setRemovedItem([]);
+          setIsOpenNoticePanel(false);
+        }}
+        handleOk={async () => {
+          const newItemMaster = await updateItemMaster(tmpItem);
+          if (newItemMaster === undefined) return;
+          setItemMaster(newItemMaster);
+
+          const _newBringList = bringList.map((elm) => {
+            return {
+              name: elm.name,
+              item: elm.item.filter((item) => tmpItem.includes(item)),
+            };
+          });
+          const newItemList = await updateItem(_newBringList);
+          if (newItemList === undefined) {
+            setIsEditMode(false);
+            return;
+          }
+          setSelectedItem((prev) =>
+            prev.filter((item) => newItemMaster.includes(item)),
+          );
+          setBringList(newItemList);
+          setIsEditMode(false);
+          setIsOpenNoticePanel(false);
+        }}
+        handleCancel={() => {
+          setTmpItem(itemMaster);
+          setIsEditMode(false);
+          setRemovedItem([]);
+          setIsOpenNoticePanel(false);
+        }}>
+        <ul className={style['list']}>
+          {removedItem.map((item, i) => (
+            <li className={style['item']} key={i}>
+              {item}
+            </li>
+          ))}
+        </ul>
+      </DialogWrapperMini>
     </>
   );
 };

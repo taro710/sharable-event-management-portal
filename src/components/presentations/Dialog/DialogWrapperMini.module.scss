@@ -1,0 +1,51 @@
+@import '/src/assets/styles/resources';
+
+.background-component {
+  position: fixed;
+  inset: 0;
+  z-index: 11;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow-y: hidden;
+  background-color: rgb(0 0 0 / 50%);
+}
+
+.dialog-panel {
+  position: fixed;
+  z-index: 11;
+  width: 33.3vw;
+  max-height: 80vh;
+  padding: 24px;
+  overflow-y: auto;
+  background-color: $white;
+  border: none;
+  border-radius: 12px;
+  transition: all 200ms ease-out;
+
+  > .title {
+    height: fit-content;
+    font-size: $normal-text;
+    font-weight: bold;
+    color: $black;
+  }
+
+  > .content {
+    padding: 32px;
+  }
+
+  > .action {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    justify-content: center;
+    height: fit-content;
+    font-size: 14px;
+  }
+}
+
+@include media-query-sp {
+  .dialog-panel {
+    width: 80vw;
+  }
+}

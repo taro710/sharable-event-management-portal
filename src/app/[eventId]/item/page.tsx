@@ -22,8 +22,6 @@ const DashBoard: NextPage = () => {
   const [bringList, setBringList] = useAtom(bringListAtom);
   const [event] = useAtom(eventAtom);
 
-  console.log('bringList', bringList[0]);
-
   const members = event?.members;
   const [selectedIndex, setSelectedIndex] = useState<number>(0);
   const selectedMember = members?.[selectedIndex];
