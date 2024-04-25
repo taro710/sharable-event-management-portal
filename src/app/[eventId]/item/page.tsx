@@ -65,6 +65,8 @@ const DashBoard: NextPage = () => {
     if (checkedItem.includes(item)) return;
     setCheckedItem([...checkedItem, item]);
   };
+
+  // TODO: LocalStorageのリセットタイミング
   const unCheckItem = (item: string) => {
     if (checkedItem === undefined) return;
     setCheckedItem(checkedItem.filter((elm) => elm !== item));
