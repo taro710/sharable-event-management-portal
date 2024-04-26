@@ -69,7 +69,7 @@ const PageLayout = ({ children }: { children: React.ReactNode }) => {
 
   const { getEvent } = useEvent(eventId);
 
-  const [event, setEvent] = useAtom(eventAtom);
+  const [, setEvent] = useAtom(eventAtom);
   useEffect(() => {
     (async () => {
       const data = await getEvent();
@@ -79,38 +79,29 @@ const PageLayout = ({ children }: { children: React.ReactNode }) => {
   }, []);
 
   return (
-    <>
-      {/* FIXME: */}
-      <title>{event?.eventName}</title>
-      <meta property="og:title" content="野らら" />
-      <meta
-        property="og:description"
-        content={'のららです 配車はメモ欄 集合、解散は各車にて'}
-      />
-      <div className={style['page-component']}>
-        <div className={clsx(style['sub'], isOpen && style['-open'])}>
-          <SubPanel
-            isOpen={isSp ? isOpen : true}
-            setIsOpen={isSp ? setIsOpen : undefined}
-          />
-          {isSp && (
-            <span
-              className={clsx(style['icon'], isOpen && style['-reverse'])}
-              onClick={onClick}>
-              <IconTriangle />
-            </span>
-          )}
+    <div className={style['page-component']}>
+      <div className={clsx(style['sub'], isOpen && style['-open'])}>
+        <SubPanel
+          isOpen={isSp ? isOpen : true}
+          setIsOpen={isSp ? setIsOpen : undefined}
+        />
+        {isSp && (
+          <span
+            className={clsx(style['icon'], isOpen && style['-reverse'])}
+            onClick={onClick}>
+            <IconTriangle />
+          </span>
+        )}
+      </div>
+      <div className={style['main']}>
+        <div className={style['tab']}>
+          <Tab />
         </div>
-        <div className={style['main']}>
-          <div className={style['tab']}>
-            <Tab />
-          </div>
-          <div className={style['panel']}>
-            <MainPanel>{children}</MainPanel>
-          </div>
+        <div className={style['panel']}>
+          <MainPanel>{children}</MainPanel>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
