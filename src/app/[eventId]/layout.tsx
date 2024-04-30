@@ -1,107 +1,77 @@
-'use client';
+import { doc, getDoc } from 'firebase/firestore';
+import { headers } from 'next/headers';
 
-import clsx from 'clsx';
-import { useAtom } from 'jotai';
-import { useParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import Wrapper from '@/app/[eventId]/Wrapper';
+import { EventData } from '@/domain/event';
+import { ExpenseData } from '@/domain/expense';
+import { database } from '@/firebase';
+import { Data } from '@/hooks/pages/useItemPage';
+import { MemoData } from '@/hooks/pages/useMemoPage';
 
-import { eventAtom } from '@/atoms/eventAtom';
-import { expenseAtom } from '@/atoms/expenseAtom';
-import { bringListAtom } from '@/atoms/itemAtom';
-import { memoAtom } from '@/atoms/memoAtom';
-import IconTriangle from '@/components/presentations/Icon/IconTriangle';
-import MainPanel from '@/components/presentations/MainPanel';
-import SubPanel from '@/components/presentations/SubPanel';
-import Tab from '@/components/presentations/Tab';
-import { useExpensePage } from '@/hooks/pages/useExpensePage';
-import { useItemPage } from '@/hooks/pages/useItemPage';
-import { useMemoPage } from '@/hooks/pages/useMemoPage';
-import { useEvent } from '@/hooks/useEvent';
-import { useResponsive } from '@/hooks/useResponsive';
+const PageLayout = async ({ children }: { children: React.ReactNode }) => {
+  const pathname = headers().get('x-pathname') || '';
+  const eventId = pathname.split('/')[1]; //TODO: この位置にeventIdが来ない場合もある
 
-import style from './layout.module.scss';
+  // TODO: hooksから抜く
+  const getEvent = async () => {
+    if (!eventId) return;
+    const docRef = doc(database, eventId, 'event');
 
-const PageLayout = ({ children }: { children: React.ReactNode }) => {
-  const [isOpen, setIsOpen] = useState<boolean>(false);
-  const { isSp } = useResponsive();
-  const eventId = useParams()?.eventId as string;
-
-  const onClick = () => {
-    if (!isSp) return;
-    setIsOpen(!isOpen);
+    try {
+      const document = await getDoc(docRef);
+      const eventData = document?.data() as EventData | undefined;
+      return eventData;
+    } catch (error) {
+      console.error('Error get document: ', error);
+    }
   };
 
-  const { getItemList } = useItemPage();
-  const [, setData] = useAtom(bringListAtom);
-  // TODO:
-  useEffect(() => {
-    (async () => {
-      console.log('item');
-      const data = await getItemList();
-      if (data === undefined) return;
-      setData(data);
-    })();
-  }, []);
+  const getItemList = async () => {
+    const docRef = doc(database, eventId, 'item');
 
-  const [memos, setMemos] = useAtom(memoAtom);
-  const { getMemoList } = useMemoPage(memos);
-  // TODO:
-  useEffect(() => {
-    (async () => {
-      console.log('memo');
-      const data = await getMemoList();
-      if (data === undefined) return;
-      setMemos(data);
-    })();
-  }, []);
+    try {
+      const document = await getDoc(docRef);
+      const data: Data[] = document?.data()?.itemData || [];
+      return data;
+    } catch (error) {
+      console.error('Error get document: ', error);
+    }
+  };
 
-  const [expenses, setExpenses] = useAtom(expenseAtom);
-  const { getExpenseList } = useExpensePage(expenses);
-  // TODO:
-  useEffect(() => {
-    console.log('expenses');
-    (async () => {
-      const data = await getExpenseList();
-      if (data === undefined) return;
-      setExpenses(data);
-    })();
-  }, []);
+  const getExpenseList = async () => {
+    const docRef = doc(database, eventId, 'expense');
 
-  const { getEvent } = useEvent(eventId);
+    try {
+      const document = await getDoc(docRef);
+      const data = document?.data();
+      const expenseList: ExpenseData[] = Object.values(data || {});
+      return expenseList;
+    } catch (error) {
+      console.error('Error get document: ', error);
+    }
+  };
 
-  const [, setEvent] = useAtom(eventAtom);
-  useEffect(() => {
-    (async () => {
-      const data = await getEvent();
-      if (data === undefined) return;
-      setEvent(data);
-    })();
-  }, []);
+  const getMemoList = async () => {
+    const docRef = doc(database, eventId, 'memo');
+
+    try {
+      const document = await getDoc(docRef);
+      const data = document?.data();
+      const memoList: MemoData[] = Object.values(data || {});
+      return memoList;
+    } catch (error) {
+      console.error('Error get document: ', error);
+    }
+  };
 
   return (
-    <div className={style['page-component']}>
-      <div className={clsx(style['sub'], isOpen && style['-open'])}>
-        <SubPanel
-          isOpen={isSp ? isOpen : true}
-          setIsOpen={isSp ? setIsOpen : undefined}
-        />
-        {isSp && (
-          <span
-            className={clsx(style['icon'], isOpen && style['-reverse'])}
-            onClick={onClick}>
-            <IconTriangle />
-          </span>
-        )}
-      </div>
-      <div className={style['main']}>
-        <div className={style['tab']}>
-          <Tab />
-        </div>
-        <div className={style['panel']}>
-          <MainPanel>{children}</MainPanel>
-        </div>
-      </div>
-    </div>
+    <Wrapper
+      event={await getEvent()}
+      itemList={await getItemList()}
+      expense={await getExpenseList()}
+      memo={await getMemoList()}>
+      {children}
+    </Wrapper>
   );
 };
 

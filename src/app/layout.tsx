@@ -17,7 +17,7 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
       <body className={style['page-layout']}>
         <header className={style['header-component']}>
           <Link className={style['logo']} href={{ pathname: PAGE_PATH.TOP }}>
-            LOGO
+            SEMP
           </Link>
           <ul className={style['menu']}>
             <li className={style['item']}>Events</li>
