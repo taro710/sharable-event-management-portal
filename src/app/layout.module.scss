@@ -3,7 +3,6 @@
 .page-layout {
   display: flex;
   flex-direction: column;
-  gap: 24px;
 }
 
 .header-component {
@@ -66,6 +65,7 @@
 }
 
 .footer-component {
+  flex-shrink: 0;
   height: $footer-height-sp;
 
   > .footer {

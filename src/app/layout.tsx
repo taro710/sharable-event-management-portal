@@ -30,7 +30,7 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
         </main>
         <footer className={style['footer-component']}>
           <div className={style['footer']}>
-            <span>©</span>LOGO
+            <span>©</span>SEMP
           </div>
         </footer>
       </body>
