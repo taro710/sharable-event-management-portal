@@ -3,12 +3,12 @@
 .page-component {
   display: flex;
   gap: 32px;
-  height: calc(100vh - $header-height-pc - 32px);
-  padding-bottom: 32px;
 
   > .sub {
-    width: 356px;
-    height: 100%;
+    position: sticky;
+    top: 32px;
+    width: 326px;
+    height: calc(100vh - $header-height-pc - 64px);
 
     > .icon {
       display: none;
@@ -25,7 +25,7 @@
     display: flex;
     flex-direction: column;
     gap: 32px;
-    width: 812px;
+    width: 842px;
 
     > .tab {
       width: 100%;
@@ -49,6 +49,7 @@
 
     > .sub {
       position: relative;
+      top: 0;
       width: 100%;
       height: 72px;
       transition: all 0.3s ease;

@@ -45,6 +45,7 @@ const PageLayout = async ({ children }: { children: React.ReactNode }) => {
       const document = await getDoc(docRef);
       const data = document?.data();
       const expenseList: ExpenseData[] = Object.values(data || {});
+      expenseList.reverse();
       return expenseList;
     } catch (error) {
       console.error('Error get document: ', error);
@@ -58,6 +59,7 @@ const PageLayout = async ({ children }: { children: React.ReactNode }) => {
       const document = await getDoc(docRef);
       const data = document?.data();
       const memoList: MemoData[] = Object.values(data || {});
+      memoList.reverse();
       return memoList;
     } catch (error) {
       console.error('Error get document: ', error);
