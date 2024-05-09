@@ -28,7 +28,6 @@
 @include media-query-sp {
   .header-component {
     height: $header-height-sp;
-    padding: 16px 20px 0;
 
     > .logo {
       font-size: 18px;
@@ -55,7 +54,7 @@
 
 @include media-query-sp {
   .main-component {
-    padding: 0 12px 12px;
+    padding: 12px 12px 0;
 
     > .content {
       width: 100%;

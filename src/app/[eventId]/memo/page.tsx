@@ -22,6 +22,7 @@ const DashBoard: NextPage = () => {
   const { isSp } = useResponsive();
   const [isAddDialogOpen, setIsAddDialogOpen] = useState<boolean>(false);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState<boolean>(false);
+  const [scrollPosition, setScrollPosition] = useState<number>(0);
 
   const [memo, setMemo] = useAtom(memoAtom);
   const { addMemo, updateMemo, deleteMemo } = useMemoPage(memo);
@@ -48,6 +49,9 @@ const DashBoard: NextPage = () => {
 
   // TODO: any
   const openEditPanel = ({ member, memo, memoId }: any) => {
+    setScrollPosition(window.scrollY);
+    window.scrollTo(0, 0);
+
     setEditingMemo({ member, memo, memoId });
     setIsEditDialogOpen(true);
     if (!isSp) return;
@@ -56,6 +60,7 @@ const DashBoard: NextPage = () => {
   };
 
   const closeEditPanel = () => {
+    window.scrollTo(0, scrollPosition);
     setEditingMemo(undefined);
     setIsEditDialogOpen(false);
     if (!isSp) return;
