@@ -1,7 +1,7 @@
 import { doc, getDoc } from 'firebase/firestore';
 import { headers } from 'next/headers';
 
-import Wrapper from '@/app/[eventId]/Wrapper';
+import ClientLayout from '@/components/containers/ClientLayout';
 import { EventData } from '@/domain/event';
 import { ExpenseData } from '@/domain/expense';
 import { database } from '@/firebase';
@@ -67,13 +67,13 @@ const PageLayout = async ({ children }: { children: React.ReactNode }) => {
   };
 
   return (
-    <Wrapper
+    <ClientLayout
       event={await getEvent()}
       itemList={await getItemList()}
       expense={await getExpenseList()}
       memo={await getMemoList()}>
       {children}
-    </Wrapper>
+    </ClientLayout>
   );
 };
 

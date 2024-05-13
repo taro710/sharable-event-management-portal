@@ -1,7 +1,5 @@
 'use client';
 
-import clsx from 'clsx';
-
 import style from './Checkbox.module.scss';
 
 type Props = JSX.IntrinsicElements['input'] & {
@@ -11,12 +9,19 @@ const Checkbox = (props: Props) => {
   const { label, ...inputProps } = props;
 
   return (
-    <label className={style['checkbox-component']}>
-      <div className={style['answer']}>
-        <input type="checkbox" className={style['check']} {...inputProps} />
-      </div>
-
-      <span className={clsx(style['text'])}>{label}</span>
+    <label className={style['checkbox-wrapper-15']}>
+      <input
+        className={style['inp-cbx']}
+        type="checkbox"
+        style={{ display: 'none' }}
+        {...inputProps}
+      />
+      <span className={style['check']}>
+        <svg>
+          <polyline points="1 5 4 8 11 1" />
+        </svg>
+      </span>
+      <span className={style['label']}>{label}</span>
     </label>
   );
 };

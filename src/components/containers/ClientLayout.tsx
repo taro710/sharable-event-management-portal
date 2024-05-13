@@ -18,7 +18,7 @@ import { Data } from '@/hooks/pages/useItemPage';
 import { MemoData } from '@/hooks/pages/useMemoPage';
 import { useResponsive } from '@/hooks/useResponsive';
 
-import style from './layout.module.scss';
+import style from './ClientLayout.module.scss';
 
 type Props = {
   event: EventData | undefined;
