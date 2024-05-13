@@ -6,7 +6,7 @@ import { useCallback, useEffect, useState } from 'react';
 
 import { bringListAtom, itemMasterAtom } from '@/atoms/itemAtom';
 import Button from '@/components/presentations/Button';
-import CheckboxTag from '@/components/presentations/CheckboxTag';
+import TagCheckbox from '@/components/presentations/TagCheckbox';
 import DialogWrapperMini from '@/components/presentations/Dialog/DialogWrapperMini';
 import Input from '@/components/presentations/Form/Input';
 import IconArrow from '@/components/presentations/Icon/IconArrow';
@@ -126,7 +126,7 @@ const ItemSelectContainer = ({
               <>
                 {itemMaster.map((item, i) => (
                   <div className={style['item']} key={i}>
-                    <CheckboxTag
+                    <TagCheckbox
                       label={item}
                       defaultChecked={selectedItem.includes(item)}
                       onClick={() => updateSelectedItem(item)}
@@ -146,7 +146,7 @@ const ItemSelectContainer = ({
               <>
                 {tmpItem.map((item, i) => (
                   <div className={style['item']} key={i}>
-                    <CheckboxTag label={item} defaultChecked={false} />
+                    <TagCheckbox label={item} defaultChecked={false} />
                     <div
                       className={style['icon']}
                       onClick={() => {

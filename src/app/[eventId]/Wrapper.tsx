@@ -43,7 +43,6 @@ const Wrapper = ({ event, itemList, expense, memo, children }: Props) => {
   const setMemos = useSetAtom(memoAtom);
 
   useEffect(() => {
-    console.log('init');
     setEvent(event);
     if (itemList) setData(itemList);
     if (expense) setExpenses(expense);

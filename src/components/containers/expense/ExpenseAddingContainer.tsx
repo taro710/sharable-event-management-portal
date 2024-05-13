@@ -6,7 +6,7 @@ import { useForm } from 'react-hook-form';
 
 import { eventAtom } from '@/atoms/eventAtom';
 import Button from '@/components/presentations/Button';
-import CheckboxTag from '@/components/presentations/CheckboxTag';
+import TagCheckbox from '@/components/presentations/TagCheckbox';
 import Input from '@/components/presentations/Form/Input';
 import SelectBox from '@/components/presentations/Form/SelectBox';
 import IconArrow from '@/components/presentations/Icon/IconArrow';
@@ -69,7 +69,7 @@ const ExpenseAddingContainer = ({ handleSubmit: onSubmit, close }: Props) => {
           <p className={style['caption']}>割り勘対象者</p>
           <div className={style['tag']}>
             {members.map((participant, i) => (
-              <CheckboxTag
+              <TagCheckbox
                 label={participant}
                 value={participant}
                 key={i}

@@ -2,13 +2,13 @@
 
 import { forwardRef } from 'react';
 
-import style from './CheckboxTag.module.scss';
+import style from './TagCheckbox.module.scss';
 
 type Props = JSX.IntrinsicElements['input'] & {
   label: string;
 };
 
-const CheckboxTag = forwardRef<HTMLInputElement, Props>(
+const TagCheckbox = forwardRef<HTMLInputElement, Props>(
   ({ label, ...inputProps }: Props, ref) => {
     return (
       <label className={style['checkbox-component']}>
@@ -26,6 +26,6 @@ const CheckboxTag = forwardRef<HTMLInputElement, Props>(
   },
 );
 
-CheckboxTag.displayName = 'CheckboxTag';
+TagCheckbox.displayName = 'TagCheckbox';
 
-export default CheckboxTag;
+export default TagCheckbox;

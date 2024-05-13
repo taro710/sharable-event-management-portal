@@ -8,7 +8,7 @@ import { useForm } from 'react-hook-form';
 
 import { eventAtom } from '@/atoms/eventAtom';
 import Button from '@/components/presentations/Button';
-import CheckboxTag from '@/components/presentations/CheckboxTag';
+import TagCheckbox from '@/components/presentations/TagCheckbox';
 import DialogWrapperMini from '@/components/presentations/Dialog/DialogWrapperMini';
 import Input from '@/components/presentations/Form/Input';
 import TextArea from '@/components/presentations/Form/TextArea';
@@ -98,7 +98,7 @@ const EventEditContainer = ({
               </div>
               <ul className={style['list']}>
                 {members.map((member, i) => (
-                  <CheckboxTag
+                  <TagCheckbox
                     label={member}
                     key={i}
                     defaultChecked
