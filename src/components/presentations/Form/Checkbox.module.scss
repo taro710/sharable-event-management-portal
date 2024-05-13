@@ -19,6 +19,7 @@
     width: 20px;
     height: 20px;
     vertical-align: middle;
+    background-color: #fff;
     border: 1px solid $dark-gray;
     border-radius: 50%;
     transition: all 0.2s ease;
@@ -27,7 +28,7 @@
     > svg {
       position: absolute;
       top: 5px;
-      left: 4px;
+      left: 3.5px;
       z-index: 1;
       fill: none;
       stroke: $white;
