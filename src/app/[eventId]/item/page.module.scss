@@ -62,3 +62,10 @@
     background-color: $gray;
   }
 }
+
+@include media-query-sp {
+  .add-button {
+    right: 24px;
+    bottom: 24px;
+  }
+}

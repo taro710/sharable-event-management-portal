@@ -13,6 +13,7 @@
   background-color: transparent;
 
   > .logo {
+    font-family: Barlow, sans-serif;
     font-size: 36px;
     cursor: pointer;
   }
@@ -28,6 +29,7 @@
 @include media-query-sp {
   .header-component {
     height: $header-height-sp;
+    padding-left: 24px;
 
     > .logo {
       font-size: 18px;
