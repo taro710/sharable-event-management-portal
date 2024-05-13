@@ -8,7 +8,7 @@ import { useMemo } from 'react';
 
 import { eventAtom } from '@/atoms/eventAtom';
 import { expenseAtom } from '@/atoms/expenseAtom';
-import FadeIn from '@/components/presentations/FadeIn';
+import FadeIn from '@/components/presentations/Animation/FadeIn';
 import { func } from '@/util/sample';
 
 import style from './page.module.scss';

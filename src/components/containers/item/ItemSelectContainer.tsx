@@ -6,9 +6,9 @@ import { useCallback, useEffect, useState } from 'react';
 
 import { bringListAtom, itemMasterAtom } from '@/atoms/itemAtom';
 import Button from '@/components/presentations/Button';
-import TagCheckbox from '@/components/presentations/TagCheckbox';
 import DialogWrapperMini from '@/components/presentations/Dialog/DialogWrapperMini';
 import Input from '@/components/presentations/Form/Input';
+import TagCheckbox from '@/components/presentations/Form/TagCheckbox';
 import IconArrow from '@/components/presentations/Icon/IconArrow';
 import IconClose from '@/components/presentations/Icon/IconClose';
 import IconEdit from '@/components/presentations/Icon/IconEdit';
