@@ -5,6 +5,9 @@ import type { Meta, StoryObj } from '@storybook/react';
 const meta = {
   title: 'Form/TagCheckbox',
   component: TagCheckbox,
+  parameters: {
+    layout: 'centered',
+  },
 } satisfies Meta<typeof TagCheckbox>;
 
 export default meta;

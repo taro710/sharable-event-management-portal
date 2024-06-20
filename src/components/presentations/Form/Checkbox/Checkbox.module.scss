@@ -21,15 +21,15 @@
     height: 20px;
     vertical-align: middle;
     background-color: #fff;
-    border: 1px solid $dark-gray;
+    border: 2px solid $gray-400;
     border-radius: 50%;
     transition: all 0.2s ease;
     transform: scale(1);
 
     > svg {
       position: absolute;
-      top: 5px;
-      left: 3.5px;
+      top: 4px;
+      left: 2px;
       z-index: 1;
       fill: none;
       stroke: $white;
