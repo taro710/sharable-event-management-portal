@@ -1,4 +1,4 @@
-import SelectBox from '@/components/presentations/Form/SelectBox';
+import SelectBox from '@/components/presentations/Form/SelectBox/SelectBox';
 
 import type { Meta, StoryObj } from '@storybook/react';
 

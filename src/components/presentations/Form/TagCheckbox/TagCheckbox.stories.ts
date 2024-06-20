@@ -1,4 +1,4 @@
-import TagCheckbox from '@/components/presentations/Form/TagCheckbox';
+import TagCheckbox from '@/components/presentations/Form/TagCheckbox/TagCheckbox';
 
 import type { Meta, StoryObj } from '@storybook/react';
 

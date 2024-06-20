@@ -4,9 +4,9 @@ import { useAtom } from 'jotai';
 import { useState } from 'react';
 
 import { eventAtom } from '@/atoms/eventAtom';
-import Button from '@/components/presentations/Button';
-import SelectBox from '@/components/presentations/Form/SelectBox';
-import TextArea from '@/components/presentations/Form/TextArea';
+import Button from '@/components/presentations/Common/Button/Button';
+import SelectBox from '@/components/presentations/Form/SelectBox/SelectBox';
+import TextArea from '@/components/presentations/Form/TextArea/TextArea';
 import IconArrow from '@/components/presentations/Icon/IconArrow';
 import IconClose from '@/components/presentations/Icon/IconClose';
 import { MemoData } from '@/hooks/pages/useMemoPage';

@@ -3,7 +3,7 @@
 import { Dialog, Transition } from '@headlessui/react';
 import { Fragment } from 'react';
 
-import Button from '@/components/presentations/Button';
+import Button from '@/components/presentations/Common/Button/Button';
 
 import style from './DialogWrapperMini.module.scss';
 

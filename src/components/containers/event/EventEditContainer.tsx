@@ -7,11 +7,11 @@ import { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { eventAtom } from '@/atoms/eventAtom';
-import Button from '@/components/presentations/Button';
+import Button from '@/components/presentations/Common/Button/Button';
 import DialogWrapperMini from '@/components/presentations/Dialog/DialogWrapperMini';
-import Input from '@/components/presentations/Form/Input';
-import TagCheckbox from '@/components/presentations/Form/TagCheckbox';
-import TextArea from '@/components/presentations/Form/TextArea';
+import Input from '@/components/presentations/Form/Input/Input';
+import TagCheckbox from '@/components/presentations/Form/TagCheckbox/TagCheckbox';
+import TextArea from '@/components/presentations/Form/TextArea/TextArea';
 import { EventData, eventFormSchema } from '@/domain/event';
 
 import style from './EventEditContainer.module.scss';

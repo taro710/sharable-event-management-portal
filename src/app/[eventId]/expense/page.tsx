@@ -10,7 +10,7 @@ import { expenseAtom } from '@/atoms/expenseAtom';
 import ExpenseAddingContainer from '@/components/containers/expense/ExpenseAddingContainer';
 import ExpenseEditContainer from '@/components/containers/expense/ExpenseEditContainer';
 import FadeIn from '@/components/presentations/Animation/FadeIn';
-import CardExpense from '@/components/presentations/CardExpense';
+import CardExpense from '@/components/presentations/Common/Card/CardExpense';
 import DialogExpenseAdding from '@/components/presentations/Dialog/DialogExpenseAdding';
 import DialogExpenseEdit from '@/components/presentations/Dialog/DialogExpenseEdit';
 import IconAdd from '@/components/presentations/Icon/IconAdd';
