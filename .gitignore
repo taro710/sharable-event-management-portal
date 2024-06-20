@@ -40,3 +40,5 @@ next-env.d.ts
 .env.development
 # Million Lint
 .million
+
+*storybook.log

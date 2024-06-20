@@ -10,7 +10,7 @@ import { bringListAtom, itemMasterAtom } from '@/atoms/itemAtom';
 import ItemSelectContainer from '@/components/containers/item/ItemSelectContainer';
 import FadeIn from '@/components/presentations/Animation/FadeIn';
 import DialogItemSelect from '@/components/presentations/Dialog/DialogItemSelect';
-import Checkbox from '@/components/presentations/Form/Checkbox';
+import Checkbox from '@/components/presentations/Form/Checkbox/Checkbox';
 import IconEdit from '@/components/presentations/Icon/IconEdit';
 import Tag from '@/components/presentations/Tag';
 import { useItemPage } from '@/hooks/pages/useItemPage';
