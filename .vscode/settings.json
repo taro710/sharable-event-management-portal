@@ -1,11 +1,12 @@
 {
-  // eslintの対象とするファイル形式
   "eslint.validate": ["javascript", "typescript"],
+  "eslint.useFlatConfig": true,
+  "eslint.options": {
+    "overrideConfigFile": "eslint.config.mjs"
+  },
 
-  // stylelintの対象とするファイル形式
   "stylelint.validate": ["css", "scss"], // https://github.com/stylelint/vscode-stylelint#stylelintvalidate
 
-  // saveでlintエラーの修正をする
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "explicit",
     "source.fixAll.stylelint": "explicit"
@@ -14,5 +15,18 @@
   "editor.formatOnSave": true,
   "editor.defaultFormatter": "esbenp.prettier-vscode",
 
-  "typescript.preferences.importModuleSpecifier": "non-relative"
+  "typescript.preferences.importModuleSpecifier": "non-relative",
+
+  "cSpell.userWords": [
+    "clsx",
+    "tabi",
+    "lintcss",
+    "stylelint",
+    "headlessui",
+    "formik",
+    "linkify",
+    "nextjs",
+    "linkifyjs",
+    "hookform"
+  ]
 }

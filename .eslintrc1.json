@@ -13,7 +13,6 @@
     "plugin:import/recommended"
   ],
   "rules": {
-    // next/imageはホスティングサービスを限定するため使用しない
     "@next/next/no-img-element": "off",
     "react/jsx-boolean-value": "error",
     "unused-imports/no-unused-imports": "error",
@@ -32,7 +31,6 @@
     "import/order": [
       "error",
       {
-        // グループごとの並び順
         "groups": [
           "builtin",
           "external",
@@ -50,7 +48,6 @@
     ]
   },
   "overrides": [
-    // This configuration will apply only to TypeScript files
     {
       "files": ["**/*.ts?(x)"],
       "parser": "@typescript-eslint/parser",
