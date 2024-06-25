@@ -11,8 +11,7 @@ type Props = {
   width?: number;
   isAlert?: boolean;
 };
-const Button = ({ text, type = 'primary', onClick, width, isAlert }: Props) => {
-  return (
+const Button = ({ text, type = 'primary', onClick, width, isAlert }: Props) => (
     <button
       className={clsx(
         style['button-component'],
@@ -24,6 +23,5 @@ const Button = ({ text, type = 'primary', onClick, width, isAlert }: Props) => {
       {text}
     </button>
   );
-};
 
 export default Button;

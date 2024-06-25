@@ -4,6 +4,8 @@ import clsx from 'clsx';
 import { useAtom } from 'jotai';
 import { useCallback, useEffect, useState } from 'react';
 
+import style from './ItemSelectContainer.module.scss';
+
 import { bringListAtom, itemMasterAtom } from '@/atoms/itemAtom';
 import Button from '@/components/presentations/Common/Button/Button';
 import DialogWrapperMini from '@/components/presentations/Dialog/DialogWrapperMini';
@@ -16,7 +18,6 @@ import IconRemove from '@/components/presentations/Icon/IconRemove';
 import { Data } from '@/hooks/pages/useItemPage';
 import { useResponsive } from '@/hooks/useResponsive';
 
-import style from './ItemSelectContainer.module.scss';
 
 type Props = {
   selectedItems: string[] | undefined;
@@ -110,9 +111,9 @@ const ItemSelectContainer = ({
           style['dialog-content'],
           isOpenNoticePanel && style['-disabled'],
         )}>
-        <div className={style['header']}>
+        <div className={style.header}>
           <div
-            className={style['icon']}
+            className={style.icon}
             onClick={() => {
               setSelectedItem(selectedItems);
               close();
@@ -120,35 +121,30 @@ const ItemSelectContainer = ({
             {isSp ? <IconArrow /> : <IconClose />}
           </div>
         </div>
-        <div className={style['body']}>
-          <div className={style['buttons']}>
-            {!isEditMode && (
-              <>
+        <div className={style.body}>
+          <div className={style.buttons}>
+            {!isEditMode ? <>
                 {itemMaster.map((item, i) => (
-                  <div className={style['item']} key={i}>
+                  <div className={style.item} key={i}>
                     <TagCheckbox
-                      label={item}
                       defaultChecked={selectedItem.includes(item)}
+                      label={item}
                       onClick={() => updateSelectedItem(item)}
                     />
                   </div>
                 ))}
-                {itemMaster.length > 0 && (
-                  <div
-                    className={style['icon']}
+                {itemMaster.length > 0 ? <div
+                    className={style.icon}
                     onClick={() => setIsEditMode(true)}>
                     <IconEdit />
-                  </div>
-                )}
-              </>
-            )}
-            {isEditMode && (
-              <>
+                  </div> : null}
+              </> : null}
+            {isEditMode ? <>
                 {tmpItem.map((item, i) => (
-                  <div className={style['item']} key={i}>
-                    <TagCheckbox label={item} defaultChecked={false} />
+                  <div className={style.item} key={i}>
+                    <TagCheckbox defaultChecked={false} label={item} />
                     <div
-                      className={style['icon']}
+                      className={style.icon}
                       onClick={() => {
                         const remainItem = tmpItem.filter(
                           (elm) => elm !== item,
@@ -160,11 +156,9 @@ const ItemSelectContainer = ({
                     </div>
                   </div>
                 ))}
-              </>
-            )}
+              </> : null}
           </div>
-          {isEditMode && (
-            <div className={style['action']}>
+          {isEditMode ? <div className={style.action}>
               <Button
                 text="確定"
                 width={80}
@@ -186,21 +180,20 @@ const ItemSelectContainer = ({
                   setRemovedItem([]);
                 }}
               />
-            </div>
-          )}
+            </div> : null}
 
-          <div className={style['input']}>
+          <div className={style.input}>
             <Input
               label="アイテムを登録"
               value={value}
               onChange={(e) => setValue(e.target.value)}
             />
-            <div className={style['submit']}>
+            <div className={style.submit}>
               <Button text="追加" onClick={addValue} />
             </div>
           </div>
         </div>
-        <div className={style['footer']}>
+        <div className={style.footer}>
           <Button
             text="確定"
             width={120}
@@ -214,13 +207,13 @@ const ItemSelectContainer = ({
       </div>
 
       <DialogWrapperMini
-        title="全員のアイテムから削除されます"
-        isOpen={isOpenNoticePanel}
         closeDialog={handleCloseNoticePanel}
-        handleOk={handleSubmitNoticePanel}>
+        handleOk={handleSubmitNoticePanel}
+        isOpen={isOpenNoticePanel}
+        title="全員のアイテムから削除されます">
         <ul>
           {removedItem.map((item, i) => (
-            <li className={style['item']} key={i}>
+            <li className={style.item} key={i}>
               {item}
             </li>
           ))}

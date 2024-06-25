@@ -16,13 +16,13 @@ const Input = forwardRef<HTMLInputElement, Props>((props: Props, ref) => {
 
   return (
     <div className={style['input-component']}>
-      <label className={style['caption']}>
+      <label className={style.caption}>
         {label}
-        {isRequired && <span className={style['required']}>*</span>}
+        {isRequired ? <span className={style.required}>*</span> : null}
       </label>
       <input
         {...inputProps}
-        className={clsx(style['input'], hasError && style['-error'])}
+        className={clsx(style.input, hasError && style['-error'])}
         ref={ref}
       />
     </div>

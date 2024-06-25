@@ -9,12 +9,10 @@ type Props = {
   closeDialog: () => void;
   handleSubmit: (expense: ExpenseData) => void;
 };
-const DialogExpenseAdding = ({ isOpen, closeDialog, handleSubmit }: Props) => {
-  return (
-    <DialogWrapper isOpen={isOpen} closeDialog={closeDialog}>
+const DialogExpenseAdding = ({ isOpen, closeDialog, handleSubmit }: Props) => (
+    <DialogWrapper closeDialog={closeDialog} isOpen={isOpen}>
       <ExpenseAddingContainer close={closeDialog} handleSubmit={handleSubmit} />
     </DialogWrapper>
   );
-};
 
 export default DialogExpenseAdding;

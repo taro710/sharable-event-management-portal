@@ -4,6 +4,8 @@ import clsx from 'clsx';
 import { useSetAtom } from 'jotai';
 import { useEffect, useState } from 'react';
 
+import style from './ClientLayout.module.scss';
+
 import { eventAtom } from '@/atoms/eventAtom';
 import { expenseAtom } from '@/atoms/expenseAtom';
 import { bringListAtom } from '@/atoms/itemAtom';
@@ -18,7 +20,6 @@ import { Data } from '@/hooks/pages/useItemPage';
 import { MemoData } from '@/hooks/pages/useMemoPage';
 import { useResponsive } from '@/hooks/useResponsive';
 
-import style from './ClientLayout.module.scss';
 
 type Props = {
   event: EventData | undefined;
@@ -51,24 +52,22 @@ const Wrapper = ({ event, itemList, expense, memo, children }: Props) => {
 
   return (
     <div className={style['page-component']}>
-      <div className={clsx(style['sub'], isOpen && style['-open'])}>
+      <div className={clsx(style.sub, isOpen && style['-open'])}>
         <SubPanel
           isOpen={isSp ? isOpen : true}
           setIsOpen={isSp ? setIsOpen : undefined}
         />
-        {isSp && (
-          <span
-            className={clsx(style['icon'], isOpen && style['-reverse'])}
+        {isSp ? <span
+            className={clsx(style.icon, isOpen && style['-reverse'])}
             onClick={onClick}>
             <IconTriangle />
-          </span>
-        )}
+          </span> : null}
       </div>
-      <div className={style['main']}>
-        <div className={style['tab']}>
+      <div className={style.main}>
+        <div className={style.tab}>
           <Tab />
         </div>
-        <div className={style['panel']}>
+        <div className={style.panel}>
           <MainPanel>{children}</MainPanel>
         </div>
       </div>

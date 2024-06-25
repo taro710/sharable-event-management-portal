@@ -1,5 +1,4 @@
-const IconEdit = () => {
-  return (
+const IconEdit = () => (
     <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
       <g id="Complete">
         <g id="edit">
@@ -22,5 +21,4 @@ const IconEdit = () => {
       </g>
     </svg>
   );
-};
 export default IconEdit;

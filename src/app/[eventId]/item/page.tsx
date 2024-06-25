@@ -5,6 +5,8 @@ import { NextPage } from 'next';
 import { useMemo, useRef, useState } from 'react';
 import { useLocalStorage } from 'react-use';
 
+import style from './page.module.scss';
+
 import { eventAtom } from '@/atoms/eventAtom';
 import { bringListAtom, itemMasterAtom } from '@/atoms/itemAtom';
 import ItemSelectContainer from '@/components/containers/item/ItemSelectContainer';
@@ -16,7 +18,6 @@ import IconEdit from '@/components/presentations/Icon/IconEdit';
 import { useItemPage } from '@/hooks/pages/useItemPage';
 import { useResponsive } from '@/hooks/useResponsive';
 
-import style from './page.module.scss';
 
 const DashBoard: NextPage = () => {
   const { isSp } = useResponsive();
@@ -76,23 +77,26 @@ const DashBoard: NextPage = () => {
     <>
       <div className={style['page-component']} ref={ref}>
         <FadeIn className={style['item-panel']}>
-          <div className={style['tags']}>
+          <div className={style.tags}>
             {members?.map((name, i) => (
               <Tag
-                text={name}
                 isActive={i === selectedIndex}
-                onClick={() => setSelectedIndex(i)}
                 key={i}
+                text={name}
+                onClick={() => setSelectedIndex(i)}
               />
             ))}
           </div>
-          <div className={style['content']}>
+          <div className={style.content}>
             <div className={style['item-list']}>
               {selectedData?.item.map((item, i) => (
-                <div className={style['item']} key={selectedData.name + item}>
+                <div className={style.item} key={selectedData.name + item}>
                   <Checkbox
-                    label={item}
+                    defaultChecked={checkedItem?.includes(
+                      selectedData.name + item,
+                    )}
                     id={selectedData.name + i}
+                    label={item}
                     onChange={(e) => {
                       if (e.target.checked) {
                         checkItem(selectedData.name + item);
@@ -100,26 +104,17 @@ const DashBoard: NextPage = () => {
                       }
                       unCheckItem(selectedData.name + item);
                     }}
-                    defaultChecked={checkedItem?.includes(
-                      selectedData.name + item,
-                    )}
                   />
                 </div>
               ))}
             </div>
-            {(!selectedData || selectedData.item.length <= 0) && (
-              <p className={style['notice']}>アイテムはありません😲</p>
-            )}
+            {(!selectedData || selectedData.item.length <= 0) ? <p className={style.notice}>アイテムはありません😲</p> : null}
           </div>
         </FadeIn>
 
         <div className={style['container-component']}>
-          {isDialogOpen && (
-            <ItemSelectContainer
-              selectedItems={selectedData?.item}
+          {isDialogOpen ? <ItemSelectContainer
               close={closePanel}
-              updateItem={updateItem}
-              updateItemMaster={updateItemMaster}
               handleSubmit={async (selectedItem) => {
                 if (selectedMember === undefined) return;
                 const args = (() => {
@@ -151,13 +146,14 @@ const DashBoard: NextPage = () => {
                 if (result === undefined) return;
                 setBringList(result);
               }}
-            />
-          )}
+              selectedItems={selectedData?.item}
+              updateItem={updateItem}
+              updateItemMaster={updateItemMaster}
+            /> : null}
         </div>
       </div>
 
-      {!isDialogOpen && (
-        <button
+      {!isDialogOpen ? <button
           className={style['add-button']}
           onClick={async () => {
             openPanel();
@@ -166,16 +162,10 @@ const DashBoard: NextPage = () => {
             setItems(items);
           }}>
           <IconEdit />
-        </button>
-      )}
+        </button> : null}
 
-      {!isSp && (
-        <DialogItemSelect
-          selectedItems={selectedData?.item}
-          isOpen={isDialogOpen}
+      {!isSp ? <DialogItemSelect
           closeDialog={closePanel}
-          updateItem={updateItem}
-          updateItemMaster={updateItemMaster}
           handleSubmit={async (selectedItem) => {
             if (selectedMember === undefined) return;
             const args = (() => {
@@ -207,8 +197,11 @@ const DashBoard: NextPage = () => {
             if (result === undefined) return;
             setBringList(result);
           }}
-        />
-      )}
+          isOpen={isDialogOpen}
+          selectedItems={selectedData?.item}
+          updateItem={updateItem}
+          updateItemMaster={updateItemMaster}
+        /> : null}
     </>
   );
 };

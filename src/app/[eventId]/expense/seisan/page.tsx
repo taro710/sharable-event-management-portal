@@ -6,12 +6,12 @@ import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { useMemo } from 'react';
 
+import style from './page.module.scss';
+
 import { eventAtom } from '@/atoms/eventAtom';
 import { expenseAtom } from '@/atoms/expenseAtom';
 import FadeIn from '@/components/presentations/Animation/FadeIn';
 import { func } from '@/util/sample';
-
-import style from './page.module.scss';
 
 const DashBoard: NextPage = () => {
   const [event] = useAtom(eventAtom);
@@ -38,18 +38,16 @@ const DashBoard: NextPage = () => {
   return (
     <>
       <FadeIn className={style['expense-panel']}>
-        <h2 className={style['title']}>清算</h2>
+        <h2 className={style.title}>清算</h2>
         {answer.map((list, i) => (
-          <p key={i} className={style['text']}>
+          <p className={style.text} key={i}>
             {list.participant}→{' '}
-            {list.to.map(
-              (to) => to.participant + 'に' + to.price + '円支払い。',
-            )}
+            {list.to.map((to) => `${to.participant}に${to.price}円支払い。`)}
           </p>
         ))}
       </FadeIn>
 
-      <Link href={`/${eventId}/expense`} className={style['link-button']}>
+      <Link className={style['link-button']} href={`/${eventId}/expense`}>
         会計一覧
       </Link>
     </>

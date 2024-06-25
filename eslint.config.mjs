@@ -1,6 +1,7 @@
 import parser from '@typescript-eslint/parser';
 
 import { importConfig } from './eslint-import.mjs';
+import { javascriptConfig } from './eslint-javascript.mjs';
 import { prettierConfig } from './eslint-prettier.mjs';
 import { reactConfig } from './eslint-react.mjs';
 
@@ -19,4 +20,10 @@ const base = {
   },
 };
 
-export default [base, importConfig, reactConfig, prettierConfig];
+export default [
+  base,
+  importConfig,
+  reactConfig,
+  javascriptConfig,
+  prettierConfig,
+];

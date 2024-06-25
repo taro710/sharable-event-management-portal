@@ -10,13 +10,15 @@ import { useParams } from 'next/navigation';
 import { ExpenseData } from '@/domain/expense';
 import { database } from '@/firebase';
 
-// export type ExpenseData = {
-//   expenseId: number;
-//   expenseName: string;
-//   price: number;
-//   payerName: string;
-//   members: string[];
-// };
+/*
+ * Export type ExpenseData = {
+ *   expenseId: number;
+ *   expenseName: string;
+ *   price: number;
+ *   payerName: string;
+ *   members: string[];
+ * };
+ */
 
 export const useExpensePage = (currentExpenseData: ExpenseData[]) => {
   const eventId = useParams()?.eventId as string;

@@ -1,6 +1,7 @@
+import type { Meta, StoryObj } from '@storybook/react';
+
 import Tag from '@/components/presentations/Common/Tag/Tag';
 
-import type { Meta, StoryObj } from '@storybook/react';
 
 const meta = {
   title: 'Common/Tag',

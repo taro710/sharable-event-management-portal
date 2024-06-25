@@ -8,14 +8,16 @@ export type Data = {
   item: string[];
 };
 
-// const basUrl = process.env.NEXT_PUBLIC_FE_BASE_URL;
+// Const basUrl = process.env.NEXT_PUBLIC_FE_BASE_URL;
 
 export const useItemPage = () => {
   const eventId = useParams()?.eventId as string;
-  // const getBringList = async () => {
-  //   const res = await fetch(`${basUrl}/api/api`);
-  //   return res.json();
-  // };
+  /*
+   * Const getBringList = async () => {
+   *   const res = await fetch(`${basUrl}/api/api`);
+   *   return res.json();
+   * };
+   */
 
   const getItemList = async () => {
     const docRef = doc(database, eventId, 'item');

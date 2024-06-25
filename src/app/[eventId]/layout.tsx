@@ -69,8 +69,8 @@ const PageLayout = async ({ children }: { children: React.ReactNode }) => {
   return (
     <ClientLayout
       event={await getEvent()}
-      itemList={await getItemList()}
       expense={await getExpenseList()}
+      itemList={await getItemList()}
       memo={await getMemoList()}>
       {children}
     </ClientLayout>

@@ -3,12 +3,13 @@
 import { NextPage } from 'next';
 import { useRouter } from 'next/navigation';
 
+import style from './page.module.scss';
+
 import EventEditContainer from '@/components/containers/event/EventEditContainer';
 import { PAGE_PATH } from '@/constants/pathname';
 import { EventData } from '@/domain/event';
 import { useEvent } from '@/hooks/useEvent';
 
-import style from './page.module.scss';
 
 const EventEdit: NextPage = () => {
   const router = useRouter();
@@ -22,7 +23,7 @@ const EventEdit: NextPage = () => {
 
   return (
     <div className={style['page-component']}>
-      <EventEditContainer mode="new" handleSubmit={handleSubmit} />
+      <EventEditContainer handleSubmit={handleSubmit} mode="new" />
     </div>
   );
 };

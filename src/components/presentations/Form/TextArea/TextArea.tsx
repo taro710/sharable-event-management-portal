@@ -13,8 +13,8 @@ const TextArea = forwardRef<HTMLTextAreaElement, Props>((props: Props, ref) => {
 
   return (
     <div className={style['input-component']}>
-      <label className={style['caption']}>{label}</label>
-      <textarea {...inputProps} className={style['input']} ref={ref} />
+      <label className={style.caption}>{label}</label>
+      <textarea {...inputProps} className={style.input} ref={ref} />
     </div>
   );
 });

@@ -97,7 +97,7 @@ describe('のらら2023', () => {
   const result3 = sample3(result1, result2).map((res) => {
     return { ...res, balance: Math.trunc(res.balance) };
   });
-  // const result4 = func(NOLALA_2023.DATA, NOLALA_2023.PARTICIPANTS);
+  // Const result4 = func(NOLALA_2023.DATA, NOLALA_2023.PARTICIPANTS);
 
   test('メンバーごとの建替負担額のテスト', () => {
     expect(result1).toStrictEqual(NOLALA_2023.RESULT1);
@@ -111,7 +111,9 @@ describe('のらら2023', () => {
     expect(result3).toStrictEqual(NOLALA_2023.RESULT3);
   });
 
-  // test('誰から誰に払うかのテスト', () => {
-  //   expect(result4).toStrictEqual(NOLALA_2023.RESULT4);
-  // });
+  /*
+   * Test('誰から誰に払うかのテスト', () => {
+   *   expect(result4).toStrictEqual(NOLALA_2023.RESULT4);
+   * });
+   */
 });

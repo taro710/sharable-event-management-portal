@@ -9,14 +9,12 @@ type Props = {
   isActive?: boolean;
   onClick?: () => void;
 };
-const Tag = ({ text, isActive, onClick }: Props) => {
-  return (
+const Tag = ({ text, isActive, onClick }: Props) => (
     <div
       className={clsx(style['tag-component'], isActive && style['-active'])}
       onClick={onClick}>
-      <span className={style['text']}>{text}</span>
+      <span className={style.text}>{text}</span>
     </div>
   );
-};
 
 export default Tag;

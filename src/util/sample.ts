@@ -22,9 +22,7 @@ export const sample2 = (expenses: ExpenseData[], participants: string[]) => {
       expense.members.includes(participant),
     );
 
-    const totalFee = expenseList.reduce((acc, cur) => {
-      return acc + cur.price / cur.members.length;
-    }, 0);
+    const totalFee = expenseList.reduce((acc, cur) => acc + cur.price / cur.members.length, 0);
 
     return { participant, totalFee };
   });
@@ -99,22 +97,22 @@ export const func = (expenses: ExpenseData[], participants: string[]) => {
 
   // もらう人と払う人の貸し借りの総和が0になることを確認 TODO:
 
-  let i = 0; // answerを関数化して、中に入れる // TODO:
+  let i = 0; // Answerを関数化して、中に入れる // TODO:
   const answer = 払う人.map((man) => {
     const to = [];
 
-    console.warn(man.participant + 'が誰にいくら払うか計算開始');
+    console.warn(`${man.participant  }が誰にいくら払うか計算開始`);
 
     let 貸し借り = man.balance;
 
     while (true) {
-      console.log(man.participant + 'の現在の貸し借りは' + 貸し借り);
+      console.log(`${man.participant  }の現在の貸し借りは${  貸し借り}`);
 
       const もらう人の現在の貸し借り = もらう人[i].balance;
 
-      console.log('もらう人は' + もらう人[i].participant);
+      console.log(`もらう人は${  もらう人[i].participant}`);
       console.log(
-        もらう人[i].participant + 'の貸し借りは' + もらう人の現在の貸し借り,
+        `${もらう人[i].participant  }の貸し借りは${  もらう人の現在の貸し借り}`,
       );
 
       if (貸し借り + もらう人の現在の貸し借り > 0) {
@@ -135,7 +133,7 @@ export const func = (expenses: ExpenseData[], participants: string[]) => {
 
         return {
           participant: man.participant,
-          //   diff: man.balance,
+          //   Diff: man.balance,
           to,
         };
       }

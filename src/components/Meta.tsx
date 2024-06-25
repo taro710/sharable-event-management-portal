@@ -27,8 +27,8 @@ const Meta = async ({ pathname }: Props) => {
   return (
     <>
       <title>{event?.eventName}</title>
-      <meta property="og:title" content={event?.eventName} />
-      <meta property="og:description" content={event?.message} />
+      <meta content={event?.eventName} property="og:title" />
+      <meta content={event?.message} property="og:description" />
     </>
   );
 };
