@@ -12,7 +12,9 @@ export const javascriptConfig = {
     'id-length': 'off',
     'max-statements': 'off',
     'max-lines-per-function': 'off',
+    'no-undefined': 'off',
     'no-console': 'warn',
+    'no-warning-comments': 'warn',
     'prefer-template': 'error',
     'no-constant-condition': 'error',
     'arrow-body-style': [
