@@ -9,12 +9,10 @@ type Props = {
   closeDialog: () => void;
   handleSubmit: (data: EventData) => Promise<void>;
 };
-const DialogOverviewEdit = ({ isOpen, closeDialog, handleSubmit }: Props) => {
-  return (
-    <DialogWrapper isOpen={isOpen} closeDialog={closeDialog}>
+const DialogOverviewEdit = ({ isOpen, closeDialog, handleSubmit }: Props) => (
+    <DialogWrapper closeDialog={closeDialog} isOpen={isOpen}>
       <EventEditContainer handleSubmit={handleSubmit} />
     </DialogWrapper>
   );
-};
 
 export default DialogOverviewEdit;

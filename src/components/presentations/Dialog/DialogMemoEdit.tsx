@@ -17,17 +17,15 @@ const DialogMemoEdit = ({
   memoData,
   handleDelete,
   handleSubmit,
-}: Props) => {
-  return (
-    <DialogWrapper isOpen={isOpen} closeDialog={closeDialog}>
+}: Props) => (
+    <DialogWrapper closeDialog={closeDialog} isOpen={isOpen}>
       <MemoEditContainer
-        memoData={memoData}
+        close={closeDialog}
         handleDelete={handleDelete}
         handleSubmit={handleSubmit}
-        close={closeDialog}
+        memoData={memoData}
       />
     </DialogWrapper>
   );
-};
 
 export default DialogMemoEdit;

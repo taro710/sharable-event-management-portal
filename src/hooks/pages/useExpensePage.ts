@@ -10,13 +10,15 @@ import { useParams } from 'next/navigation';
 import { ExpenseData } from '@/domain/expense';
 import { database } from '@/firebase';
 
-// export type ExpenseData = {
-//   expenseId: number;
-//   expenseName: string;
-//   price: number;
-//   payerName: string;
-//   members: string[];
-// };
+/*
+ * Export type ExpenseData = {
+ *   expenseId: number;
+ *   expenseName: string;
+ *   price: number;
+ *   payerName: string;
+ *   members: string[];
+ * };
+ */
 
 export const useExpensePage = (currentExpenseData: ExpenseData[]) => {
   const eventId = useParams()?.eventId as string;
@@ -43,14 +45,14 @@ export const useExpensePage = (currentExpenseData: ExpenseData[]) => {
       ];
       return afterAddExpenseData;
     } catch (e) {
-      console.error('Error adding document: ', e);
+      throw new Error('Error adding document');
     }
   };
 
   const updateExpense = async (data: ExpenseData) => {
     const docRef = doc(database, eventId, 'expense');
     try {
-      if (!data.expenseId) return;
+      if (!data.expenseId) return undefined;
       await updateDoc(docRef, { [data.expenseId]: data });
 
       const afterUpdateExpenseData = [...currentExpenseData].map((expense) => {
@@ -59,7 +61,7 @@ export const useExpensePage = (currentExpenseData: ExpenseData[]) => {
       });
       return afterUpdateExpenseData;
     } catch (e) {
-      console.error('Error adding document: ', e);
+      throw new Error('Error adding document');
     }
   };
 
@@ -72,14 +74,14 @@ export const useExpensePage = (currentExpenseData: ExpenseData[]) => {
       const expenseList: ExpenseData[] = Object.values(data || {});
       return expenseList;
     } catch (error) {
-      console.error('Error get document: ', error);
+      throw new Error('Error get document');
     }
   };
 
   const deleteExpense = async (expenseId?: number) => {
     const docRef = doc(database, eventId, 'expense');
     try {
-      if (!expenseId) return;
+      if (!expenseId) return undefined;
       await updateDoc(docRef, { [expenseId]: deleteField() });
 
       const afterDeleteExpenseData = [...currentExpenseData].filter(
@@ -87,7 +89,7 @@ export const useExpensePage = (currentExpenseData: ExpenseData[]) => {
       );
       return afterDeleteExpenseData;
     } catch (e) {
-      console.error('Error adding document: ', e);
+      throw new Error('Error adding document');
     }
   };
 

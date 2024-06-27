@@ -6,11 +6,12 @@ import { database } from '@/firebase';
 type Props = {
   pathname: string;
 };
+
 const Meta = async ({ pathname }: Props) => {
-  const eventId = pathname.split('/')[1]; //TODO: この位置にeventIdが来ない場合もある
+  const [, eventId] = pathname.split('/'); //TODO: この位置にeventIdが来ない場合もある
 
   const getEvent = async () => {
-    if (!eventId) return;
+    if (!eventId) return undefined;
     const docRef = doc(database, eventId, 'event');
 
     try {
@@ -18,7 +19,7 @@ const Meta = async ({ pathname }: Props) => {
       const eventData = document?.data() as EventData | undefined;
       return eventData;
     } catch (error) {
-      console.error('Error get document: ', error);
+      throw new Error('Error get document');
     }
   };
 
@@ -27,8 +28,8 @@ const Meta = async ({ pathname }: Props) => {
   return (
     <>
       <title>{event?.eventName}</title>
-      <meta property="og:title" content={event?.eventName} />
-      <meta property="og:description" content={event?.message} />
+      <meta content={event?.eventName} property="og:title" />
+      <meta content={event?.message} property="og:description" />
     </>
   );
 };

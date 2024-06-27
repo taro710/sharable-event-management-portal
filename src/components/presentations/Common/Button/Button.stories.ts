@@ -1,8 +1,9 @@
 import { fn } from '@storybook/test';
 
+import type { Meta, StoryObj } from '@storybook/react';
+
 import Button from '@/components/presentations/Common/Button/Button';
 
-import type { Meta, StoryObj } from '@storybook/react';
 
 const meta = {
   title: 'Common/Button',

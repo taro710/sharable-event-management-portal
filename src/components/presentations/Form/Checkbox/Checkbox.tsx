@@ -12,16 +12,18 @@ const Checkbox = (props: Props) => {
     <label className={style['checkbox-wrapper-15']}>
       <input
         className={style['inp-cbx']}
-        type="checkbox"
         style={{ display: 'none' }}
+        type="checkbox"
         {...inputProps}
       />
-      <span className={style['check']}>
+
+      <span className={style.check}>
         <svg>
           <polyline points="1 5 4 8 11 1" />
         </svg>
       </span>
-      <span className={style['label']}>{label}</span>
+
+      <span className={style.label}>{label}</span>
     </label>
   );
 };

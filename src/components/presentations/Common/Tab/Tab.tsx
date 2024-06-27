@@ -5,9 +5,9 @@ import Link from 'next/link';
 import { useParams, usePathname } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 
-import { useResponsive } from '@/hooks/useResponsive';
-
 import style from './Tab.module.scss';
+
+import { useResponsive } from '@/hooks/useResponsive';
 
 const Tab = () => {
   const { isSp } = useResponsive();
@@ -59,20 +59,20 @@ const Tab = () => {
 
   return (
     <div className={style['tab-component']}>
-      <ul className={style['tab']}>
+      <ul className={style.tab}>
         {tabItems.map(({ label, path }, i) => (
           <Link
             className={clsx(
-              style['item'],
+              style.item,
               selectedIndex === i && style['-selected'],
             )}
             href={path}
-            key={i}>
+            key={path}>
             {label}
           </Link>
         ))}
-        {selectedIndex !== undefined && (
-          <div className={style['background']} ref={ref} />
+        {selectedIndex === undefined ? null : (
+          <div className={style.background} ref={ref} />
         )}
       </ul>
     </div>

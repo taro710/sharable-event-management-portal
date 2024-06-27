@@ -17,17 +17,15 @@ const DialogExpenseEdit = ({
   defaultExpense,
   deleteExpense,
   handleSubmit,
-}: Props) => {
-  return (
-    <DialogWrapper isOpen={isOpen} closeDialog={closeDialog}>
+}: Props) => (
+    <DialogWrapper closeDialog={closeDialog} isOpen={isOpen}>
       <ExpenseEditContainer
         close={closeDialog}
-        handleSubmit={handleSubmit}
-        deleteExpense={deleteExpense}
         defaultExpense={defaultExpense}
+        deleteExpense={deleteExpense}
+        handleSubmit={handleSubmit}
       />
     </DialogWrapper>
   );
-};
 
 export default DialogExpenseEdit;

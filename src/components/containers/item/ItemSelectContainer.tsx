@@ -4,6 +4,8 @@ import clsx from 'clsx';
 import { useAtom } from 'jotai';
 import { useCallback, useEffect, useState } from 'react';
 
+import style from './ItemSelectContainer.module.scss';
+
 import { bringListAtom, itemMasterAtom } from '@/atoms/itemAtom';
 import Button from '@/components/presentations/Common/Button/Button';
 import DialogWrapperMini from '@/components/presentations/Dialog/DialogWrapperMini';
@@ -16,8 +18,6 @@ import IconRemove from '@/components/presentations/Icon/IconRemove';
 import { Data } from '@/hooks/pages/useItemPage';
 import { useResponsive } from '@/hooks/useResponsive';
 
-import style from './ItemSelectContainer.module.scss';
-
 type Props = {
   selectedItems: string[] | undefined;
   updateItem: (data: Data[]) => Promise<Data[] | undefined>;
@@ -26,8 +26,10 @@ type Props = {
   close: () => void;
 };
 
+const emptyArray: string[] = [];
+
 const ItemSelectContainer = ({
-  selectedItems = [],
+  selectedItems = emptyArray,
   updateItem,
   updateItemMaster,
   handleSubmit,
@@ -40,11 +42,11 @@ const ItemSelectContainer = ({
   const [selectedItem, setSelectedItem] = useState<string[]>(selectedItems);
   const [value, setValue] = useState<string>('');
 
-  const updateSelectedItem = useCallback((selectedItem: string) => {
+  const updateSelectedItem = useCallback((_selectedItem: string) => {
     setSelectedItem((prev) => {
-      if (prev.includes(selectedItem))
-        return prev.filter((elm) => elm != selectedItem);
-      return [...prev, selectedItem];
+      if (prev.includes(_selectedItem))
+        return prev.filter((elm) => elm !== _selectedItem);
+      return [...prev, _selectedItem];
     });
   }, []);
 
@@ -77,13 +79,13 @@ const ItemSelectContainer = ({
     if (newItemMaster === undefined) return;
     setItemMaster(newItemMaster);
 
-    const _newBringList = bringList.map((elm) => {
+    const newBringList = bringList.map((elm) => {
       return {
         name: elm.name,
         item: elm.item.filter((item) => tmpItem.includes(item)),
       };
     });
-    const newItemList = await updateItem(_newBringList);
+    const newItemList = await updateItem(newBringList);
     if (newItemList === undefined) {
       setIsEditMode(false);
       return;
@@ -110,9 +112,9 @@ const ItemSelectContainer = ({
           style['dialog-content'],
           isOpenNoticePanel && style['-disabled'],
         )}>
-        <div className={style['header']}>
+        <div className={style.header}>
           <div
-            className={style['icon']}
+            className={style.icon}
             onClick={() => {
               setSelectedItem(selectedItems);
               close();
@@ -120,35 +122,37 @@ const ItemSelectContainer = ({
             {isSp ? <IconArrow /> : <IconClose />}
           </div>
         </div>
-        <div className={style['body']}>
-          <div className={style['buttons']}>
-            {!isEditMode && (
+        <div className={style.body}>
+          <div className={style.buttons}>
+            {isEditMode ? null : (
               <>
-                {itemMaster.map((item, i) => (
-                  <div className={style['item']} key={i}>
+                {itemMaster.map((item) => (
+                  // FIXME: key
+                  <div className={style.item} key={item}>
                     <TagCheckbox
-                      label={item}
                       defaultChecked={selectedItem.includes(item)}
+                      label={item}
                       onClick={() => updateSelectedItem(item)}
                     />
                   </div>
                 ))}
-                {itemMaster.length > 0 && (
+                {itemMaster.length > 0 ? (
                   <div
-                    className={style['icon']}
+                    className={style.icon}
                     onClick={() => setIsEditMode(true)}>
                     <IconEdit />
                   </div>
-                )}
+                ) : null}
               </>
             )}
-            {isEditMode && (
+            {isEditMode ? (
               <>
-                {tmpItem.map((item, i) => (
-                  <div className={style['item']} key={i}>
-                    <TagCheckbox label={item} defaultChecked={false} />
+                {tmpItem.map((item) => (
+                  // FIXME: key
+                  <div className={style.item} key={item}>
+                    <TagCheckbox defaultChecked={false} label={item} />
                     <div
-                      className={style['icon']}
+                      className={style.icon}
                       onClick={() => {
                         const remainItem = tmpItem.filter(
                           (elm) => elm !== item,
@@ -161,10 +165,10 @@ const ItemSelectContainer = ({
                   </div>
                 ))}
               </>
-            )}
+            ) : null}
           </div>
-          {isEditMode && (
-            <div className={style['action']}>
+          {isEditMode ? (
+            <div className={style.action}>
               <Button
                 text="確定"
                 width={80}
@@ -187,20 +191,20 @@ const ItemSelectContainer = ({
                 }}
               />
             </div>
-          )}
+          ) : null}
 
-          <div className={style['input']}>
+          <div className={style.input}>
             <Input
               label="アイテムを登録"
               value={value}
               onChange={(e) => setValue(e.target.value)}
             />
-            <div className={style['submit']}>
+            <div className={style.submit}>
               <Button text="追加" onClick={addValue} />
             </div>
           </div>
         </div>
-        <div className={style['footer']}>
+        <div className={style.footer}>
           <Button
             text="確定"
             width={120}
@@ -214,13 +218,14 @@ const ItemSelectContainer = ({
       </div>
 
       <DialogWrapperMini
-        title="全員のアイテムから削除されます"
-        isOpen={isOpenNoticePanel}
         closeDialog={handleCloseNoticePanel}
-        handleOk={handleSubmitNoticePanel}>
+        handleOk={handleSubmitNoticePanel}
+        isOpen={isOpenNoticePanel}
+        title="全員のアイテムから削除されます">
         <ul>
-          {removedItem.map((item, i) => (
-            <li className={style['item']} key={i}>
+          {removedItem.map((item) => (
+            // FIXME: key
+            <li className={style.item} key={item}>
               {item}
             </li>
           ))}

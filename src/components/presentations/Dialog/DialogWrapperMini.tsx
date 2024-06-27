@@ -3,9 +3,10 @@
 import { Dialog, Transition } from '@headlessui/react';
 import { Fragment } from 'react';
 
+import style from './DialogWrapperMini.module.scss';
+
 import Button from '@/components/presentations/Common/Button/Button';
 
-import style from './DialogWrapperMini.module.scss';
 
 type Props = {
   title: string;
@@ -21,10 +22,9 @@ const DialogWrapperMini = ({
   closeDialog,
   children,
   handleOk,
-}: Props) => {
-  return (
-    <Transition appear show={isOpen} as={Fragment}>
-      <Dialog onClose={closeDialog} className={style['background-component']}>
+}: Props) => (
+    <Transition appear as={Fragment} show={isOpen}>
+      <Dialog className={style['background-component']} onClose={closeDialog}>
         <Transition.Child
           as={Fragment}
           enter={style['modal-transition-enter']}
@@ -34,9 +34,9 @@ const DialogWrapperMini = ({
           leaveFrom={style['modal-transition-leave-from']}
           leaveTo={style['modal-transition-leave-to']}>
           <Dialog.Panel className={style['dialog-panel']}>
-            <p className={style['title']}>{title}</p>
-            {children && <div className={style['content']}>{children}</div>}
-            <div className={style['action']}>
+            <p className={style.title}>{title}</p>
+            {children ? <div className={style.content}>{children}</div> : null}
+            <div className={style.action}>
               <Button text="確定" onClick={handleOk} />
               <Button
                 text="キャンセル"
@@ -49,5 +49,4 @@ const DialogWrapperMini = ({
       </Dialog>
     </Transition>
   );
-};
 export default DialogWrapperMini;

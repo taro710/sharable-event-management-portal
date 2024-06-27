@@ -4,6 +4,8 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useAtom } from 'jotai';
 import { useForm } from 'react-hook-form';
 
+import style from './ExpenseAddingContainer.module.scss';
+
 import { eventAtom } from '@/atoms/eventAtom';
 import Button from '@/components/presentations/Common/Button/Button';
 import Input from '@/components/presentations/Form/Input/Input';
@@ -13,8 +15,6 @@ import IconArrow from '@/components/presentations/Icon/IconArrow';
 import IconClose from '@/components/presentations/Icon/IconClose';
 import { ExpenseData, expenseFormSchema } from '@/domain/expense';
 import { useResponsive } from '@/hooks/useResponsive';
-
-import style from './ExpenseAddingContainer.module.scss';
 
 type Props = {
   handleSubmit: (expense: ExpenseData) => void;
@@ -37,53 +37,54 @@ const ExpenseAddingContainer = ({ handleSubmit: onSubmit, close }: Props) => {
 
   return (
     <div className={style['dialog-content']}>
-      <div className={style['header']}>
-        <div className={style['icon']} onClick={close}>
+      <div className={style.header}>
+        <div className={style.icon} onClick={close}>
           {isSp ? <IconArrow /> : <IconClose />}
         </div>
       </div>
-      <div className={style['body']}>
+      <div className={style.body}>
         <Input
+          hasError={Boolean(errors.expenseName)}
           label="出費名"
-          hasError={!!errors.expenseName}
           {...register('expenseName')}
         />
-        <div className={style['price']}>
+        <div className={style.price}>
           <Input
+            hasError={Boolean(errors.price)}
             label="金額"
-            hasError={!!errors.price}
             type={`${isSp ? 'tel' : 'number'}`}
             {...register('price', { valueAsNumber: true })}
           />
-          <span className={style['unit']}>円</span>
+          <span className={style.unit}>円</span>
         </div>
         <SelectBox label="支払い者" {...register('payerName')}>
-          {members.map((member, i) => (
-            <option value={member} key={i}>
+          {members.map((member) => (
+            // FIXME: key
+            <option key={member} value={member}>
               {member}
             </option>
           ))}
         </SelectBox>
 
-        <div className={style['members']}>
-          <p className={style['caption']}>割り勘対象者</p>
-          <div className={style['tag']}>
-            {members.map((participant, i) => (
+        <div className={style.members}>
+          <p className={style.caption}>割り勘対象者</p>
+          <div className={style.tag}>
+            {members.map((participant) => (
               <TagCheckbox
+                key={participant} // FIXME: key
                 label={participant}
                 value={participant}
-                key={i}
                 {...register('members')}
               />
             ))}
           </div>
-          {!!errors.members && <span>対象者を選択してください</span>}
+          {errors.members ? <span>対象者を選択してください</span> : null}
         </div>
-        <div className={style['footer']}>
+        <div className={style.footer}>
           <Button
             text="追加"
-            width={120}
             type="primary"
+            width={120}
             onClick={handleSubmit(onSubmit)}
           />
         </div>

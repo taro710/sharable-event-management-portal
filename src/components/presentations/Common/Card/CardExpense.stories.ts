@@ -1,6 +1,7 @@
+import type { Meta, StoryObj } from '@storybook/react';
+
 import CardExpense from '@/components/presentations/Common/Card/CardExpense';
 
-import type { Meta, StoryObj } from '@storybook/react';
 
 const meta = {
   title: 'Common/CardExpense',

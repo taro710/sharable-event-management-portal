@@ -5,6 +5,8 @@ import { useAtom } from 'jotai';
 import { useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
+import style from './ExpenseAddingContainer.module.scss';
+
 import { eventAtom } from '@/atoms/eventAtom';
 import Button from '@/components/presentations/Common/Button/Button';
 import DialogWrapperMini from '@/components/presentations/Dialog/DialogWrapperMini';
@@ -15,8 +17,6 @@ import IconArrow from '@/components/presentations/Icon/IconArrow';
 import IconClose from '@/components/presentations/Icon/IconClose';
 import { ExpenseData, expenseFormSchema } from '@/domain/expense';
 import { useResponsive } from '@/hooks/useResponsive';
-
-import style from './ExpenseAddingContainer.module.scss';
 
 type Props = {
   defaultExpense: ExpenseData;
@@ -37,12 +37,12 @@ const ExpenseEditContainer = ({
 
   // イベントから消されたユーザーの支払いデータもDBには残っている。それらユーザーも全て含めて清算する
   const members: string[] = useMemo(() => {
-    const members = new Set<string>();
+    const memberSet = new Set<string>();
     const eventMembers = event?.members || [];
-    eventMembers.forEach((member) => members.add(member));
-    members.add(defaultExpense.payerName);
-    defaultExpense.members.forEach((member) => members.add(member));
-    return Array.from(members);
+    eventMembers.forEach((member) => memberSet.add(member));
+    memberSet.add(defaultExpense.payerName);
+    defaultExpense.members.forEach((member) => memberSet.add(member));
+    return Array.from(memberSet);
   }, [event, defaultExpense]);
 
   const {
@@ -57,61 +57,62 @@ const ExpenseEditContainer = ({
   return (
     <>
       <div className={style['dialog-content']}>
-        <div className={style['header']}>
-          <div className={style['icon']} onClick={close}>
+        <div className={style.header}>
+          <div className={style.icon} onClick={close}>
             {isSp ? <IconArrow /> : <IconClose />}
           </div>
         </div>
-        <div className={style['body']}>
+        <div className={style.body}>
           <Input
+            hasError={Boolean(errors.expenseName)}
             label="出費名"
-            hasError={!!errors.expenseName}
             {...register('expenseName')}
           />
-          <div className={style['price']}>
+          <div className={style.price}>
             <Input
+              hasError={Boolean(errors.price)}
               label="金額"
-              hasError={!!errors.price}
               type={`${isSp ? 'tel' : 'number'}`}
               {...register('price', { valueAsNumber: true })}
             />
-            <span className={style['unit']}>円</span>
+            <span className={style.unit}>円</span>
           </div>
           <SelectBox label="支払い者" {...register('payerName')}>
-            {members.map((member, i) => (
-              <option value={member} key={i}>
+            {members.map((member) => (
+              // FIXME: key
+              <option key={member} value={member}>
                 {member}
               </option>
             ))}
           </SelectBox>
 
-          <div className={style['members']}>
-            <p className={style['caption']}>割り勘対象者</p>
-            <div className={style['tag']}>
-              {members.map((participant, i) => (
+          <div className={style.members}>
+            <p className={style.caption}>割り勘対象者</p>
+            <div className={style.tag}>
+              {members.map((participant) => (
                 <TagCheckbox
+                  key={participant} // FIXME: key
                   label={participant}
                   value={participant}
-                  key={i}
                   {...register('members')}
                 />
               ))}
             </div>
-            {!!errors.members && <span>対象者を選択してください</span>}
+            {errors.members ? <span>対象者を選択してください</span> : null}
           </div>
 
-          <div className={style['footer']}>
+          <div className={style.footer}>
             <Button
-              text="支払い記録を削除"
-              width={160}
-              type="secondary"
               isAlert
+              text="支払い記録を削除"
+              type="secondary"
+              width={160}
               onClick={() => setIsOpenNoticePanel(true)}
             />
             <Button
               text="確定"
-              width={120}
               type="primary"
+              width={120}
               onClick={handleSubmit(onSubmit)}
             />
           </div>
@@ -119,10 +120,10 @@ const ExpenseEditContainer = ({
       </div>
 
       <DialogWrapperMini
-        title="支払い記録を削除します"
-        isOpen={isOpenNoticePanel}
         closeDialog={() => setIsOpenNoticePanel(false)}
-        handleOk={() => deleteExpense(defaultExpense.expenseId)}>
+        handleOk={() => deleteExpense(defaultExpense.expenseId)}
+        isOpen={isOpenNoticePanel}
+        title="支払い記録を削除します">
         <p>{defaultExpense.expenseName}</p>
       </DialogWrapperMini>
     </>

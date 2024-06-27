@@ -1,6 +1,7 @@
+import type { Meta, StoryObj } from '@storybook/react';
+
 import TextArea from '@/components/presentations/Form/TextArea/TextArea';
 
-import type { Meta, StoryObj } from '@storybook/react';
 
 const meta = {
   title: 'Form/TextArea',

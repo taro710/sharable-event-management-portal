@@ -24,8 +24,8 @@ const DialogWrapper = ({ isOpen, closeDialog, children }: Props) => {
   }, [handleKeyDown]);
 
   return (
-    <Transition appear show={isOpen} as={Fragment}>
-      <Dialog onClose={closeDialog} className={style['background-component']}>
+    <Transition appear as={Fragment} show={isOpen}>
+      <Dialog className={style['background-component']} onClose={closeDialog}>
         <Transition.Child
           as={Fragment}
           enter={style['modal-transition-enter']}

@@ -9,12 +9,10 @@ type Props = {
   closeDialog: () => void;
   handleSubmit: (memoData: Omit<MemoData, 'memoId'>) => void;
 };
-const DialogMemoAdding = ({ isOpen, closeDialog, handleSubmit }: Props) => {
-  return (
-    <DialogWrapper isOpen={isOpen} closeDialog={closeDialog}>
-      <MemoAddingContainer handleSubmit={handleSubmit} close={closeDialog} />
+const DialogMemoAdding = ({ isOpen, closeDialog, handleSubmit }: Props) => (
+    <DialogWrapper closeDialog={closeDialog} isOpen={isOpen}>
+      <MemoAddingContainer close={closeDialog} handleSubmit={handleSubmit} />
     </DialogWrapper>
   );
-};
 
 export default DialogMemoAdding;

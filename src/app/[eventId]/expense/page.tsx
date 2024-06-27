@@ -6,6 +6,8 @@ import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { useRef, useState } from 'react';
 
+import style from './page.module.scss';
+
 import { expenseAtom } from '@/atoms/expenseAtom';
 import ExpenseAddingContainer from '@/components/containers/expense/ExpenseAddingContainer';
 import ExpenseEditContainer from '@/components/containers/expense/ExpenseEditContainer';
@@ -17,8 +19,6 @@ import IconAdd from '@/components/presentations/Icon/IconAdd';
 import { ExpenseData } from '@/domain/expense';
 import { useExpensePage } from '@/hooks/pages/useExpensePage';
 import { useResponsive } from '@/hooks/useResponsive';
-
-import style from './page.module.scss';
 
 const DashBoard: NextPage = () => {
   const { isSp } = useResponsive();
@@ -68,27 +68,27 @@ const DashBoard: NextPage = () => {
     <>
       <div className={style['page-component']} ref={ref}>
         <FadeIn className={style['expense-panel']}>
-          {expenses.length <= 0 && (
-            <p className={style['notice']}>支払いはありません🤔</p>
-          )}
-          <ul className={style['cards']}>
-            {expenses.map((expense, i) => (
+          {expenses.length <= 0 ? (
+            <p className={style.notice}>支払いはありません🤔</p>
+          ) : null}
+          <ul className={style.cards}>
+            {expenses.map((expense) => (
               <CardExpense
                 expense={expense}
-                key={i}
+                key={expense.expenseId} // FIXME: id型の必須化
                 onClick={() => openEditPanel(expense)}
               />
             ))}
           </ul>
-          {!!expenses.length && (
-            <Link href={`/${eventId}/expense/seisan`} className={style['link']}>
+          {expenses.length ? (
+            <Link className={style.link} href={`/${eventId}/expense/seisan`}>
               清算金額を確認
             </Link>
-          )}
+          ) : null}
         </FadeIn>
 
         <div className={style['container-component']}>
-          {isAddDialogOpen && (
+          {isAddDialogOpen ? (
             <ExpenseAddingContainer
               close={closeAddPanel}
               handleSubmit={async (expense: ExpenseData) => {
@@ -98,11 +98,11 @@ const DashBoard: NextPage = () => {
                 closeAddPanel();
               }}
             />
-          )}
-          {isEditDialogOpen && editingExpense && (
+          ) : null}
+          {isEditDialogOpen && editingExpense ? (
             <ExpenseEditContainer
-              defaultExpense={editingExpense}
               close={closeEditPanel}
+              defaultExpense={editingExpense}
               deleteExpense={async (expenseId?: number) => {
                 const result = await deleteExpense(expenseId);
                 if (result === undefined) return;
@@ -116,19 +116,21 @@ const DashBoard: NextPage = () => {
                 closeEditPanel();
               }}
             />
-          )}
+          ) : null}
         </div>
       </div>
 
-      {!isAddDialogOpen && !isEditDialogOpen && (
-        <button className={style['add-button']} onClick={openAddPanel}>
+      {!isAddDialogOpen && !isEditDialogOpen ? (
+        <button
+          className={style['add-button']}
+          type="button"
+          onClick={openAddPanel}>
           <IconAdd />
         </button>
-      )}
+      ) : null}
 
-      {!isSp && (
+      {isSp ? null : (
         <DialogExpenseAdding
-          isOpen={isAddDialogOpen}
           closeDialog={closeAddPanel}
           handleSubmit={async (expense: ExpenseData) => {
             const result = await addExpense(expense);
@@ -136,11 +138,11 @@ const DashBoard: NextPage = () => {
             setExpenses(result);
             closeAddPanel();
           }}
+          isOpen={isAddDialogOpen}
         />
       )}
-      {!isSp && editingExpense && (
+      {!isSp && editingExpense ? (
         <DialogExpenseEdit
-          isOpen={isEditDialogOpen}
           closeDialog={closeEditPanel}
           defaultExpense={editingExpense}
           deleteExpense={async (expenseId?: number) => {
@@ -155,8 +157,9 @@ const DashBoard: NextPage = () => {
             setExpenses(result);
             closeEditPanel();
           }}
+          isOpen={isEditDialogOpen}
         />
-      )}
+      ) : null}
     </>
   );
 };

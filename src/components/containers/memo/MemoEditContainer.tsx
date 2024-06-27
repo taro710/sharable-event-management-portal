@@ -4,6 +4,8 @@ import clsx from 'clsx';
 import { useAtom } from 'jotai';
 import { useMemo, useState } from 'react';
 
+import style from './MemoAddingContainer.module.scss';
+
 import { eventAtom } from '@/atoms/eventAtom';
 import Button from '@/components/presentations/Common/Button/Button';
 import DialogWrapperMini from '@/components/presentations/Dialog/DialogWrapperMini';
@@ -14,7 +16,6 @@ import IconClose from '@/components/presentations/Icon/IconClose';
 import { MemoData } from '@/hooks/pages/useMemoPage';
 import { useResponsive } from '@/hooks/useResponsive';
 
-import style from './MemoAddingContainer.module.scss';
 type Props = {
   memoData: MemoData;
   handleSubmit: (data: MemoData) => void;
@@ -36,11 +37,11 @@ const MemoEditContainer = ({
 
   // イベントから消されたユーザーの支払いデータもDBには残っている。それらユーザーも全て含めて清算する
   const members: string[] = useMemo(() => {
-    const members = new Set<string>();
+    const memberSet = new Set<string>();
     const eventMembers = event?.members || [];
-    eventMembers.forEach((member) => members.add(member));
-    members.add(memoData.member);
-    return Array.from(members);
+    eventMembers.forEach((member) => memberSet.add(member));
+    memberSet.add(memoData.member);
+    return Array.from(memberSet);
   }, [event, memoData]);
 
   return (
@@ -50,13 +51,13 @@ const MemoEditContainer = ({
           style['dialog-content'],
           isOpenNoticePanel && style['-disabled'],
         )}>
-        <div className={style['header']}>
-          <div className={style['icon']} onClick={close}>
+        <div className={style.header}>
+          <div className={style.icon} onClick={close}>
             {isSp ? <IconArrow /> : <IconClose />}
           </div>
         </div>
-        <div className={style['body']}>
-          {event && (
+        <div className={style.body}>
+          {event ? (
             <SelectBox
               label="記入者"
               value={author}
@@ -69,12 +70,12 @@ const MemoEditContainer = ({
                 </option>
               ))}
             </SelectBox>
-          )}
+          ) : null}
           <TextArea
             label="メモ"
             value={memo}
             onChange={(e) => {
-              const value = e.target.value;
+              const { value } = e.target;
               if (value.length > 1000) {
                 setMemo(value.slice(0, 1000));
                 return;
@@ -83,16 +84,16 @@ const MemoEditContainer = ({
             }}
           />
 
-          <div className={style['footer']}>
-            <div className={style['delete']}>
+          <div className={style.footer}>
+            <div className={style.delete}>
               <Button
+                isAlert
                 text="メモを削除"
                 type="secondary"
-                isAlert
                 onClick={() => setIsOpenNoticePanel(true)}
               />
             </div>
-            <p className={style['text']}>{`${memo.length}/1000`}</p>
+            <p className={style.text}>{`${memo.length}/1000`}</p>
             <Button
               text="確定"
               width={120}
@@ -104,10 +105,10 @@ const MemoEditContainer = ({
         </div>
       </div>
       <DialogWrapperMini
-        title="メモを削除します"
-        isOpen={isOpenNoticePanel}
         closeDialog={() => setIsOpenNoticePanel(false)}
         handleOk={() => handleDelete(memoData.memoId)}
+        isOpen={isOpenNoticePanel}
+        title="メモを削除します"
       />
     </>
   );

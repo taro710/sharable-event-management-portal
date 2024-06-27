@@ -3,6 +3,8 @@
 import { useAtom } from 'jotai';
 import { useState } from 'react';
 
+import style from './MemoAddingContainer.module.scss';
+
 import { eventAtom } from '@/atoms/eventAtom';
 import Button from '@/components/presentations/Common/Button/Button';
 import SelectBox from '@/components/presentations/Form/SelectBox/SelectBox';
@@ -12,7 +14,6 @@ import IconClose from '@/components/presentations/Icon/IconClose';
 import { MemoData } from '@/hooks/pages/useMemoPage';
 import { useResponsive } from '@/hooks/useResponsive';
 
-import style from './MemoAddingContainer.module.scss';
 
 type Props = {
   handleSubmit: (memoData: Omit<MemoData, 'memoId'>) => void;
@@ -28,14 +29,13 @@ const MemoAddingContainer = ({ handleSubmit, close }: Props) => {
 
   return (
     <div className={style['dialog-content']}>
-      <div className={style['header']}>
-        <div className={style['icon']} onClick={close}>
+      <div className={style.header}>
+        <div className={style.icon} onClick={close}>
           {isSp ? <IconArrow /> : <IconClose />}
         </div>
       </div>
-      <div className={style['body']}>
-        {event && (
-          <SelectBox
+      <div className={style.body}>
+        {event ? <SelectBox
             label="記入者"
             value={author}
             onChange={(e) => {
@@ -46,13 +46,12 @@ const MemoAddingContainer = ({ handleSubmit, close }: Props) => {
                 {member}
               </option>
             ))}
-          </SelectBox>
-        )}
+          </SelectBox> : null}
         <TextArea
           label="メモ"
           value={memo}
           onChange={(e) => {
-            const value = e.target.value;
+            const {value} = e.target;
             if (value.length > 1000) {
               setMemo(value.slice(0, 1000));
               return;
@@ -61,8 +60,8 @@ const MemoAddingContainer = ({ handleSubmit, close }: Props) => {
           }}
         />
 
-        <div className={style['footer']}>
-          <p className={style['text']}>{`${memo.length}/1000`}</p>
+        <div className={style.footer}>
+          <p className={style.text}>{`${memo.length}/1000`}</p>
           <Button
             text="追加"
             width={120}

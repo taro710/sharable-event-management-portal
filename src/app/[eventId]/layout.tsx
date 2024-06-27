@@ -10,11 +10,11 @@ import { MemoData } from '@/hooks/pages/useMemoPage';
 
 const PageLayout = async ({ children }: { children: React.ReactNode }) => {
   const pathname = headers().get('x-pathname') || '';
-  const eventId = pathname.split('/')[1]; //TODO: この位置にeventIdが来ない場合もある
+  const [, eventId] = pathname.split('/'); //TODO: この位置にeventIdが来ない場合もある
 
   // TODO: hooksから抜く
   const getEvent = async () => {
-    if (!eventId) return;
+    if (!eventId) return undefined;
     const docRef = doc(database, eventId, 'event');
 
     try {
@@ -22,7 +22,7 @@ const PageLayout = async ({ children }: { children: React.ReactNode }) => {
       const eventData = document?.data() as EventData | undefined;
       return eventData;
     } catch (error) {
-      console.error('Error get document: ', error);
+      throw new Error('Error get document');
     }
   };
 
@@ -34,7 +34,7 @@ const PageLayout = async ({ children }: { children: React.ReactNode }) => {
       const data: Data[] = document?.data()?.itemData || [];
       return data;
     } catch (error) {
-      console.error('Error get document: ', error);
+      throw new Error('Error get document');
     }
   };
 
@@ -48,7 +48,7 @@ const PageLayout = async ({ children }: { children: React.ReactNode }) => {
       expenseList.reverse();
       return expenseList;
     } catch (error) {
-      console.error('Error get document: ', error);
+      throw new Error('Error get document');
     }
   };
 
@@ -62,15 +62,15 @@ const PageLayout = async ({ children }: { children: React.ReactNode }) => {
       memoList.reverse();
       return memoList;
     } catch (error) {
-      console.error('Error get document: ', error);
+      throw new Error('Error get document');
     }
   };
 
   return (
     <ClientLayout
       event={await getEvent()}
-      itemList={await getItemList()}
       expense={await getExpenseList()}
+      itemList={await getItemList()}
       memo={await getMemoList()}>
       {children}
     </ClientLayout>

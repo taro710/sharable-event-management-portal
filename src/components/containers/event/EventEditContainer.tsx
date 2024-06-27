@@ -6,6 +6,8 @@ import { useAtom } from 'jotai';
 import { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
+import style from './EventEditContainer.module.scss';
+
 import { eventAtom } from '@/atoms/eventAtom';
 import Button from '@/components/presentations/Common/Button/Button';
 import DialogWrapperMini from '@/components/presentations/Dialog/DialogWrapperMini';
@@ -13,8 +15,6 @@ import Input from '@/components/presentations/Form/Input/Input';
 import TagCheckbox from '@/components/presentations/Form/TagCheckbox/TagCheckbox';
 import TextArea from '@/components/presentations/Form/TextArea/TextArea';
 import { EventData, eventFormSchema } from '@/domain/event';
-
-import style from './EventEditContainer.module.scss';
 
 type Props = {
   mode?: 'edit' | 'new';
@@ -75,33 +75,33 @@ const EventEditContainer = ({
           style['dialog-content'],
           isOpenNoticePanel && style['-disabled'],
         )}>
-        <div className={style['body']}>
-          <div className={style['form']}>
+        <div className={style.body}>
+          <div className={style.form}>
             <Input
-              label="イベント名"
+              hasError={Boolean(errors.eventName)}
               isRequired
-              hasError={!!errors.eventName}
+              label="イベント名"
               {...register('eventName')}
             />
             <div className={style['member-field']}>
-              <div className={style['member']}>
+              <div className={style.member}>
                 <Input
-                  label="メンバー"
+                  hasError={Boolean(errors.members)}
                   isRequired
-                  hasError={!!errors.members}
+                  label="メンバー"
                   value={inputtedMemberName}
                   onChange={(e) => setInputtedMemberName(e.target.value)}
                 />
-                <div className={style['submit']}>
+                <div className={style.submit}>
                   <Button text="追加" onClick={handleAddMember} />
                 </div>
               </div>
-              <ul className={style['list']}>
-                {members.map((member, i) => (
+              <ul className={style.list}>
+                {members.map((member) => (
                   <TagCheckbox
-                    label={member}
-                    key={i}
                     defaultChecked
+                    key={member} // FIXME:
+                    label={member}
                     value={member}
                     {...register('members')}
                   />
@@ -109,19 +109,19 @@ const EventEditContainer = ({
               </ul>
             </div>
             <Input label="集合場所" {...register('meetingPlace')} />
-            <div className={style['twin']}>
+            <div className={style.twin}>
               <Input label="集合日" type="date" {...register('startDate')} />
               <Input label="集合時間" type="time" {...register('startTime')} />
             </div>
 
             <Input label="解散場所" {...register('dissolutionPlace')} />
-            <div className={style['twin']}>
+            <div className={style.twin}>
               <Input label="解散日" type="date" {...register('endDate')} />
               <Input label="解散時間" type="time" {...register('endTime')} />
             </div>
             <TextArea label="メッセージ" {...register('message')} />
           </div>
-          <div className={style['action']}>
+          <div className={style.action}>
             <Button
               text="確定"
               onClick={handleSubmit(async (eventData) => {
@@ -136,21 +136,21 @@ const EventEditContainer = ({
                 await onSubmit(eventData);
               })}
             />
-            {handleCancel && (
+            {handleCancel ? (
               <Button
                 text="キャンセル"
                 type="secondary"
                 onClick={handleCancel}
               />
-            )}
+            ) : null}
           </div>
         </div>
       </div>
       <DialogWrapperMini
-        title="メンバーを削除します"
-        isOpen={isOpenNoticePanel}
         closeDialog={() => setIsOpenNoticePanel(false)}
-        handleOk={handleSubmit(async (event) => await onSubmit(event))}>
+        handleOk={handleSubmit(async (__event) => await onSubmit(__event))}
+        isOpen={isOpenNoticePanel}
+        title="メンバーを削除します">
         <p>関連する会計とメモは残ります</p>
       </DialogWrapperMini>
     </>
