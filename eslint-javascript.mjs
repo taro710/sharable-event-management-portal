@@ -13,14 +13,22 @@ export const javascriptConfig = {
     'max-statements': 'off',
     'max-lines-per-function': 'off',
     'no-undefined': 'off',
+    'line-comment-position': 'off',
+    'no-inline-comments': 'off',
+    'capitalized-comments': 'off',
+    'new-cap': 'off',
     'no-console': 'warn',
-    'no-warning-comments': 'warn',
     'prefer-template': 'error',
     'no-constant-condition': 'error',
+    'consistent-return': 'error',
     'arrow-body-style': [
       'error',
       'as-needed',
       { requireReturnForObjectLiteral: true },
     ],
+
+    'react/jsx-no-bind': 'off', // TODO: 検討
+    'no-magic-numbers': 'off', // TODO: 検討
+    'no-warning-comments': 'off',
   },
 };

@@ -71,9 +71,9 @@ const Tab = () => {
             {label}
           </Link>
         ))}
-        {selectedIndex !== undefined ? (
+        {selectedIndex === undefined ? null : (
           <div className={style.background} ref={ref} />
-        ) : null}
+        )}
       </ul>
     </div>
   );

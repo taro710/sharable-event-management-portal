@@ -4,11 +4,6 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { database } from '@/firebase';
 import { Data } from '@/hooks/pages/useItemPage';
 
-export const handler = async (_: NextApiRequest, res: NextApiResponse) => {
-  const result = await getBringList();
-  res.status(200).json(result);
-};
-
 const getBringList = async () => {
   const docRef = doc(database, 'event01', 'bringList');
 
@@ -17,8 +12,13 @@ const getBringList = async () => {
     const data: Data[] = document?.data()?.itemData || [];
     return data;
   } catch (error) {
-    console.error('Error get document: ', error);
+    throw new Error('Error get document');
   }
+};
+
+export const handler = async (_: NextApiRequest, res: NextApiResponse) => {
+  const result = await getBringList();
+  res.status(200).json(result);
 };
 
 export default handler;

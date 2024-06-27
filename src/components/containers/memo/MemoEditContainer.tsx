@@ -37,11 +37,11 @@ const MemoEditContainer = ({
 
   // イベントから消されたユーザーの支払いデータもDBには残っている。それらユーザーも全て含めて清算する
   const members: string[] = useMemo(() => {
-    const members = new Set<string>();
+    const memberSet = new Set<string>();
     const eventMembers = event?.members || [];
-    eventMembers.forEach((member) => members.add(member));
-    members.add(memoData.member);
-    return Array.from(members);
+    eventMembers.forEach((member) => memberSet.add(member));
+    memberSet.add(memoData.member);
+    return Array.from(memberSet);
   }, [event, memoData]);
 
   return (
@@ -57,7 +57,8 @@ const MemoEditContainer = ({
           </div>
         </div>
         <div className={style.body}>
-          {event ? <SelectBox
+          {event ? (
+            <SelectBox
               label="記入者"
               value={author}
               onChange={(e) => {
@@ -68,12 +69,13 @@ const MemoEditContainer = ({
                   {member}
                 </option>
               ))}
-            </SelectBox> : null}
+            </SelectBox>
+          ) : null}
           <TextArea
             label="メモ"
             value={memo}
             onChange={(e) => {
-              const {value} = e.target;
+              const { value } = e.target;
               if (value.length > 1000) {
                 setMemo(value.slice(0, 1000));
                 return;

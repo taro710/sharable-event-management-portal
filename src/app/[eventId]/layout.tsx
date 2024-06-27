@@ -10,7 +10,7 @@ import { MemoData } from '@/hooks/pages/useMemoPage';
 
 const PageLayout = async ({ children }: { children: React.ReactNode }) => {
   const pathname = headers().get('x-pathname') || '';
-  const eventId = pathname.split('/')[1]; //TODO: この位置にeventIdが来ない場合もある
+  const [, eventId] = pathname.split('/'); //TODO: この位置にeventIdが来ない場合もある
 
   // TODO: hooksから抜く
   const getEvent = async () => {
@@ -22,7 +22,7 @@ const PageLayout = async ({ children }: { children: React.ReactNode }) => {
       const eventData = document?.data() as EventData | undefined;
       return eventData;
     } catch (error) {
-      console.error('Error get document: ', error);
+      throw new Error('Error get document');
     }
   };
 
@@ -34,7 +34,7 @@ const PageLayout = async ({ children }: { children: React.ReactNode }) => {
       const data: Data[] = document?.data()?.itemData || [];
       return data;
     } catch (error) {
-      console.error('Error get document: ', error);
+      throw new Error('Error get document');
     }
   };
 
@@ -48,7 +48,7 @@ const PageLayout = async ({ children }: { children: React.ReactNode }) => {
       expenseList.reverse();
       return expenseList;
     } catch (error) {
-      console.error('Error get document: ', error);
+      throw new Error('Error get document');
     }
   };
 
@@ -62,7 +62,7 @@ const PageLayout = async ({ children }: { children: React.ReactNode }) => {
       memoList.reverse();
       return memoList;
     } catch (error) {
-      console.error('Error get document: ', error);
+      throw new Error('Error get document');
     }
   };
 

@@ -4,7 +4,6 @@ import type { Meta, StoryObj } from '@storybook/react';
 
 import { Page } from '@/stories/Page';
 
-
 const meta = {
   title: 'Example/Page',
   component: Page,
@@ -23,12 +22,12 @@ export const LoggedOut: Story = {};
 export const LoggedIn: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    const loginButton = canvas.getByRole('button', { name: /Log in/i });
+    const loginButton = canvas.getByRole('button', { name: /Log in/iu });
     await expect(loginButton).toBeInTheDocument();
     await userEvent.click(loginButton);
     await expect(loginButton).not.toBeInTheDocument();
 
-    const logoutButton = canvas.getByRole('button', { name: /Log out/i });
+    const logoutButton = canvas.getByRole('button', { name: /Log out/iu });
     await expect(logoutButton).toBeInTheDocument();
   },
 };

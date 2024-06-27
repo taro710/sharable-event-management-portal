@@ -18,7 +18,6 @@ import IconClose from '@/components/presentations/Icon/IconClose';
 import { ExpenseData, expenseFormSchema } from '@/domain/expense';
 import { useResponsive } from '@/hooks/useResponsive';
 
-
 type Props = {
   defaultExpense: ExpenseData;
   handleSubmit: (expense: ExpenseData) => void;
@@ -38,12 +37,12 @@ const ExpenseEditContainer = ({
 
   // イベントから消されたユーザーの支払いデータもDBには残っている。それらユーザーも全て含めて清算する
   const members: string[] = useMemo(() => {
-    const members = new Set<string>();
+    const memberSet = new Set<string>();
     const eventMembers = event?.members || [];
-    eventMembers.forEach((member) => members.add(member));
-    members.add(defaultExpense.payerName);
-    defaultExpense.members.forEach((member) => members.add(member));
-    return Array.from(members);
+    eventMembers.forEach((member) => memberSet.add(member));
+    memberSet.add(defaultExpense.payerName);
+    defaultExpense.members.forEach((member) => memberSet.add(member));
+    return Array.from(memberSet);
   }, [event, defaultExpense]);
 
   const {

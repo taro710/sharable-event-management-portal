@@ -38,7 +38,7 @@ export const useMemoPage = (currentMemoData: MemoData[]) => {
       ];
       return afterAddMemoData;
     } catch (e) {
-      console.error('Error adding document: ', e);
+      throw new Error('Error adding document');
     }
   };
 
@@ -53,7 +53,7 @@ export const useMemoPage = (currentMemoData: MemoData[]) => {
       });
       return afterUpdateMemoData;
     } catch (e) {
-      console.error('Error adding document: ', e);
+      throw new Error('Error adding document');
     }
   };
 
@@ -66,7 +66,7 @@ export const useMemoPage = (currentMemoData: MemoData[]) => {
       const memoList: MemoData[] = Object.values(data || {});
       return memoList;
     } catch (error) {
-      console.error('Error get document: ', error);
+      throw new Error('Error get document');
     }
   };
 
@@ -80,7 +80,7 @@ export const useMemoPage = (currentMemoData: MemoData[]) => {
       );
       return afterDeleteMemoData;
     } catch (e) {
-      console.error('Error adding document: ', e);
+      throw new Error('Error adding document');
     }
   };
 

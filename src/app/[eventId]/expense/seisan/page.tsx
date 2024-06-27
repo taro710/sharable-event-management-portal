@@ -22,15 +22,15 @@ const DashBoard: NextPage = () => {
 
   // イベントから消されたユーザーの支払いデータもDBには残っている。それらユーザーも全て含めて清算する
   const members: string[] = useMemo(() => {
-    const members = new Set<string>();
+    const memberSet = new Set<string>();
     const eventMembers = event?.members || [];
-    eventMembers.forEach((member) => members.add(member));
+    eventMembers.forEach((member) => memberSet.add(member));
     expenses.forEach((expense) => {
-      members.add(expense.payerName);
-      expense.members.forEach((member) => members.add(member));
+      memberSet.add(expense.payerName);
+      expense.members.forEach((member) => memberSet.add(member));
     });
 
-    return Array.from(members);
+    return Array.from(memberSet);
   }, [event, expenses]);
 
   const answer = func(expenses, members);

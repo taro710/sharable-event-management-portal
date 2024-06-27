@@ -18,7 +18,6 @@ import IconEdit from '@/components/presentations/Icon/IconEdit';
 import { MemoData, useMemoPage } from '@/hooks/pages/useMemoPage';
 import { useResponsive } from '@/hooks/useResponsive';
 
-
 const DashBoard: NextPage = () => {
   const { isSp } = useResponsive();
   const [isAddDialogOpen, setIsAddDialogOpen] = useState<boolean>(false);
@@ -52,11 +51,11 @@ const DashBoard: NextPage = () => {
   };
 
   // TODO: any
-  const openEditPanel = ({ member, memo, memoId }: any) => {
+  const openEditPanel = ({ member, _memo, memoId }: any) => {
     setScrollPosition(window.scrollY);
     window.scrollTo(0, 0);
 
-    setEditingMemo({ member, memo, memoId });
+    setEditingMemo({ member, memo: _memo, memoId });
     setIsEditDialogOpen(true);
     if (!isSp) return;
     if (!ref.current) return;
@@ -76,14 +75,18 @@ const DashBoard: NextPage = () => {
     <>
       <div className={style['page-component']} ref={ref}>
         <FadeIn className={style['memo-panel']}>
-          {memo.length <= 0 ? <p className={style.notice}>メモはありません🙃</p> : null}
-          {memo.map(({ member, memo, memoId }) => (
+          {memo.length <= 0 ? (
+            <p className={style.notice}>メモはありません🙃</p>
+          ) : null}
+          {memo.map(({ member, memo: _memo, memoId }) => (
             <div className={style.memo} key={memoId}>
               <div className={style.header}>
                 <p className={style.member}>{member}</p>
                 <div
                   className={style.icon}
-                  onClick={() => openEditPanel({ member, memo, memoId })}>
+                  onClick={() =>
+                    openEditPanel({ member, memo: _memo, memoId })
+                  }>
                   <IconEdit />
                 </div>
               </div>
@@ -104,16 +107,19 @@ const DashBoard: NextPage = () => {
         </FadeIn>
 
         <div className={style['container-component']}>
-          {isAddDialogOpen ? <MemoAddingContainer
+          {isAddDialogOpen ? (
+            <MemoAddingContainer
               close={closeAddPanel}
-              handleSubmit={async (memo) => {
-                const result = await addMemo(memo);
+              handleSubmit={async (_memo) => {
+                const result = await addMemo(_memo);
                 if (!result) return;
                 setMemo(result);
                 closeAddPanel();
               }}
-            /> : null}
-          {isEditDialogOpen && editingMemo ? <MemoEditContainer
+            />
+          ) : null}
+          {isEditDialogOpen && editingMemo ? (
+            <MemoEditContainer
               close={closeEditPanel}
               handleDelete={async (memoId) => {
                 const result = await deleteMemo(memoId);
@@ -121,23 +127,27 @@ const DashBoard: NextPage = () => {
                 setMemo(result);
                 closeEditPanel();
               }}
-              handleSubmit={async (memo) => {
-                const result = await updateMemo(memo);
+              handleSubmit={async (_memo) => {
+                const result = await updateMemo(_memo);
                 if (!result) return;
                 setMemo(result);
                 closeEditPanel();
               }}
               memoData={editingMemo}
-            /> : null}
+            />
+          ) : null}
         </div>
       </div>
 
-      {!isAddDialogOpen && !isEditDialogOpen ? <button className={style['add-button']} onClick={openAddPanel}>
+      {!isAddDialogOpen && !isEditDialogOpen ? (
+        <button className={style['add-button']} onClick={openAddPanel}>
           <IconAdd />
-        </button> : null}
+        </button>
+      ) : null}
 
       {/* PC専用 */}
-      {!isSp ? <DialogMemoAdding
+      {!isSp ? (
+        <DialogMemoAdding
           closeDialog={closeAddPanel}
           handleSubmit={async (memo) => {
             const result = await addMemo(memo);
@@ -146,8 +156,10 @@ const DashBoard: NextPage = () => {
             closeAddPanel();
           }}
           isOpen={isAddDialogOpen}
-        /> : null}
-      {editingMemo && !isSp ? <DialogMemoEdit
+        />
+      ) : null}
+      {editingMemo && !isSp ? (
+        <DialogMemoEdit
           closeDialog={closeEditPanel}
           handleDelete={async (memoId) => {
             const result = await deleteMemo(memoId);
@@ -155,15 +167,16 @@ const DashBoard: NextPage = () => {
             setMemo(result);
             closeEditPanel();
           }}
-          handleSubmit={async (memo) => {
-            const result = await updateMemo(memo);
+          handleSubmit={async (_memo) => {
+            const result = await updateMemo(_memo);
             if (!result) return;
             setMemo(result);
             closeEditPanel();
           }}
           isOpen={isEditDialogOpen}
           memoData={editingMemo}
-        /> : null}
+        />
+      ) : null}
     </>
   );
 };

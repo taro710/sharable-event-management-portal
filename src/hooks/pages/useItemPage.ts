@@ -12,12 +12,6 @@ export type Data = {
 
 export const useItemPage = () => {
   const eventId = useParams()?.eventId as string;
-  /*
-   * Const getBringList = async () => {
-   *   const res = await fetch(`${basUrl}/api/api`);
-   *   return res.json();
-   * };
-   */
 
   const getItemList = async () => {
     const docRef = doc(database, eventId, 'item');
@@ -27,7 +21,7 @@ export const useItemPage = () => {
       const data: Data[] = document?.data()?.itemData || [];
       return data;
     } catch (error) {
-      console.error('Error get document: ', error);
+      throw new Error('Error get document');
     }
   };
 
@@ -38,7 +32,7 @@ export const useItemPage = () => {
       await setDoc(doc(itemRef, 'item'), payload);
       return data;
     } catch (e) {
-      console.error('Error adding document: ', e);
+      throw new Error('Error adding document');
     }
   };
 
@@ -49,7 +43,7 @@ export const useItemPage = () => {
       await setDoc(doc(itemRef, 'itemMaster'), payload);
       return data;
     } catch (e) {
-      console.error('Error adding document: ', e);
+      throw new Error('Error adding document');
     }
   };
 
@@ -61,7 +55,7 @@ export const useItemPage = () => {
       const data: string[] = document?.data()?.itemData || [];
       return data;
     } catch (error) {
-      console.error('Error get document: ', error);
+      throw new Error('Error get document');
     }
   };
 

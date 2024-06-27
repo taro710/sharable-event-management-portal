@@ -6,8 +6,9 @@ import { database } from '@/firebase';
 type Props = {
   pathname: string;
 };
+
 const Meta = async ({ pathname }: Props) => {
-  const eventId = pathname.split('/')[1]; //TODO: この位置にeventIdが来ない場合もある
+  const [, eventId] = pathname.split('/'); //TODO: この位置にeventIdが来ない場合もある
 
   const getEvent = async () => {
     if (!eventId) return;
@@ -18,7 +19,7 @@ const Meta = async ({ pathname }: Props) => {
       const eventData = document?.data() as EventData | undefined;
       return eventData;
     } catch (error) {
-      console.error('Error get document: ', error);
+      throw new Error('Error get document');
     }
   };
 

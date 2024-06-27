@@ -13,7 +13,6 @@ import { PAGE_PATH } from '@/constants/pathname';
 import { useEvent } from '@/hooks/useEvent';
 import { useResponsive } from '@/hooks/useResponsive';
 
-
 type Props = {
   isOpen?: boolean;
   setIsOpen?: (isOpen: boolean) => void;
@@ -44,50 +43,56 @@ const SubPanel = ({ isOpen = true, setIsOpen }: Props) => {
       <div className={style['sub-panel']}>
         <div className={style.body}>
           <div className={style.body2}>
-            <div
-              className={style.header}
-              onClick={() => setIsOpen?.(!isOpen)}>
+            <div className={style.header} onClick={() => setIsOpen?.(!isOpen)}>
               <h1 className={style.title}>{event.eventName}</h1>
-              {isOpen ? <div className={style.icon} onClick={handleClickEdit}>
+              {isOpen ? (
+                <div className={style.icon} onClick={handleClickEdit}>
                   <IconEdit />
-                </div> : null}
+                </div>
+              ) : null}
             </div>
 
             <div className={style.body}>
               <table className={style['overview-table']}>
                 <tbody className={style.table}>
-                  {event.meetingPlace ? <tr className={style.row}>
+                  {event.meetingPlace ? (
+                    <tr className={style.row}>
                       <td className={style.caption}>集合場所</td>
                       <td className={style.text}>{event.meetingPlace}</td>
-                    </tr> : null}
-                  {event.dissolutionPlace ? <tr className={style.row}>
+                    </tr>
+                  ) : null}
+                  {event.dissolutionPlace ? (
+                    <tr className={style.row}>
                       <td className={style.caption}>解散場所</td>
-                      <td className={style.text}>
-                        {event.dissolutionPlace}
-                      </td>
-                    </tr> : null}
-                  {(event.startDate || event.startTime) ? <tr className={style.row}>
+                      <td className={style.text}>{event.dissolutionPlace}</td>
+                    </tr>
+                  ) : null}
+                  {event.startDate || event.startTime ? (
+                    <tr className={style.row}>
                       <td className={style.caption}>集合日時</td>
                       <td className={style.text}>
                         {event.startDate} {event.startTime}
                       </td>
-                    </tr> : null}
-                  {(event.endDate || event.endTime) ? <tr className={style.row}>
+                    </tr>
+                  ) : null}
+                  {event.endDate || event.endTime ? (
+                    <tr className={style.row}>
                       <td className={style.caption}>解散日時</td>
                       <td className={style.text}>
                         {event.endDate} {event.endTime}
                       </td>
-                    </tr> : null}
+                    </tr>
+                  ) : null}
                   <tr className={style.row}>
                     <td className={style.caption}>参加者</td>
-                    <td className={style.text}>
-                      {event.members.join(', ')}
-                    </td>
+                    <td className={style.text}>{event.members.join(', ')}</td>
                   </tr>
-                  {event.message ? <tr className={style.row}>
+                  {event.message ? (
+                    <tr className={style.row}>
                       <td className={style.caption}>メッセージ</td>
                       <td className={style.text}>{event.message}</td>
-                    </tr> : null}
+                    </tr>
+                  ) : null}
                 </tbody>
               </table>
             </div>
@@ -96,8 +101,8 @@ const SubPanel = ({ isOpen = true, setIsOpen }: Props) => {
       </div>
       <DialogOverviewEdit
         closeDialog={() => setIsDialogOpen(false)}
-        handleSubmit={async (event) => {
-          await updateEvent(event);
+        handleSubmit={async (_event) => {
+          await updateEvent(_event);
           setIsDialogOpen(false);
         }}
         isOpen={isDialogOpen}

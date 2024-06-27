@@ -18,7 +18,6 @@ import IconEdit from '@/components/presentations/Icon/IconEdit';
 import { useItemPage } from '@/hooks/pages/useItemPage';
 import { useResponsive } from '@/hooks/useResponsive';
 
-
 const DashBoard: NextPage = () => {
   const { isSp } = useResponsive();
   const [bringList, setBringList] = useAtom(bringListAtom);
@@ -108,12 +107,15 @@ const DashBoard: NextPage = () => {
                 </div>
               ))}
             </div>
-            {(!selectedData || selectedData.item.length <= 0) ? <p className={style.notice}>アイテムはありません😲</p> : null}
+            {!selectedData || selectedData.item.length <= 0 ? (
+              <p className={style.notice}>アイテムはありません😲</p>
+            ) : null}
           </div>
         </FadeIn>
 
         <div className={style['container-component']}>
-          {isDialogOpen ? <ItemSelectContainer
+          {isDialogOpen ? (
+            <ItemSelectContainer
               close={closePanel}
               handleSubmit={async (selectedItem) => {
                 if (selectedMember === undefined) return;
@@ -149,12 +151,15 @@ const DashBoard: NextPage = () => {
               selectedItems={selectedData?.item}
               updateItem={updateItem}
               updateItemMaster={updateItemMaster}
-            /> : null}
+            />
+          ) : null}
         </div>
       </div>
 
-      {!isDialogOpen ? <button
+      {isDialogOpen ? null : (
+        <button
           className={style['add-button']}
+          type="button"
           onClick={async () => {
             openPanel();
             const items = await getItemMaster();
@@ -162,9 +167,11 @@ const DashBoard: NextPage = () => {
             setItems(items);
           }}>
           <IconEdit />
-        </button> : null}
+        </button>
+      )}
 
-      {!isSp ? <DialogItemSelect
+      {isSp ? null : (
+        <DialogItemSelect
           closeDialog={closePanel}
           handleSubmit={async (selectedItem) => {
             if (selectedMember === undefined) return;
@@ -201,7 +208,8 @@ const DashBoard: NextPage = () => {
           selectedItems={selectedData?.item}
           updateItem={updateItem}
           updateItemMaster={updateItemMaster}
-        /> : null}
+        />
+      )}
     </>
   );
 };

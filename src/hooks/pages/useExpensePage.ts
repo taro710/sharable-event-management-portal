@@ -45,7 +45,7 @@ export const useExpensePage = (currentExpenseData: ExpenseData[]) => {
       ];
       return afterAddExpenseData;
     } catch (e) {
-      console.error('Error adding document: ', e);
+      throw new Error('Error adding document');
     }
   };
 
@@ -61,7 +61,7 @@ export const useExpensePage = (currentExpenseData: ExpenseData[]) => {
       });
       return afterUpdateExpenseData;
     } catch (e) {
-      console.error('Error adding document: ', e);
+      throw new Error('Error adding document');
     }
   };
 
@@ -74,7 +74,7 @@ export const useExpensePage = (currentExpenseData: ExpenseData[]) => {
       const expenseList: ExpenseData[] = Object.values(data || {});
       return expenseList;
     } catch (error) {
-      console.error('Error get document: ', error);
+      throw new Error('Error get document');
     }
   };
 
@@ -89,7 +89,7 @@ export const useExpensePage = (currentExpenseData: ExpenseData[]) => {
       );
       return afterDeleteExpenseData;
     } catch (e) {
-      console.error('Error adding document: ', e);
+      throw new Error('Error adding document');
     }
   };
 

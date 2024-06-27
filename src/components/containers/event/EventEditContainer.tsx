@@ -148,7 +148,7 @@ const EventEditContainer = ({
       </div>
       <DialogWrapperMini
         closeDialog={() => setIsOpenNoticePanel(false)}
-        handleOk={handleSubmit(async (event) => await onSubmit(event))}
+        handleOk={handleSubmit(async (__event) => await onSubmit(__event))}
         isOpen={isOpenNoticePanel}
         title="メンバーを削除します">
         <p>関連する会計とメモは残ります</p>

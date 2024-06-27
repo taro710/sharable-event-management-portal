@@ -18,7 +18,7 @@ export const useEvent = (eventId?: string) => {
       setEvent(data);
       return newEventId;
     } catch (e) {
-      console.error('Error adding document: ', e);
+      throw new Error('Error adding document');
     }
   };
 
@@ -29,20 +29,19 @@ export const useEvent = (eventId?: string) => {
       await updateDoc(docRef, data);
       setEvent(data);
     } catch (e) {
-      console.error('Error adding document: ', e);
+      throw new Error('Error updating document');
     }
   };
 
   const getEvent = async () => {
     if (!eventId) return;
     const docRef = doc(database, eventId, 'event');
-
     try {
       const document = await getDoc(docRef);
       const eventData = document?.data() as EventData | undefined;
       return eventData;
     } catch (error) {
-      console.error('Error get document: ', error);
+      throw new Error('Error get document');
     }
   };
 
