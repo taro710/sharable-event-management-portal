@@ -1,14 +1,21 @@
 import parser from '@typescript-eslint/parser';
+import globals from 'globals';
 
-import { importConfig } from './eslint-import.mjs';
-import { javascriptConfig } from './eslint-javascript.mjs';
-import { prettierConfig } from './eslint-prettier.mjs';
-import { reactConfig } from './eslint-react.mjs';
+import { importConfig } from './.lint//eslint-import.mjs';
+import { javascriptConfig } from './.lint/eslint-javascript.mjs';
+import { prettierConfig } from './.lint/eslint-prettier.mjs';
+import { reactConfig } from './.lint/eslint-react.mjs';
 
-/** @type {import("eslint").Linter.FlatConfig[]} */
+/** @type {*} */
 const base = {
-  files: ['**/*.ts', '**/*.tsx'], // TODO:
+  files: ['**/*.ts', '**/*.tsx'],
   languageOptions: {
+    globals: {
+      ...globals.browser,
+      ...globals.node,
+      ...globals.es2024,
+      ...globals.jest,
+    },
     parser,
     parserOptions: {
       sourceType: 'module',

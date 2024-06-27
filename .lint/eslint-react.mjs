@@ -3,6 +3,11 @@ import react from 'eslint-plugin-react';
 /** @type {import("eslint").Linter.FlatConfig} */
 export const reactConfig = {
   plugins: { react },
+  settings: {
+    react: {
+      version: 'detect',
+    },
+  },
   rules: {
     ...react.configs.all.rules,
     'react/jsx-uses-react': 'off',
