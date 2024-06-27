@@ -22,7 +22,10 @@ export const sample2 = (expenses: ExpenseData[], participants: string[]) => {
       expense.members.includes(participant),
     );
 
-    const totalFee = expenseList.reduce((acc, cur) => acc + cur.price / cur.members.length, 0);
+    const totalFee = expenseList.reduce(
+      (acc, cur) => acc + cur.price / cur.members.length,
+      0,
+    );
 
     return { participant, totalFee };
   });
@@ -101,18 +104,20 @@ export const func = (expenses: ExpenseData[], participants: string[]) => {
   const answer = 払う人.map((man) => {
     const to = [];
 
-    console.warn(`${man.participant  }が誰にいくら払うか計算開始`);
+    console.warn(`${man.participant}が誰にいくら払うか計算開始`);
 
     let 貸し借り = man.balance;
 
+    // TODO:
+    // eslint-disable-next-line no-constant-condition
     while (true) {
-      console.log(`${man.participant  }の現在の貸し借りは${  貸し借り}`);
+      console.log(`${man.participant}の現在の貸し借りは${貸し借り}`);
 
       const もらう人の現在の貸し借り = もらう人[i].balance;
 
-      console.log(`もらう人は${  もらう人[i].participant}`);
+      console.log(`もらう人は${もらう人[i].participant}`);
       console.log(
-        `${もらう人[i].participant  }の貸し借りは${  もらう人の現在の貸し借り}`,
+        `${もらう人[i].participant}の貸し借りは${もらう人の現在の貸し借り}`,
       );
 
       if (貸し借り + もらう人の現在の貸し借り > 0) {
@@ -122,7 +127,7 @@ export const func = (expenses: ExpenseData[], participants: string[]) => {
         });
         // 余力がまだあるので次の人にも支払い
         貸し借り += もらう人の現在の貸し借り;
-        i++;
+        i += 1;
       } else {
         // 全部余力を使ったのでこのmanは支払い完了
         to.push({

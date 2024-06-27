@@ -97,10 +97,10 @@ const EventEditContainer = ({
                 </div>
               </div>
               <ul className={style.list}>
-                {members.map((member, i) => (
+                {members.map((member) => (
                   <TagCheckbox
                     defaultChecked
-                    key={i}
+                    key={member} // FIXME:
                     label={member}
                     value={member}
                     {...register('members')}

@@ -11,7 +11,7 @@ const Meta = async ({ pathname }: Props) => {
   const [, eventId] = pathname.split('/'); //TODO: この位置にeventIdが来ない場合もある
 
   const getEvent = async () => {
-    if (!eventId) return;
+    if (!eventId) return undefined;
     const docRef = doc(database, eventId, 'event');
 
     try {

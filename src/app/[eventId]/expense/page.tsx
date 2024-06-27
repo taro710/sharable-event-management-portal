@@ -72,10 +72,10 @@ const DashBoard: NextPage = () => {
             <p className={style.notice}>支払いはありません🤔</p>
           ) : null}
           <ul className={style.cards}>
-            {expenses.map((expense, i) => (
+            {expenses.map((expense) => (
               <CardExpense
                 expense={expense}
-                key={i}
+                key={expense.expenseId} // FIXME: id型の必須化
                 onClick={() => openEditPanel(expense)}
               />
             ))}
@@ -121,12 +121,15 @@ const DashBoard: NextPage = () => {
       </div>
 
       {!isAddDialogOpen && !isEditDialogOpen ? (
-        <button className={style['add-button']} onClick={openAddPanel}>
+        <button
+          className={style['add-button']}
+          type="button"
+          onClick={openAddPanel}>
           <IconAdd />
         </button>
       ) : null}
 
-      {!isSp ? (
+      {isSp ? null : (
         <DialogExpenseAdding
           closeDialog={closeAddPanel}
           handleSubmit={async (expense: ExpenseData) => {
@@ -137,7 +140,7 @@ const DashBoard: NextPage = () => {
           }}
           isOpen={isAddDialogOpen}
         />
-      ) : null}
+      )}
       {!isSp && editingExpense ? (
         <DialogExpenseEdit
           closeDialog={closeEditPanel}

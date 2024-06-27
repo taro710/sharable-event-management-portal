@@ -51,7 +51,7 @@ const DashBoard: NextPage = () => {
   };
 
   // TODO: any
-  const openEditPanel = ({ member, _memo, memoId }: any) => {
+  const openEditPanel = ({ member, memo: _memo, memoId }: any) => {
     setScrollPosition(window.scrollY);
     window.scrollTo(0, 0);
 
@@ -99,7 +99,7 @@ const DashBoard: NextPage = () => {
                       url: '_blank', // TODO: noopener
                     },
                   }}>
-                  {memo}
+                  {_memo}
                 </Linkify>
               </div>
             </div>
@@ -140,24 +140,27 @@ const DashBoard: NextPage = () => {
       </div>
 
       {!isAddDialogOpen && !isEditDialogOpen ? (
-        <button className={style['add-button']} onClick={openAddPanel}>
+        <button
+          className={style['add-button']}
+          type="button"
+          onClick={openAddPanel}>
           <IconAdd />
         </button>
       ) : null}
 
       {/* PC専用 */}
-      {!isSp ? (
+      {isSp ? null : (
         <DialogMemoAdding
           closeDialog={closeAddPanel}
-          handleSubmit={async (memo) => {
-            const result = await addMemo(memo);
+          handleSubmit={async (_memo) => {
+            const result = await addMemo(_memo);
             if (!result) return;
             setMemo(result);
             closeAddPanel();
           }}
           isOpen={isAddDialogOpen}
         />
-      ) : null}
+      )}
       {editingMemo && !isSp ? (
         <DialogMemoEdit
           closeDialog={closeEditPanel}

@@ -18,7 +18,7 @@ export const useResponsive = (): MediaType => {
   const isSp = useMediaQuery({ query: `(max-width: ${BREAKPOINT}px)` });
 
   useIsomorphicLayoutEffect(() => {
-    if (typeof window !== undefined) {
+    if (typeof window !== 'undefined') {
       setIsClient(true);
     }
   }, []);

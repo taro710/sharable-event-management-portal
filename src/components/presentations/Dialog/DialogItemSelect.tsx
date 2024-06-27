@@ -12,23 +12,25 @@ type Props = {
   closeDialog: () => void;
   handleSubmit: (selectedItem: string[]) => void;
 };
+const emptyArray: string[] = [];
+
 const DialogItemSelect = ({
   isOpen,
   closeDialog,
   updateItem,
   updateItemMaster,
   handleSubmit,
-  selectedItems = [],
+  selectedItems = emptyArray,
 }: Props) => (
-    <DialogWrapper closeDialog={closeDialog} isOpen={isOpen}>
-      <ItemSelectContainer
-        close={closeDialog}
-        handleSubmit={handleSubmit}
-        selectedItems={selectedItems}
-        updateItem={updateItem}
-        updateItemMaster={updateItemMaster}
-      />
-    </DialogWrapper>
-  );
+  <DialogWrapper closeDialog={closeDialog} isOpen={isOpen}>
+    <ItemSelectContainer
+      close={closeDialog}
+      handleSubmit={handleSubmit}
+      selectedItems={selectedItems}
+      updateItem={updateItem}
+      updateItemMaster={updateItemMaster}
+    />
+  </DialogWrapper>
+);
 
 export default DialogItemSelect;

@@ -27,7 +27,7 @@ const DashBoard: NextPage = () => {
   const [selectedIndex, setSelectedIndex] = useState<number>(0);
   const selectedMember = members?.[selectedIndex];
   const selectedData = useMemo(() => {
-    if (bringList.length <= 0) return;
+    if (bringList.length <= 0) return undefined;
     return bringList.find((elm) => elm.name === selectedMember);
   }, [bringList, selectedMember]);
 
@@ -80,7 +80,7 @@ const DashBoard: NextPage = () => {
             {members?.map((name, i) => (
               <Tag
                 isActive={i === selectedIndex}
-                key={i}
+                key={name} // FIXME:
                 text={name}
                 onClick={() => setSelectedIndex(i)}
               />

@@ -14,7 +14,7 @@ const PageLayout = async ({ children }: { children: React.ReactNode }) => {
 
   // TODO: hooksから抜く
   const getEvent = async () => {
-    if (!eventId) return;
+    if (!eventId) return undefined;
     const docRef = doc(database, eventId, 'event');
 
     try {

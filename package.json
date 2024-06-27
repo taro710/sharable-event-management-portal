@@ -6,7 +6,7 @@
     "dev": "next dev -p 3001",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
+    "lint": "eslint --fix \"src/**/*.tsx\" \"src/**/*.ts\" ",
     "lintcss": "stylelint 'src/**/*.scss'",
     "test": "jest",
     "test:watch": "jest --watch",

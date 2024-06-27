@@ -20,13 +20,13 @@ export const javascriptConfig = {
     'no-console': 'warn',
     'prefer-template': 'error',
     'no-constant-condition': 'error',
-    'consistent-return': 'error',
+    'consistent-return': ['error', { treatUndefinedAsUnspecified: false }],
+    'no-plusplus': ['error', { allowForLoopAfterthoughts: true }],
     'arrow-body-style': [
       'error',
       'as-needed',
       { requireReturnForObjectLiteral: true },
     ],
-
     'react/jsx-no-bind': 'off', // TODO: 検討
     'no-magic-numbers': 'off', // TODO: 検討
     'no-warning-comments': 'off',

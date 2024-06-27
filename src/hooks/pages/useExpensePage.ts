@@ -52,7 +52,7 @@ export const useExpensePage = (currentExpenseData: ExpenseData[]) => {
   const updateExpense = async (data: ExpenseData) => {
     const docRef = doc(database, eventId, 'expense');
     try {
-      if (!data.expenseId) return;
+      if (!data.expenseId) return undefined;
       await updateDoc(docRef, { [data.expenseId]: data });
 
       const afterUpdateExpenseData = [...currentExpenseData].map((expense) => {
@@ -81,7 +81,7 @@ export const useExpensePage = (currentExpenseData: ExpenseData[]) => {
   const deleteExpense = async (expenseId?: number) => {
     const docRef = doc(database, eventId, 'expense');
     try {
-      if (!expenseId) return;
+      if (!expenseId) return undefined;
       await updateDoc(docRef, { [expenseId]: deleteField() });
 
       const afterDeleteExpenseData = [...currentExpenseData].filter(

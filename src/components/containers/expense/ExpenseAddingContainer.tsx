@@ -16,7 +16,6 @@ import IconClose from '@/components/presentations/Icon/IconClose';
 import { ExpenseData, expenseFormSchema } from '@/domain/expense';
 import { useResponsive } from '@/hooks/useResponsive';
 
-
 type Props = {
   handleSubmit: (expense: ExpenseData) => void;
   close: () => void;
@@ -59,8 +58,9 @@ const ExpenseAddingContainer = ({ handleSubmit: onSubmit, close }: Props) => {
           <span className={style.unit}>円</span>
         </div>
         <SelectBox label="支払い者" {...register('payerName')}>
-          {members.map((member, i) => (
-            <option key={i} value={member}>
+          {members.map((member) => (
+            // FIXME: key
+            <option key={member} value={member}>
               {member}
             </option>
           ))}
@@ -69,9 +69,9 @@ const ExpenseAddingContainer = ({ handleSubmit: onSubmit, close }: Props) => {
         <div className={style.members}>
           <p className={style.caption}>割り勘対象者</p>
           <div className={style.tag}>
-            {members.map((participant, i) => (
+            {members.map((participant) => (
               <TagCheckbox
-                key={i}
+                key={participant} // FIXME: key
                 label={participant}
                 value={participant}
                 {...register('members')}

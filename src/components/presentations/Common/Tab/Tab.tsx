@@ -67,7 +67,7 @@ const Tab = () => {
               selectedIndex === i && style['-selected'],
             )}
             href={path}
-            key={i}>
+            key={path}>
             {label}
           </Link>
         ))}

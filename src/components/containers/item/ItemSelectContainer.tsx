@@ -18,7 +18,6 @@ import IconRemove from '@/components/presentations/Icon/IconRemove';
 import { Data } from '@/hooks/pages/useItemPage';
 import { useResponsive } from '@/hooks/useResponsive';
 
-
 type Props = {
   selectedItems: string[] | undefined;
   updateItem: (data: Data[]) => Promise<Data[] | undefined>;
@@ -27,8 +26,10 @@ type Props = {
   close: () => void;
 };
 
+const emptyArray: string[] = [];
+
 const ItemSelectContainer = ({
-  selectedItems = [],
+  selectedItems = emptyArray,
   updateItem,
   updateItemMaster,
   handleSubmit,
@@ -41,11 +42,11 @@ const ItemSelectContainer = ({
   const [selectedItem, setSelectedItem] = useState<string[]>(selectedItems);
   const [value, setValue] = useState<string>('');
 
-  const updateSelectedItem = useCallback((selectedItem: string) => {
+  const updateSelectedItem = useCallback((_selectedItem: string) => {
     setSelectedItem((prev) => {
-      if (prev.includes(selectedItem))
-        return prev.filter((elm) => elm != selectedItem);
-      return [...prev, selectedItem];
+      if (prev.includes(_selectedItem))
+        return prev.filter((elm) => elm !== _selectedItem);
+      return [...prev, _selectedItem];
     });
   }, []);
 
@@ -78,13 +79,13 @@ const ItemSelectContainer = ({
     if (newItemMaster === undefined) return;
     setItemMaster(newItemMaster);
 
-    const _newBringList = bringList.map((elm) => {
+    const newBringList = bringList.map((elm) => {
       return {
         name: elm.name,
         item: elm.item.filter((item) => tmpItem.includes(item)),
       };
     });
-    const newItemList = await updateItem(_newBringList);
+    const newItemList = await updateItem(newBringList);
     if (newItemList === undefined) {
       setIsEditMode(false);
       return;
@@ -123,9 +124,11 @@ const ItemSelectContainer = ({
         </div>
         <div className={style.body}>
           <div className={style.buttons}>
-            {!isEditMode ? <>
-                {itemMaster.map((item, i) => (
-                  <div className={style.item} key={i}>
+            {isEditMode ? null : (
+              <>
+                {itemMaster.map((item) => (
+                  // FIXME: key
+                  <div className={style.item} key={item}>
                     <TagCheckbox
                       defaultChecked={selectedItem.includes(item)}
                       label={item}
@@ -133,15 +136,20 @@ const ItemSelectContainer = ({
                     />
                   </div>
                 ))}
-                {itemMaster.length > 0 ? <div
+                {itemMaster.length > 0 ? (
+                  <div
                     className={style.icon}
                     onClick={() => setIsEditMode(true)}>
                     <IconEdit />
-                  </div> : null}
-              </> : null}
-            {isEditMode ? <>
-                {tmpItem.map((item, i) => (
-                  <div className={style.item} key={i}>
+                  </div>
+                ) : null}
+              </>
+            )}
+            {isEditMode ? (
+              <>
+                {tmpItem.map((item) => (
+                  // FIXME: key
+                  <div className={style.item} key={item}>
                     <TagCheckbox defaultChecked={false} label={item} />
                     <div
                       className={style.icon}
@@ -156,9 +164,11 @@ const ItemSelectContainer = ({
                     </div>
                   </div>
                 ))}
-              </> : null}
+              </>
+            ) : null}
           </div>
-          {isEditMode ? <div className={style.action}>
+          {isEditMode ? (
+            <div className={style.action}>
               <Button
                 text="確定"
                 width={80}
@@ -180,7 +190,8 @@ const ItemSelectContainer = ({
                   setRemovedItem([]);
                 }}
               />
-            </div> : null}
+            </div>
+          ) : null}
 
           <div className={style.input}>
             <Input
@@ -212,8 +223,9 @@ const ItemSelectContainer = ({
         isOpen={isOpenNoticePanel}
         title="全員のアイテムから削除されます">
         <ul>
-          {removedItem.map((item, i) => (
-            <li className={style.item} key={i}>
+          {removedItem.map((item) => (
+            // FIXME: key
+            <li className={style.item} key={item}>
               {item}
             </li>
           ))}
