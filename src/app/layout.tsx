@@ -6,6 +6,8 @@ import { PAGE_PATH } from '@/constants/pathname';
 
 import '@/assets/styles/globals.scss';
 
+const basUrl = process.env.NEXT_PUBLIC_FE_BASE_URL;
+
 const RootLayout = ({ children }: { children: React.ReactNode }) => (
   <html lang="en">
     <body className={style['page-layout']}>
@@ -13,7 +15,7 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => (
         <Link className={style.logo} href={{ pathname: PAGE_PATH.TOP }}>
           SEMP
         </Link>
-        <meta content="/logo.png" property="og:image" />
+        <meta content={`${basUrl}/logo.png`} property="og:image" />
         <link href="/logo.png" rel="icon" />
         {/* <ul className={style.menu}>
             <li className={style.item}>Events</li>

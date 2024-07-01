@@ -8,8 +8,6 @@ export type Data = {
   item: string[];
 };
 
-// Const basUrl = process.env.NEXT_PUBLIC_FE_BASE_URL;
-
 export const useItemPage = () => {
   const eventId = useParams()?.eventId as string;
 
