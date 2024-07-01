@@ -6,7 +6,6 @@ import style from './layout.module.scss';
 import Meta from '@/components/Meta';
 import { PAGE_PATH } from '@/constants/pathname';
 
-
 import '@/assets/styles/globals.scss';
 
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
@@ -20,11 +19,10 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
           <Link className={style.logo} href={{ pathname: PAGE_PATH.TOP }}>
             SEMP
           </Link>
-          <ul className={style.menu}>
+          {/* <ul className={style.menu}>
             <li className={style.item}>Events</li>
             <li className={style.item}>Mypage</li>
-            <li className={style.item}>New Event</li>
-          </ul>
+          </ul> */}
         </header>
         <main className={style['main-component']}>
           <div className={style.content}>{children}</div>
