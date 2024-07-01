@@ -16,14 +16,26 @@ export const PAGE_META: {
   [PAGE_PATH.TOP]: {
     title: 'SEMP',
     description: 'Sharable Event Management Portal',
+    openGraph: {
+      title: 'SEMP',
+      description: 'Sharable Event Management Portal',
+    },
   },
   [PAGE_PATH.NEW_EVENT]: {
     title: 'New Event',
     description: 'Get started by creating event',
+    openGraph: {
+      title: 'New Event',
+      description: 'Get started by creating event',
+    },
   },
   // TODO:
   '/edit': {
     title: 'Edit Event',
     description: 'edit event',
+    openGraph: {
+      title: 'Edit Event',
+      description: 'edit event',
+    },
   },
 };

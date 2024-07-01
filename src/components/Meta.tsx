@@ -37,6 +37,7 @@ const Meta = async ({ pathname }: Props) => {
   return (
     <>
       <title>{title}</title>
+      <meta content={description} name="description" />
       <meta content={title} property="og:title" />
       <meta content={description} property="og:description" />
     </>
