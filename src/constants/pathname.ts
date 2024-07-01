@@ -1,3 +1,5 @@
+import { Metadata } from 'next';
+
 export const PAGE_PATH = {
   TOP: '/',
   NEW_EVENT: '/new',
@@ -8,7 +10,9 @@ export const PAGE_PATH = {
   MEMO: (eventId: string) => `/${eventId}/memo`,
 } as const;
 
-export const PAGE_META = {
+export const PAGE_META: {
+  [key: string]: Metadata;
+} = {
   [PAGE_PATH.TOP]: {
     title: 'SEMP',
     description: 'Sharable Event Management Portal',

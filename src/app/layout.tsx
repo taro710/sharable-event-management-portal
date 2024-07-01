@@ -13,6 +13,8 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => (
         <Link className={style.logo} href={{ pathname: PAGE_PATH.TOP }}>
           SEMP
         </Link>
+        <meta content="/logo.png" property="og:image" />
+        <link href="/logo.png" rel="icon" />
         {/* <ul className={style.menu}>
             <li className={style.item}>Events</li>
             <li className={style.item}>Mypage</li>
