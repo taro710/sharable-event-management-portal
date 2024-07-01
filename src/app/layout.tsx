@@ -16,6 +16,7 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => (
           SEMP
         </Link>
         <meta content={`${basUrl}/ogp.png`} property="og:image" />
+        <meta content="summary" name="twitter:card" />
         <link href="/logo.png" rel="icon" />
         {/* <ul className={style.menu}>
             <li className={style.item}>Events</li>
