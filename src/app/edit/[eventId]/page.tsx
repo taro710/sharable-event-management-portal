@@ -11,7 +11,6 @@ import { PAGE_PATH } from '@/constants/pathname';
 import { EventData } from '@/domain/event';
 import { useEvent } from '@/hooks/useEvent';
 
-
 const EventEdit: NextPage = () => {
   const router = useRouter();
   const eventId = useParams()?.eventId as string;

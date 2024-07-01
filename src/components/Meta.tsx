@@ -7,8 +7,8 @@ type Props = {
   pathname: string;
 };
 
-const Meta = async ({ pathname }: Props) => {
-  const [, eventId] = pathname.split('/'); //TODO: この位置にeventIdが来ない場合もある
+const getMetaContent = async (pagePathName: string) => {
+  const [, eventId] = pagePathName.split('/'); //TODO: この位置にeventIdが来ない場合もある
 
   const getEvent = async () => {
     if (!eventId) return undefined;
@@ -25,11 +25,20 @@ const Meta = async ({ pathname }: Props) => {
 
   const event = await getEvent();
 
+  return {
+    title: event?.eventName,
+    description: event?.message,
+  };
+};
+
+const Meta = async ({ pathname }: Props) => {
+  const { title, description } = await getMetaContent(pathname);
+
   return (
     <>
-      <title>{event?.eventName}</title>
-      <meta content={event?.eventName} property="og:title" />
-      <meta content={event?.message} property="og:description" />
+      <title>{title}</title>
+      <meta content={title} property="og:title" />
+      <meta content={description} property="og:description" />
     </>
   );
 };

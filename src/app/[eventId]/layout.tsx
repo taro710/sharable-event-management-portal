@@ -1,6 +1,7 @@
 import { doc, getDoc } from 'firebase/firestore';
 import { headers } from 'next/headers';
 
+import Meta from '@/components/Meta';
 import ClientLayout from '@/components/containers/ClientLayout';
 import { EventData } from '@/domain/event';
 import { ExpenseData } from '@/domain/expense';
@@ -67,13 +68,16 @@ const PageLayout = async ({ children }: { children: React.ReactNode }) => {
   };
 
   return (
-    <ClientLayout
-      event={await getEvent()}
-      expense={await getExpenseList()}
-      itemList={await getItemList()}
-      memo={await getMemoList()}>
-      {children}
-    </ClientLayout>
+    <>
+      <Meta pathname={pathname} />
+      <ClientLayout
+        event={await getEvent()}
+        expense={await getExpenseList()}
+        itemList={await getItemList()}
+        memo={await getMemoList()}>
+        {children}
+      </ClientLayout>
+    </>
   );
 };
 

@@ -10,8 +10,7 @@ import { PAGE_PATH } from '@/constants/pathname';
 import { EventData } from '@/domain/event';
 import { useEvent } from '@/hooks/useEvent';
 
-
-const EventEdit: NextPage = () => {
+const EventNew: NextPage = () => {
   const router = useRouter();
   const { addEvent } = useEvent();
 
@@ -28,4 +27,4 @@ const EventEdit: NextPage = () => {
   );
 };
 
-export default EventEdit;
+export default EventNew;

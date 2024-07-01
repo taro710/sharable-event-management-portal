@@ -20,7 +20,6 @@ import { Data } from '@/hooks/pages/useItemPage';
 import { MemoData } from '@/hooks/pages/useMemoPage';
 import { useResponsive } from '@/hooks/useResponsive';
 
-
 type Props = {
   event: EventData | undefined;
   itemList: Data[] | undefined;
@@ -57,11 +56,13 @@ const Wrapper = ({ event, itemList, expense, memo, children }: Props) => {
           isOpen={isSp ? isOpen : true}
           setIsOpen={isSp ? setIsOpen : undefined}
         />
-        {isSp ? <span
+        {isSp ? (
+          <span
             className={clsx(style.icon, isOpen && style['-reverse'])}
             onClick={onClick}>
             <IconTriangle />
-          </span> : null}
+          </span>
+        ) : null}
       </div>
       <div className={style.main}>
         <div className={style.tab}>
