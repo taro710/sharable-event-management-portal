@@ -46,9 +46,12 @@ const SubPanel = ({ isOpen = true, setIsOpen }: Props) => {
             <div className={style.header} onClick={() => setIsOpen?.(!isOpen)}>
               <h1 className={style.title}>{event.eventName}</h1>
               {isOpen ? (
-                <div className={style.icon} onClick={handleClickEdit}>
+                <button
+                  className={style.icon}
+                  type="button"
+                  onClick={handleClickEdit}>
                   <IconEdit />
-                </div>
+                </button>
               ) : null}
             </div>
 
