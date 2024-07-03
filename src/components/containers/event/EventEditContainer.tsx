@@ -58,6 +58,7 @@ const EventEditContainer = ({
   const [members, setMembers] = useState<string[]>(event?.members || []);
 
   const currentMembers = watch('members');
+  const memberInput = useRef<HTMLInputElement>(null);
   const handleAddMember = () => {
     if (inputtedMemberName === '') return;
     if (members.includes(inputtedMemberName)) return;
@@ -66,6 +67,7 @@ const EventEditContainer = ({
     setMembers(updatedMembers);
     setInputtedMemberName('');
     clearErrors('members');
+    memberInput.current?.focus();
   };
 
   return (
@@ -89,14 +91,22 @@ const EventEditContainer = ({
                   hasError={Boolean(errors.members)}
                   isRequired
                   label="メンバー"
+                  ref={memberInput}
                   value={inputtedMemberName}
                   onChange={(e) => setInputtedMemberName(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') handleAddMember();
+                  }}
                 />
                 <div className={style.submit}>
-                  <Button text="追加" onClick={handleAddMember} />
+                  <Button
+                    aria-label="メンバーを追加"
+                    text="追加"
+                    onClick={handleAddMember}
+                  />
                 </div>
               </div>
-              <ul className={style.list}>
+              <ul className={style.list} tabIndex={0}>
                 {members.map((member) => (
                   <TagCheckbox
                     defaultChecked
@@ -139,7 +149,7 @@ const EventEditContainer = ({
             {handleCancel ? (
               <Button
                 text="キャンセル"
-                type="secondary"
+                theme="secondary"
                 onClick={handleCancel}
               />
             ) : null}

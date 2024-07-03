@@ -1,7 +1,7 @@
 'use client';
 
 import clsx from 'clsx';
-import { forwardRef } from 'react';
+import { forwardRef, useId } from 'react';
 
 import style from './Input.module.scss';
 
@@ -14,15 +14,19 @@ type Props = JSX.IntrinsicElements['input'] & {
 const Input = forwardRef<HTMLInputElement, Props>((props: Props, ref) => {
   const { label, isRequired, hasError, ...inputProps } = props;
 
+  const id = useId();
+
   return (
     <div className={style['input-component']}>
-      <label className={style.caption}>
+      <label aria-hidden className={style.caption} htmlFor={id}>
         {label}
         {isRequired ? <span className={style.required}>*</span> : null}
       </label>
       <input
         {...inputProps}
+        aria-label={label}
         className={clsx(style.input, hasError && style['-error'])}
+        id={id}
         ref={ref}
       />
     </div>

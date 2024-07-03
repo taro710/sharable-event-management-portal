@@ -43,7 +43,12 @@
   font: inherit;
 }
 
-*:focus {
+*:focus-visible {
+  outline: 2px solid $pink-400;
+  outline-offset: 2px;
+}
+
+*:focus:not(:focus-visible) {
   outline: none;
 }
 
@@ -67,10 +72,6 @@ select {
   font: inherit;
   color: $black;
   appearance: none;
-
-  &:focus {
-    outline: none;
-  }
 }
 
 input::-webkit-inner-spin-button {

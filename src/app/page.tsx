@@ -6,13 +6,16 @@ import styles from './page.module.scss';
 import { PAGE_META, PAGE_PATH } from '@/constants/pathname';
 
 const Home = () => (
-  <main className={styles['layout-component']}>
-    <p>Get started by creating event</p>
-    <p>↓</p>
-    <Link className={styles.button} href={PAGE_PATH.NEW_EVENT}>
+  <div className={styles['layout-component']}>
+    <p aria-hidden>Get started by creating event</p>
+    <p aria-hidden>↓</p>
+    <Link
+      aria-label="イベントを作成する"
+      className={styles.button}
+      href={PAGE_PATH.NEW_EVENT}>
       New Event
     </Link>
-  </main>
+  </div>
 );
 
 export const metadata: Metadata = PAGE_META['/'];

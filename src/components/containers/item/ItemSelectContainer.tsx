@@ -182,7 +182,7 @@ const ItemSelectContainer = ({
               />
               <Button
                 text="キャンセル"
-                type="secondary"
+                theme="secondary"
                 width={80}
                 onClick={() => {
                   setTmpItem(itemMaster);

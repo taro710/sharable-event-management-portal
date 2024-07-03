@@ -89,7 +89,7 @@ const MemoEditContainer = ({
               <Button
                 isAlert
                 text="メモを削除"
-                type="secondary"
+                theme="secondary"
                 onClick={() => setIsOpenNoticePanel(true)}
               />
             </div>

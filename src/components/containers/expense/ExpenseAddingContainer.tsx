@@ -83,7 +83,7 @@ const ExpenseAddingContainer = ({ handleSubmit: onSubmit, close }: Props) => {
         <div className={style.footer}>
           <Button
             text="追加"
-            type="primary"
+            theme="primary"
             width={120}
             onClick={handleSubmit(onSubmit)}
           />
