@@ -1,5 +1,7 @@
 'use client';
 
+import { useId } from 'react';
+
 import style from './Checkbox.module.scss';
 
 type Props = JSX.IntrinsicElements['input'] & {
@@ -8,23 +10,28 @@ type Props = JSX.IntrinsicElements['input'] & {
 const Checkbox = (props: Props) => {
   const { label, ...inputProps } = props;
 
+  const id = useId();
+
   return (
-    <label className={style['checkbox-wrapper-15']}>
+    <div className={style['checkbox-wrapper-15']}>
       <input
-        className={style['inp-cbx']}
-        style={{ display: 'none' }}
-        type="checkbox"
         {...inputProps}
+        aria-label={label}
+        className={style['inp-cbx']}
+        id={id}
+        type="checkbox"
       />
 
-      <span className={style.check}>
+      <label aria-hidden className={style.check} htmlFor={id}>
         <svg>
           <polyline points="1 5 4 8 11 1" />
         </svg>
-      </span>
+      </label>
 
-      <span className={style.label}>{label}</span>
-    </label>
+      <span aria-hidden className={style.label}>
+        {label}
+      </span>
+    </div>
   );
 };
 

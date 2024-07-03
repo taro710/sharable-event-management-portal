@@ -47,6 +47,7 @@ const SubPanel = ({ isOpen = true, setIsOpen }: Props) => {
               <h1 className={style.title}>{event.eventName}</h1>
               {isOpen ? (
                 <button
+                  aria-label="イベントを編集"
                   className={style.icon}
                   type="button"
                   onClick={handleClickEdit}>
@@ -56,7 +57,9 @@ const SubPanel = ({ isOpen = true, setIsOpen }: Props) => {
             </div>
 
             <div className={style.body}>
-              <table className={style['overview-table']}>
+              <table
+                aria-label="イベントの詳細"
+                className={style['overview-table']}>
                 <tbody className={style.table}>
                   {event.meetingPlace ? (
                     <tr className={style.row}>

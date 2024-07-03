@@ -14,8 +14,14 @@ type Props = {
 const CardMemo = ({ memo: { member, memo, memoId }, onClick }: Props) => (
   <div className={style.memo} key={memoId}>
     <div className={style.header}>
-      <p className={style.member}>{member}</p>
-      <button className={style.icon} type="button" onClick={onClick}>
+      <p aria-label={`記入者 ${member}`} className={style.member}>
+        {member}
+      </p>
+      <button
+        aria-label="このメモを編集する"
+        className={style.icon}
+        type="button"
+        onClick={onClick}>
         <IconEdit />
       </button>
     </div>

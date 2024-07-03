@@ -5,7 +5,6 @@
   align-items: center;
   width: fit-content;
   height: 20px;
-  cursor: pointer;
   user-select: none;
   -webkit-tap-highlight-color: transparent;
 
@@ -20,6 +19,7 @@
     width: 20px;
     height: 20px;
     vertical-align: middle;
+    cursor: pointer;
     background-color: #fff;
     border: 2px solid $gray-400;
     border-radius: 50%;
@@ -72,6 +72,16 @@
     background: $gray;
     transform: scaleX(0);
     transform-origin: 0 0;
+  }
+
+  > .inp-cbx {
+    position: absolute;
+    opacity: 0;
+  }
+
+  > .inp-cbx:focus-visible + .check {
+    outline: 2px solid $pink-400;
+    outline-offset: 2px;
   }
 
   > .inp-cbx:checked + .check {

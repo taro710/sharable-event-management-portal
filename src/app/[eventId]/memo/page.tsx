@@ -121,6 +121,7 @@ const DashBoard: NextPage = () => {
 
       {!isAddDialogOpen && !isEditDialogOpen ? (
         <button
+          aria-label="メモを追加する"
           className={style['add-button']}
           type="button"
           onClick={openAddPanel}>
