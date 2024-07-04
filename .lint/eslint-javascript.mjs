@@ -17,6 +17,7 @@ export const javascriptConfig = {
     'no-inline-comments': 'off',
     'capitalized-comments': 'off',
     'new-cap': 'off',
+    'multiline-comment-style': 'off',
     'no-console': 'warn',
     'prefer-template': 'error',
     'no-constant-condition': 'error',
