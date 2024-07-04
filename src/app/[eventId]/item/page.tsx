@@ -79,6 +79,7 @@ const DashBoard: NextPage = () => {
           <div className={style.tags}>
             {members?.map((name, i) => (
               <Tag
+                aria-current={i === selectedIndex ? 'true' : undefined}
                 isActive={i === selectedIndex}
                 key={name} // FIXME:
                 text={name}
@@ -88,13 +89,12 @@ const DashBoard: NextPage = () => {
           </div>
           <div className={style.content}>
             <div className={style['item-list']}>
-              {selectedData?.item.map((item, i) => (
+              {selectedData?.item.map((item) => (
                 <div className={style.item} key={selectedData.name + item}>
                   <Checkbox
                     defaultChecked={checkedItem?.includes(
                       selectedData.name + item,
                     )}
-                    id={selectedData.name + i}
                     label={item}
                     onChange={(e) => {
                       if (e.target.checked) {
@@ -158,6 +158,7 @@ const DashBoard: NextPage = () => {
 
       {isDialogOpen ? null : (
         <button
+          aria-label={`${selectedMember}のアイテムを編集する`}
           className={style['add-button']}
           type="button"
           onClick={async () => {

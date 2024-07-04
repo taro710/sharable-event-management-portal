@@ -71,7 +71,7 @@ const DashBoard: NextPage = () => {
           {expenses.length <= 0 ? (
             <p className={style.notice}>支払いはありません🤔</p>
           ) : null}
-          <ul className={style.cards}>
+          <ul aria-label="支払い記録一覧" className={style.cards}>
             {expenses.map((expense) => (
               <CardExpense
                 expense={expense}
@@ -122,6 +122,7 @@ const DashBoard: NextPage = () => {
 
       {!isAddDialogOpen && !isEditDialogOpen ? (
         <button
+          aria-label="支払い記録を追加する"
           className={style['add-button']}
           type="button"
           onClick={openAddPanel}>

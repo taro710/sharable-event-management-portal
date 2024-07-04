@@ -58,10 +58,11 @@ const Tab = () => {
   }, [isSp, selectedIndex]);
 
   return (
-    <div className={style['tab-component']}>
+    <nav aria-label="メインタブ" className={style['tab-component']}>
       <ul className={style.tab}>
         {tabItems.map(({ label, path }, i) => (
           <Link
+            aria-current={selectedIndex === i ? 'page' : undefined}
             className={clsx(
               style.item,
               selectedIndex === i && style['-selected'],
@@ -75,7 +76,7 @@ const Tab = () => {
           <div className={style.background} ref={ref} />
         )}
       </ul>
-    </div>
+    </nav>
   );
 };
 

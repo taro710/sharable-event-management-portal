@@ -4,17 +4,17 @@ import clsx from 'clsx';
 
 import style from './Tag.module.scss';
 
-type Props = {
+type Props = JSX.IntrinsicElements['button'] & {
   text: string;
   isActive?: boolean;
-  onClick?: () => void;
 };
-const Tag = ({ text, isActive, onClick }: Props) => (
-    <div
-      className={clsx(style['tag-component'], isActive && style['-active'])}
-      onClick={onClick}>
-      <span className={style.text}>{text}</span>
-    </div>
-  );
+const Tag = ({ text, isActive, ...buttonProps }: Props) => (
+  <button
+    {...buttonProps}
+    className={clsx(style['tag-component'], isActive && style['-active'])}
+    type="button">
+    <span className={style.text}>{text}</span>
+  </button>
+);
 
 export default Tag;

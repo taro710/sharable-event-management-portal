@@ -105,13 +105,13 @@ const ExpenseEditContainer = ({
             <Button
               isAlert
               text="支払い記録を削除"
-              type="secondary"
+              theme="secondary"
               width={160}
               onClick={() => setIsOpenNoticePanel(true)}
             />
             <Button
               text="確定"
-              type="primary"
+              theme="primary"
               width={120}
               onClick={handleSubmit(onSubmit)}
             />

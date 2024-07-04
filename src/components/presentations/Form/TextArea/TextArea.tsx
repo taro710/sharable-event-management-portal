@@ -1,6 +1,6 @@
 'use client';
 
-import { forwardRef } from 'react';
+import { forwardRef, useId } from 'react';
 
 import style from './TextArea.module.scss';
 
@@ -11,10 +11,20 @@ type Props = JSX.IntrinsicElements['textarea'] & {
 const TextArea = forwardRef<HTMLTextAreaElement, Props>((props: Props, ref) => {
   const { label, ...inputProps } = props;
 
+  const id = useId();
+
   return (
     <div className={style['input-component']}>
-      <label className={style.caption}>{label}</label>
-      <textarea {...inputProps} className={style.input} ref={ref} />
+      <label aria-hidden className={style.caption} htmlFor={id}>
+        {label}
+      </label>
+      <textarea
+        {...inputProps}
+        aria-label={label}
+        className={style.input}
+        id={id}
+        ref={ref}
+      />
     </div>
   );
 });

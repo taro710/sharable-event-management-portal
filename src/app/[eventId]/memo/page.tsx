@@ -1,7 +1,6 @@
 'use client';
 
 import { useAtom } from 'jotai';
-import Linkify from 'linkify-react';
 import { NextPage } from 'next';
 import { useEffect, useRef, useState } from 'react';
 
@@ -11,10 +10,10 @@ import { memoAtom } from '@/atoms/memoAtom';
 import MemoAddingContainer from '@/components/containers/memo/MemoAddingContainer';
 import MemoEditContainer from '@/components/containers/memo/MemoEditContainer';
 import FadeIn from '@/components/presentations/Animation/FadeIn';
+import CardMemo from '@/components/presentations/Common/Card/CardMemo';
 import DialogMemoAdding from '@/components/presentations/Dialog/DialogMemoAdding';
 import DialogMemoEdit from '@/components/presentations/Dialog/DialogMemoEdit';
 import IconAdd from '@/components/presentations/Icon/IconAdd';
-import IconEdit from '@/components/presentations/Icon/IconEdit';
 import { MemoData, useMemoPage } from '@/hooks/pages/useMemoPage';
 import { useResponsive } from '@/hooks/useResponsive';
 
@@ -78,31 +77,12 @@ const DashBoard: NextPage = () => {
           {memo.length <= 0 ? (
             <p className={style.notice}>メモはありません🙃</p>
           ) : null}
-          {memo.map(({ member, memo: _memo, memoId }) => (
-            <div className={style.memo} key={memoId}>
-              <div className={style.header}>
-                <p className={style.member}>{member}</p>
-                <div
-                  className={style.icon}
-                  onClick={() =>
-                    openEditPanel({ member, memo: _memo, memoId })
-                  }>
-                  <IconEdit />
-                </div>
-              </div>
-              <div className={style.text}>
-                <Linkify
-                  as="p"
-                  options={{
-                    className: style['link-text'],
-                    target: {
-                      url: '_blank', // TODO: noopener
-                    },
-                  }}>
-                  {_memo}
-                </Linkify>
-              </div>
-            </div>
+          {memo.map((_memo) => (
+            <CardMemo
+              key={_memo.memoId}
+              memo={_memo}
+              onClick={() => openEditPanel(_memo)}
+            />
           ))}
         </FadeIn>
 
@@ -141,6 +121,7 @@ const DashBoard: NextPage = () => {
 
       {!isAddDialogOpen && !isEditDialogOpen ? (
         <button
+          aria-label="メモを追加する"
           className={style['add-button']}
           type="button"
           onClick={openAddPanel}>

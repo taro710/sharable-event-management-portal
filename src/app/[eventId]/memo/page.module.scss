@@ -27,41 +27,6 @@
     margin: 62px auto;
     color: $gray-400;
   }
-
-  > .memo {
-    padding: 32px;
-    background-color: $white;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px 0 rgb(0 0 0 / 20%);
-
-    > .header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding-bottom: 12px;
-      margin-bottom: 12px;
-      border-bottom: solid 1px $gray;
-
-      > .member {
-        font-weight: bold;
-      }
-
-      > .icon {
-        width: 16px;
-        height: 16px;
-        cursor: pointer;
-        fill: none;
-        stroke: $black;
-      }
-    }
-
-    > .text {
-      line-height: 1.5;
-      color: $black;
-      overflow-wrap: break-word;
-      white-space: pre-wrap;
-    }
-  }
 }
 
 .add-button {
@@ -88,19 +53,10 @@
   .memo-panel {
     gap: 20px;
     padding: 12px;
-
-    > .memo {
-      padding: 12px;
-      font-size: 14px;
-    }
   }
 
   .add-button {
     right: 24px;
     bottom: 24px;
   }
-}
-
-.link-text {
-  color: $blue;
 }

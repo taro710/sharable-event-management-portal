@@ -4,23 +4,28 @@ import clsx from 'clsx';
 
 import style from './Button.module.scss';
 
-type Props = {
+type Props = JSX.IntrinsicElements['button'] & {
   text: string;
-  type?: 'primary' | 'secondary';
-  onClick?: () => void;
+  theme?: 'primary' | 'secondary';
   width?: number;
   isAlert?: boolean;
 };
-const Button = ({ text, type = 'primary', onClick, width, isAlert }: Props) => (
+const Button = ({
+  text,
+  theme = 'primary',
+  width,
+  isAlert,
+  ...inputProps
+}: Props) => (
   <button
+    {...inputProps}
     className={clsx(
       style['button-component'],
-      type !== 'primary' && style[`-${type}`],
+      theme !== 'primary' && style[`-${theme}`],
       isAlert && style['-alert'],
     )}
     style={{ width: `${width}px` }}
-    type="button"
-    onClick={onClick}>
+    type="button">
     {text}
   </button>
 );
