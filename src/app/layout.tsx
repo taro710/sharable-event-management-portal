@@ -6,7 +6,7 @@ import { PAGE_PATH } from '@/constants/pathname';
 
 import '@/assets/styles/globals.scss';
 
-const basUrl = process.env.NEXT_PUBLIC_FE_BASE_URL;
+const basUrl = process.env.FE_BASE_URL;
 
 const RootLayout = ({ children }: { children: React.ReactNode }) => (
   <html lang="en">
