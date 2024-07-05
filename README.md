@@ -2,8 +2,7 @@
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-<img src="https://img.shields.io/badge/-Next.js-000000.svg?logo=next.js&style=for-the-badge">
-<img src="https://img.shields.io/badge/-Typescript-black.svg?logo=typescript&style=for-the-badge">
+<img src="https://img.shields.io/badge/-Next.js-000000.svg?logo=next.js&style=for-the-badge"> <img src="https://img.shields.io/badge/-Typescript-black.svg?logo=typescript&style=for-the-badge">
 
 ## Network Diagram
 
