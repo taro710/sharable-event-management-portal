@@ -44,6 +44,7 @@
 }
 
 *:focus-visible {
+  border-radius: 4px;
   outline: 2px solid $pink-400;
   outline-offset: 2px;
 }
@@ -72,6 +73,10 @@ select {
   font: inherit;
   color: $black;
   appearance: none;
+
+  &:focus-visible {
+    outline: 2px solid $blue;
+  }
 }
 
 input::-webkit-inner-spin-button {
