@@ -52,9 +52,9 @@ const MemoEditContainer = ({
           isOpenNoticePanel && style['-disabled'],
         )}>
         <div className={style.header}>
-          <div className={style.icon} onClick={close}>
+          <button className={style.icon} type="button" onClick={close}>
             {isSp ? <IconArrow /> : <IconClose />}
-          </div>
+          </button>
         </div>
         <div className={style.body}>
           {event ? (

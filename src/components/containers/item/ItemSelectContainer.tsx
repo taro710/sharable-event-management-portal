@@ -113,14 +113,15 @@ const ItemSelectContainer = ({
           isOpenNoticePanel && style['-disabled'],
         )}>
         <div className={style.header}>
-          <div
+          <button
             className={style.icon}
+            type="button"
             onClick={() => {
               setSelectedItem(selectedItems);
               close();
             }}>
             {isSp ? <IconArrow /> : <IconClose />}
-          </div>
+          </button>
         </div>
         <div className={style.body}>
           <div className={style.buttons}>

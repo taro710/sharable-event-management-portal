@@ -14,7 +14,6 @@ import IconClose from '@/components/presentations/Icon/IconClose';
 import { MemoData } from '@/hooks/pages/useMemoPage';
 import { useResponsive } from '@/hooks/useResponsive';
 
-
 type Props = {
   handleSubmit: (memoData: Omit<MemoData, 'memoId'>) => void;
   close: () => void;
@@ -30,12 +29,13 @@ const MemoAddingContainer = ({ handleSubmit, close }: Props) => {
   return (
     <div className={style['dialog-content']}>
       <div className={style.header}>
-        <div className={style.icon} onClick={close}>
+        <button className={style.icon} type="button" onClick={close}>
           {isSp ? <IconArrow /> : <IconClose />}
-        </div>
+        </button>
       </div>
       <div className={style.body}>
-        {event ? <SelectBox
+        {event ? (
+          <SelectBox
             label="記入者"
             value={author}
             onChange={(e) => {
@@ -46,12 +46,13 @@ const MemoAddingContainer = ({ handleSubmit, close }: Props) => {
                 {member}
               </option>
             ))}
-          </SelectBox> : null}
+          </SelectBox>
+        ) : null}
         <TextArea
           label="メモ"
           value={memo}
           onChange={(e) => {
-            const {value} = e.target;
+            const { value } = e.target;
             if (value.length > 1000) {
               setMemo(value.slice(0, 1000));
               return;
