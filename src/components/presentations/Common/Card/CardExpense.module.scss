@@ -40,6 +40,12 @@
     > .prefix {
       flex-shrink: 0;
     }
+
+    > .names {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+    }
   }
 
   &:hover {
