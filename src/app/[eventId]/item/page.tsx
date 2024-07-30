@@ -39,6 +39,8 @@ const DashBoard: NextPage = () => {
   const ref = useRef<HTMLDivElement>(null);
 
   const openPanel = () => {
+    if (isSp) window.scrollTo(0, 0);
+
     setIsDialogOpen(true);
     if (!isSp) return;
     if (!ref.current) return;

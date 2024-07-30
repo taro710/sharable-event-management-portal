@@ -29,11 +29,14 @@ const DashBoard: NextPage = () => {
 
   const [isAddDialogOpen, setIsAddDialogOpen] = useState<boolean>(false);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState<boolean>(false);
+  const [scrollPosition, setScrollPosition] = useState<number>(0);
 
   const { addExpense, updateExpense, deleteExpense } = useExpensePage(expenses);
 
   const ref = useRef<HTMLDivElement>(null);
   const openAddPanel = () => {
+    if (isSp) window.scrollTo(0, 0);
+
     setIsAddDialogOpen(true);
     if (!isSp) return;
     if (!ref.current) return;
@@ -49,6 +52,11 @@ const DashBoard: NextPage = () => {
 
   // TODO: any
   const openEditPanel = (expense: ExpenseData) => {
+    if (isSp) {
+      setScrollPosition(window.scrollY);
+      window.scrollTo(0, 0);
+    }
+
     setEditingExpense(expense);
     setIsEditDialogOpen(true);
     if (!isSp) return;
@@ -57,6 +65,8 @@ const DashBoard: NextPage = () => {
   };
 
   const closeEditPanel = () => {
+    if (isSp) window.scrollTo(0, scrollPosition);
+
     setEditingExpense(undefined);
     setIsEditDialogOpen(false);
     if (!isSp) return;

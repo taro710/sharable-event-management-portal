@@ -20,7 +20,13 @@ const CardExpense = ({ expense, onClick }: Props) => (
     </p>
     <p className={style.member}>
       <span className={style.prefix}>対象者：</span>
-      <span>{expense.members.join(', ')}</span>
+      <div className={style.names}>
+        {expense.members.map((member) => (
+          <span className={style.text} key={member}>
+            {member}
+          </span>
+        ))}
+      </div>
     </p>
   </button>
 );

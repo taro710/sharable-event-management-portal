@@ -33,8 +33,7 @@ const DashBoard: NextPage = () => {
 
   const ref = useRef<HTMLDivElement>(null);
   const openAddPanel = () => {
-    setScrollPosition(window.scrollY);
-    window.scrollTo(0, 0);
+    if (isSp) window.scrollTo(0, 0);
 
     setIsAddDialogOpen(true);
     if (!isSp) return;
@@ -51,8 +50,10 @@ const DashBoard: NextPage = () => {
 
   // TODO: any
   const openEditPanel = ({ member, memo: _memo, memoId }: any) => {
-    setScrollPosition(window.scrollY);
-    window.scrollTo(0, 0);
+    if (isSp) {
+      setScrollPosition(window.scrollY);
+      window.scrollTo(0, 0);
+    }
 
     setEditingMemo({ member, memo: _memo, memoId });
     setIsEditDialogOpen(true);
@@ -62,7 +63,8 @@ const DashBoard: NextPage = () => {
   };
 
   const closeEditPanel = () => {
-    window.scrollTo(0, scrollPosition);
+    if (isSp) window.scrollTo(0, scrollPosition);
+
     setEditingMemo(undefined);
     setIsEditDialogOpen(false);
     if (!isSp) return;
