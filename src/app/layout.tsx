@@ -13,7 +13,7 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => (
     <body className={style['page-layout']}>
       <header className={style['header-component']}>
         <Link className={style.logo} href={{ pathname: PAGE_PATH.TOP }}>
-          SEMP
+          SEMP<span className={style.notice}>(beta)</span>
         </Link>
         <meta content={`${basUrl}/ogp.png`} property="og:image" />
         {/* FIXME: next/metadataによって生成されるため重複している */}

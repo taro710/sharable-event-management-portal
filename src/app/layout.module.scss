@@ -16,6 +16,11 @@
     font-family: Barlow, sans-serif;
     font-size: 36px;
     cursor: pointer;
+
+    > .notice {
+      margin-left: 4px;
+      font-size: 12px;
+    }
   }
 
   > .menu {
