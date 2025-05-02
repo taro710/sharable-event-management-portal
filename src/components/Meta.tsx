@@ -36,10 +36,14 @@ const Meta = async ({ pathname }: Props) => {
 
   return (
     <>
+      {/* FIXME: 代替テキスト */}
       <title>{title}</title>
       <meta content={description} name="description" />
       <meta content={title} property="og:title" />
-      <meta content={description} property="og:description" />
+      <meta
+        content={description || 'Event management tool. Share and Edit.'}
+        property="og:description"
+      />
     </>
   );
 };
