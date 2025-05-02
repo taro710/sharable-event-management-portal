@@ -2,17 +2,15 @@
 
 import { useAtom } from 'jotai';
 import { NextPage } from 'next';
-import Link from 'next/link';
-import { useParams } from 'next/navigation';
-import { useRef, useState } from 'react';
+import { lazy, Suspense, useRef, useState } from 'react';
 
 import style from './page.module.scss';
 
+import { eventAtom } from '@/atoms/eventAtom';
 import { expenseAtom } from '@/atoms/expenseAtom';
 import ExpenseAddingContainer from '@/components/containers/expense/ExpenseAddingContainer';
 import ExpenseEditContainer from '@/components/containers/expense/ExpenseEditContainer';
-import FadeIn from '@/components/presentations/Animation/FadeIn';
-import CardExpense from '@/components/presentations/Common/Card/CardExpense';
+// import ExpensePageContent from '@/components/containers/expense/ExpensePageContent';
 import DialogExpenseAdding from '@/components/presentations/Dialog/DialogExpenseAdding';
 import DialogExpenseEdit from '@/components/presentations/Dialog/DialogExpenseEdit';
 import IconAdd from '@/components/presentations/Icon/IconAdd';
@@ -20,9 +18,13 @@ import { ExpenseData } from '@/domain/expense';
 import { useExpensePage } from '@/hooks/pages/useExpensePage';
 import { useResponsive } from '@/hooks/useResponsive';
 
+const ExpensePageContent = lazy(
+  () => import('@/components/containers/expense/ExpensePageContent'),
+);
+
 const DashBoard: NextPage = () => {
   const { isSp } = useResponsive();
-  const eventId = useParams()?.eventId as string;
+  const [event] = useAtom(eventAtom); // TODO: event必須化対応;
 
   const [expenses, setExpenses] = useAtom(expenseAtom);
   const [editingExpense, setEditingExpense] = useState<ExpenseData>();
@@ -77,25 +79,13 @@ const DashBoard: NextPage = () => {
   return (
     <>
       <div className={style['page-component']} ref={ref}>
-        <FadeIn className={style['expense-panel']}>
-          {expenses.length <= 0 ? (
-            <p className={style.notice}>支払いはありません🤔</p>
-          ) : null}
-          <ul aria-label="支払い記録一覧" className={style.cards}>
-            {expenses.map((expense) => (
-              <CardExpense
-                expense={expense}
-                key={expense.expenseId} // FIXME: id型の必須化
-                onClick={() => openEditPanel(expense)}
-              />
-            ))}
-          </ul>
-          {expenses.length ? (
-            <Link className={style.link} href={`/${eventId}/expense/seisan`}>
-              清算金額を確認
-            </Link>
-          ) : null}
-        </FadeIn>
+        {/* TODO: コンポーネント化 */}
+        <Suspense fallback={<div style={{ padding: '24px' }}>Loading...</div>}>
+          <ExpensePageContent
+            eventId={event?.eventId || ''}
+            onCardClick={openEditPanel}
+          />
+        </Suspense>
 
         <div className={style['container-component']}>
           {isAddDialogOpen ? (
