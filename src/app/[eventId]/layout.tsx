@@ -27,20 +27,6 @@ const PageLayout = async ({ children }: { children: React.ReactNode }) => {
     }
   };
 
-  // const getMemoList = async () => {
-  //   const docRef = doc(database, eventId, 'memo');
-
-  //   try {
-  //     const document = await getDoc(docRef);
-  //     const data = document?.data();
-  //     const memoList: MemoData[] = Object.values(data || {});
-  //     memoList.reverse();
-  //     return memoList;
-  //   } catch (error) {
-  //     throw new Error('Error get document');
-  //   }
-  // };
-
   const event = await getEvent();
 
   return (
