@@ -15,13 +15,13 @@ export type MemoData = {
   memo: string;
 };
 
-export const useMemoPage = (currentMemoData: MemoData[]) => {
+export const useMemoPage = (currentMemos: MemoData[]) => {
   const eventId = useParams()?.eventId as string;
 
   const addMemo = async (data: Omit<MemoData, 'memoId'>) => {
     const newMemoId = (() => {
-      if (currentMemoData.length === 0) return 1;
-      const ids = currentMemoData.map((memo) => memo.memoId || 0);
+      if (currentMemos.length === 0) return 1;
+      const ids = currentMemos.map((memo) => memo.memoId || 0);
       return Math.max(...ids) + 1;
     })();
 
@@ -33,7 +33,7 @@ export const useMemoPage = (currentMemoData: MemoData[]) => {
         { merge: true },
       );
       const afterAddMemoData = [
-        ...currentMemoData,
+        ...currentMemos,
         { ...data, memoId: newMemoId },
       ];
       return afterAddMemoData;
@@ -47,7 +47,7 @@ export const useMemoPage = (currentMemoData: MemoData[]) => {
     try {
       await updateDoc(docRef, { [data.memoId]: data });
 
-      const afterUpdateMemoData = [...currentMemoData].map((memo) => {
+      const afterUpdateMemoData = [...currentMemos].map((memo) => {
         if (memo.memoId === data.memoId) return data;
         return memo;
       });
@@ -75,7 +75,7 @@ export const useMemoPage = (currentMemoData: MemoData[]) => {
     try {
       await updateDoc(docRef, { [memoId]: deleteField() });
 
-      const afterDeleteMemoData = [...currentMemoData].filter(
+      const afterDeleteMemoData = [...currentMemos].filter(
         (memo) => memo.memoId !== memoId,
       );
       return afterDeleteMemoData;

@@ -12,23 +12,21 @@ type Props = {
 };
 
 const DashBoard: NextPage<Props> = async ({ params: { eventId } }: Props) => {
-  const getMemoList = async () => {
+  const getMemos = async () => {
     const docRef = doc(database, eventId, 'memo');
 
     try {
       const document = await getDoc(docRef);
       const data = document?.data();
-      const memoList: MemoData[] = Object.values(data || {});
-      memoList.reverse();
-      return memoList;
+      const memos: MemoData[] = Object.values(data || {});
+      memos.reverse();
+      return memos;
     } catch (error) {
       throw new Error('Error get document');
     }
   };
 
-  const memos = await getMemoList();
-
-  return <MemoPageContent memo={memos} />;
+  return <MemoPageContent memos={await getMemos()} />;
 };
 
 export default DashBoard;

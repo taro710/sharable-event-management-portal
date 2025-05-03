@@ -17,17 +17,17 @@ import { MemoData, useMemoPage } from '@/hooks/pages/useMemoPage';
 import { useResponsive } from '@/hooks/useResponsive';
 
 type Props = {
-  memo: MemoData[];
+  memos: MemoData[];
 };
 
-const MemoPageContent = ({ memo }: Props) => {
+const MemoPageContent = ({ memos }: Props) => {
   const { isSp } = useResponsive();
   const [isAddDialogOpen, setIsAddDialogOpen] = useState<boolean>(false);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState<boolean>(false);
   const [scrollPosition, setScrollPosition] = useState<number>(0);
 
   const [, setMemo] = useAtom(memoAtom);
-  const { addMemo, updateMemo, deleteMemo } = useMemoPage(memo);
+  const { addMemo, updateMemo, deleteMemo } = useMemoPage(memos);
 
   const [editingMemo, setEditingMemo] = useState<MemoData>();
   useEffect(() => {
@@ -79,14 +79,14 @@ const MemoPageContent = ({ memo }: Props) => {
     <>
       <div className={style['page-component']} ref={ref}>
         <FadeIn className={style['memo-panel']}>
-          {memo.length <= 0 ? (
+          {memos.length <= 0 ? (
             <p className={style.notice}>メモはありません🙃</p>
           ) : null}
-          {memo.map((_memo) => (
+          {memos.map((memo) => (
             <CardMemo
-              key={_memo.memoId}
-              memo={_memo}
-              onClick={() => openEditPanel(_memo)}
+              key={memo.memoId}
+              memo={memo}
+              onClick={() => openEditPanel(memo)}
             />
           ))}
         </FadeIn>
