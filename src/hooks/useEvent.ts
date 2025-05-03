@@ -1,4 +1,4 @@
-import { getDoc, doc, updateDoc, setDoc } from 'firebase/firestore';
+import { doc, updateDoc, setDoc } from 'firebase/firestore';
 import { useAtom } from 'jotai';
 import { v4 } from 'uuid';
 
@@ -6,6 +6,7 @@ import { eventAtom } from '@/atoms/eventAtom';
 import { EventData } from '@/domain/event';
 import { database } from '@/firebase';
 
+// TODO: eventId必須化
 export const useEvent = (eventId?: string) => {
   const [, setEvent] = useAtom(eventAtom);
 
@@ -15,7 +16,7 @@ export const useEvent = (eventId?: string) => {
     const docRef = doc(database, newEventId, 'event');
     try {
       await setDoc(docRef, data);
-      setEvent(data);
+      setEvent({ ...data, eventId: newEventId });
       return newEventId;
     } catch (e) {
       throw new Error('Error adding document');
@@ -27,27 +28,14 @@ export const useEvent = (eventId?: string) => {
     const docRef = doc(database, eventId, 'event');
     try {
       await updateDoc(docRef, data);
-      setEvent(data);
+      setEvent({ ...data, eventId });
     } catch (e) {
       throw new Error('Error updating document');
-    }
-  };
-
-  const getEvent = async () => {
-    if (!eventId) return undefined;
-    const docRef = doc(database, eventId, 'event');
-    try {
-      const document = await getDoc(docRef);
-      const eventData = document?.data() as EventData | undefined;
-      return eventData;
-    } catch (error) {
-      throw new Error('Error get document');
     }
   };
 
   return {
     addEvent,
     updateEvent,
-    getEvent,
   };
 };
