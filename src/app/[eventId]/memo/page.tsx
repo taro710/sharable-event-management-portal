@@ -1,26 +1,34 @@
-'use client';
-
-import { useAtom } from 'jotai';
+import { doc, getDoc } from 'firebase/firestore';
 import { NextPage } from 'next';
-import { lazy, Suspense } from 'react';
 
-import { eventAtom } from '@/atoms/eventAtom';
+import MemoPageContent from '@/components/containers/memo/MemoPageContent';
+import { database } from '@/firebase';
+import { MemoData } from '@/hooks/pages/useMemoPage';
 
-const MemoPageContent = lazy(
-  () => import('@/components/containers/memo/MemoPageContent'),
-);
+type Props = {
+  params: {
+    eventId: string;
+  };
+};
 
-const DashBoard: NextPage = () => {
-  const [event] = useAtom(eventAtom);
+const DashBoard: NextPage<Props> = async ({ params: { eventId } }: Props) => {
+  const getMemoList = async () => {
+    const docRef = doc(database, eventId, 'memo');
 
-  return (
-    <>
-      {/* TODO: コンポーネント化 */}
-      <Suspense fallback={<div style={{ padding: '24px' }}>Loading...</div>}>
-        <MemoPageContent eventId={event?.eventId || ''} />
-      </Suspense>
-    </>
-  );
+    try {
+      const document = await getDoc(docRef);
+      const data = document?.data();
+      const memoList: MemoData[] = Object.values(data || {});
+      memoList.reverse();
+      return memoList;
+    } catch (error) {
+      throw new Error('Error get document');
+    }
+  };
+
+  const memos = await getMemoList();
+
+  return <MemoPageContent memo={memos} />;
 };
 
 export default DashBoard;
