@@ -2,12 +2,12 @@
 
 import ItemSelectContainer from '@/components/containers/item/ItemSelectContainer';
 import DialogWrapper from '@/components/presentations/Dialog/DialogWrapper';
-import { Data } from '@/hooks/pages/useItemPage';
+import { ItemData } from '@/hooks/pages/useItemPage';
 
 type Props = {
   selectedItems?: string[];
   isOpen: boolean;
-  updateItem: (data: Data[]) => Promise<Data[] | undefined>;
+  updateItem: (data: ItemData[]) => Promise<ItemData[] | undefined>;
   updateItemMaster: (data: string[]) => Promise<string[] | undefined>;
   closeDialog: () => void;
   handleSubmit: (selectedItem: string[]) => void;

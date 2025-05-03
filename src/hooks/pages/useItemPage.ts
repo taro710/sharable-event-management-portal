@@ -3,7 +3,7 @@ import { useParams } from 'next/navigation';
 
 import { database } from '@/firebase';
 
-export type Data = {
+export type ItemData = {
   name: string;
   item: string[];
 };
@@ -16,14 +16,14 @@ export const useItemPage = () => {
 
     try {
       const document = await getDoc(docRef);
-      const data: Data[] = document?.data()?.itemData || [];
+      const data: ItemData[] = document?.data()?.itemData || [];
       return data;
     } catch (error) {
       throw new Error('Error get document');
     }
   };
 
-  const updateItem = async (data: Data[]) => {
+  const updateItem = async (data: ItemData[]) => {
     const payload = { itemData: data };
     const itemRef = collection(database, eventId);
     try {

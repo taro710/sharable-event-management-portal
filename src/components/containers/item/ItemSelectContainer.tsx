@@ -6,7 +6,7 @@ import { useCallback, useEffect, useState } from 'react';
 
 import style from './ItemSelectContainer.module.scss';
 
-import { bringListAtom, itemMasterAtom } from '@/atoms/itemAtom';
+import { itemAtom, itemMasterAtom } from '@/atoms/itemAtom';
 import Button from '@/components/presentations/Common/Button/Button';
 import DialogWrapperMini from '@/components/presentations/Dialog/DialogWrapperMini';
 import Input from '@/components/presentations/Form/Input/Input';
@@ -15,12 +15,12 @@ import IconArrow from '@/components/presentations/Icon/IconArrow';
 import IconClose from '@/components/presentations/Icon/IconClose';
 import IconEdit from '@/components/presentations/Icon/IconEdit';
 import IconRemove from '@/components/presentations/Icon/IconRemove';
-import { Data } from '@/hooks/pages/useItemPage';
+import { ItemData } from '@/hooks/pages/useItemPage';
 import { useResponsive } from '@/hooks/useResponsive';
 
 type Props = {
   selectedItems: string[] | undefined;
-  updateItem: (data: Data[]) => Promise<Data[] | undefined>;
+  updateItem: (data: ItemData[]) => Promise<ItemData[] | undefined>;
   updateItemMaster: (data: string[]) => Promise<string[] | undefined>;
   handleSubmit: (selectedItem: string[]) => void;
   close: () => void;
@@ -37,7 +37,7 @@ const ItemSelectContainer = ({
 }: Props) => {
   const { isSp } = useResponsive();
   const [itemMaster, setItemMaster] = useAtom(itemMasterAtom);
-  const [bringList, setBringList] = useAtom(bringListAtom);
+  const [items, setItems] = useAtom(itemAtom);
 
   const [selectedItem, setSelectedItem] = useState<string[]>(selectedItems);
   const [value, setValue] = useState<string>('');
@@ -79,13 +79,13 @@ const ItemSelectContainer = ({
     if (newItemMaster === undefined) return;
     setItemMaster(newItemMaster);
 
-    const newBringList = bringList.map((elm) => {
+    const newItems = items.map((elm) => {
       return {
         name: elm.name,
         item: elm.item.filter((item) => tmpItem.includes(item)),
       };
     });
-    const newItemList = await updateItem(newBringList);
+    const newItemList = await updateItem(newItems);
     if (newItemList === undefined) {
       setIsEditMode(false);
       return;
@@ -93,17 +93,10 @@ const ItemSelectContainer = ({
     setSelectedItem((prev) =>
       prev.filter((item) => newItemMaster.includes(item)),
     );
-    setBringList(newItemList);
+    setItems(newItemList);
     setIsEditMode(false);
     setIsOpenNoticePanel(false);
-  }, [
-    bringList,
-    setBringList,
-    setItemMaster,
-    tmpItem,
-    updateItem,
-    updateItemMaster,
-  ]);
+  }, [items, setItems, setItemMaster, tmpItem, updateItem, updateItemMaster]);
 
   return (
     <>

@@ -7,34 +7,34 @@ import { useLocalStorage } from 'react-use';
 import style from './ItemPageContent.module.scss';
 
 import { eventAtom } from '@/atoms/eventAtom';
-import { bringListAtom, itemMasterAtom } from '@/atoms/itemAtom';
+import { itemAtom, itemMasterAtom } from '@/atoms/itemAtom';
 import ItemSelectContainer from '@/components/containers/item/ItemSelectContainer';
 import FadeIn from '@/components/presentations/Animation/FadeIn';
 import Tag from '@/components/presentations/Common/Tag/Tag';
 import DialogItemSelect from '@/components/presentations/Dialog/DialogItemSelect';
 import Checkbox from '@/components/presentations/Form/Checkbox/Checkbox';
 import IconEdit from '@/components/presentations/Icon/IconEdit';
-import { Data, useItemPage } from '@/hooks/pages/useItemPage';
+import { ItemData, useItemPage } from '@/hooks/pages/useItemPage';
 import { useResponsive } from '@/hooks/useResponsive';
 
 type Props = {
-  itemList: Data[];
+  items: ItemData[];
 };
 
-const ItemPageContent = ({ itemList }: Props) => {
+const ItemPageContent = ({ items }: Props) => {
   const { isSp } = useResponsive();
-  const [, setBringList] = useAtom(bringListAtom);
+  const [, setItems] = useAtom(itemAtom);
   const [event] = useAtom(eventAtom);
 
   const members = event?.members;
   const [selectedIndex, setSelectedIndex] = useState<number>(0);
   const selectedMember = members?.[selectedIndex];
   const selectedData = useMemo(() => {
-    if (itemList.length <= 0) return undefined;
-    return itemList.find((elm) => elm.name === selectedMember);
-  }, [itemList, selectedMember]);
+    if (items.length <= 0) return undefined;
+    return items.find((item) => item.name === selectedMember);
+  }, [items, selectedMember]);
 
-  const [, setItems] = useAtom(itemMasterAtom);
+  const [, setItemMaster] = useAtom(itemMasterAtom);
 
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
   const { updateItem, updateItemMaster, getItemMaster } = useItemPage();
@@ -126,11 +126,11 @@ const ItemPageContent = ({ itemList }: Props) => {
                 if (selectedMember === undefined) return;
                 const args = (() => {
                   if (
-                    itemList.find((elm) => elm.name === selectedMember) ===
+                    items.find((elm) => elm.name === selectedMember) ===
                     undefined
                   ) {
                     return [
-                      ...itemList,
+                      ...items,
                       {
                         name: selectedMember,
                         item: selectedItem,
@@ -138,7 +138,7 @@ const ItemPageContent = ({ itemList }: Props) => {
                     ];
                   }
 
-                  return itemList.map((elm) => {
+                  return items.map((elm) => {
                     if (elm.name === selectedMember) {
                       return {
                         name: elm.name,
@@ -151,7 +151,7 @@ const ItemPageContent = ({ itemList }: Props) => {
 
                 const result = await updateItem(args);
                 if (result === undefined) return;
-                setBringList(result);
+                setItems(result);
               }}
               selectedItems={selectedData?.item}
               updateItem={updateItem}
@@ -168,9 +168,9 @@ const ItemPageContent = ({ itemList }: Props) => {
           type="button"
           onClick={async () => {
             openPanel();
-            const items = await getItemMaster();
+            const itemMaster = await getItemMaster();
             if (items === undefined) return;
-            setItems(items);
+            setItemMaster(itemMaster);
           }}>
           <IconEdit />
         </button>
@@ -183,11 +183,10 @@ const ItemPageContent = ({ itemList }: Props) => {
             if (selectedMember === undefined) return;
             const args = (() => {
               if (
-                itemList.find((elm) => elm.name === selectedMember) ===
-                undefined
+                items.find((elm) => elm.name === selectedMember) === undefined
               ) {
                 return [
-                  ...itemList,
+                  ...items,
                   {
                     name: selectedMember,
                     item: selectedItem,
@@ -195,7 +194,7 @@ const ItemPageContent = ({ itemList }: Props) => {
                 ];
               }
 
-              return itemList.map((elm) => {
+              return items.map((elm) => {
                 if (elm.name === selectedMember) {
                   return {
                     name: elm.name,
@@ -208,7 +207,7 @@ const ItemPageContent = ({ itemList }: Props) => {
 
             const result = await updateItem(args);
             if (result === undefined) return;
-            setBringList(result);
+            setItems(result);
           }}
           isOpen={isDialogOpen}
           selectedItems={selectedData?.item}
