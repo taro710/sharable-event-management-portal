@@ -2,13 +2,14 @@
 
 import { useAtom } from 'jotai';
 import { NextPage } from 'next';
+import { useParams } from 'next/navigation';
 import { useMemo, useRef, useState } from 'react';
 import { useLocalStorage } from 'react-use';
 
 import style from './page.module.scss';
 
 import { eventAtom } from '@/atoms/eventAtom';
-import { itemAtom, itemMasterAtom } from '@/atoms/itemAtom';
+import { itemMasterAtom } from '@/atoms/itemAtom';
 import ItemSelectContainer from '@/components/containers/item/ItemSelectContainer';
 import FadeIn from '@/components/presentations/Animation/FadeIn';
 import Tag from '@/components/presentations/Common/Tag/Tag';
@@ -20,7 +21,9 @@ import { useResponsive } from '@/hooks/useResponsive';
 
 const DashBoard: NextPage = () => {
   const { isSp } = useResponsive();
-  const [items, setItems] = useAtom(itemAtom);
+  const eventId = useParams()?.eventId as string;
+  const { items, updateItem, updateItemMaster, getItemMaster } =
+    useItemPage(eventId);
   const [event] = useAtom(eventAtom);
 
   const members = event?.members;
@@ -34,7 +37,6 @@ const DashBoard: NextPage = () => {
   const [, setItemMaster] = useAtom(itemMasterAtom);
 
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
-  const { updateItem, updateItemMaster, getItemMaster } = useItemPage();
 
   const ref = useRef<HTMLDivElement>(null);
 
@@ -146,9 +148,7 @@ const DashBoard: NextPage = () => {
                   });
                 })();
 
-                const result = await updateItem(args);
-                if (result === undefined) return;
-                setItems(result);
+                await updateItem(args);
               }}
               selectedItems={selectedData?.item}
               updateItem={updateItem}
@@ -202,9 +202,7 @@ const DashBoard: NextPage = () => {
               });
             })();
 
-            const result = await updateItem(args);
-            if (result === undefined) return;
-            setItems(result);
+            await updateItem(args);
           }}
           isOpen={isDialogOpen}
           selectedItems={selectedData?.item}

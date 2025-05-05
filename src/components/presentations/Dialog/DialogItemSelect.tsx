@@ -7,7 +7,7 @@ import { ItemData } from '@/hooks/pages/useItemPage';
 type Props = {
   selectedItems?: string[];
   isOpen: boolean;
-  updateItem: (data: ItemData[]) => Promise<ItemData[] | undefined>;
+  updateItem: (data: ItemData[]) => Promise<void>;
   updateItemMaster: (data: string[]) => Promise<string[] | undefined>;
   closeDialog: () => void;
   handleSubmit: (selectedItem: string[]) => void;

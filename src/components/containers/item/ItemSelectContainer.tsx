@@ -20,7 +20,7 @@ import { useResponsive } from '@/hooks/useResponsive';
 
 type Props = {
   selectedItems: string[] | undefined;
-  updateItem: (data: ItemData[]) => Promise<ItemData[] | undefined>;
+  updateItem: (data: ItemData[]) => Promise<void>;
   updateItemMaster: (data: string[]) => Promise<string[] | undefined>;
   handleSubmit: (selectedItem: string[]) => void;
   close: () => void;
@@ -85,15 +85,15 @@ const ItemSelectContainer = ({
         item: elm.item.filter((item) => tmpItem.includes(item)),
       };
     });
-    const newItemList = await updateItem(newItems);
-    if (newItemList === undefined) {
+    await updateItem(newItems);
+    if (newItems === undefined) {
       setIsEditMode(false);
       return;
     }
     setSelectedItem((prev) =>
       prev.filter((item) => newItemMaster.includes(item)),
     );
-    setItems(newItemList);
+    setItems(newItems);
     setIsEditMode(false);
     setIsOpenNoticePanel(false);
   }, [items, setItems, setItemMaster, tmpItem, updateItem, updateItemMaster]);

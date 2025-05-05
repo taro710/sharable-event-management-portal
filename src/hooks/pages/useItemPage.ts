@@ -1,37 +1,26 @@
 import { collection, setDoc, getDoc, doc } from 'firebase/firestore';
-import { useParams } from 'next/navigation';
+import { useMemo } from 'react';
+import useSWR from 'swr';
 
 import { database } from '@/firebase';
+import { ItemApi } from '@/hooks/pages/itemApi';
 
 export type ItemData = {
   name: string;
   item: string[];
 };
 
-export const useItemPage = () => {
-  const eventId = useParams()?.eventId as string;
+export const useItemPage = (eventId: string) => {
+  const itemApi = useMemo(() => new ItemApi(eventId), [eventId]);
 
-  const getItemList = async () => {
-    const docRef = doc(database, eventId, 'item');
+  const { data: items = [], mutate } = useSWR<ItemData[]>(
+    'item',
+    () => itemApi.get(), // TODO:
+  );
 
-    try {
-      const document = await getDoc(docRef);
-      const data: ItemData[] = document?.data()?.itemData || [];
-      return data;
-    } catch (error) {
-      throw new Error('Error get document');
-    }
-  };
-
-  const updateItem = async (data: ItemData[]) => {
-    const payload = { itemData: data };
-    const itemRef = collection(database, eventId);
-    try {
-      await setDoc(doc(itemRef, 'item'), payload);
-      return data;
-    } catch (e) {
-      throw new Error('Error adding document');
-    }
+  const updateItem = async (updatedItems: ItemData[]) => {
+    await itemApi.update(updatedItems);
+    mutate(updatedItems, false); // optimistic UI update
   };
 
   const updateItemMaster = async (data: string[]) => {
@@ -58,8 +47,8 @@ export const useItemPage = () => {
   };
 
   return {
+    items,
     updateItem,
-    getItemList,
     updateItemMaster,
     getItemMaster,
   };
