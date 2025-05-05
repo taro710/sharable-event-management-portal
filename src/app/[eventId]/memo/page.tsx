@@ -16,6 +16,7 @@ import IconAdd from '@/components/presentations/Icon/IconAdd';
 import { MemoData, useMemoPage } from '@/hooks/pages/useMemoPage';
 import { useResponsive } from '@/hooks/useResponsive';
 
+// TODO: RHFの導入をすること
 const DashBoard: NextPage = () => {
   const { isSp } = useResponsive();
   const eventId = useParams()?.eventId as string;

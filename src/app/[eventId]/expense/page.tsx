@@ -16,7 +16,7 @@ import CardExpense from '@/components/presentations/Common/Card/CardExpense';
 import DialogExpenseAdding from '@/components/presentations/Dialog/DialogExpenseAdding';
 import DialogExpenseEdit from '@/components/presentations/Dialog/DialogExpenseEdit';
 import IconAdd from '@/components/presentations/Icon/IconAdd';
-import { ExpenseData } from '@/domain/expense';
+import { ExpenseData, ExpenseDataWithoutId } from '@/domain/expense';
 import { useExpensePage } from '@/hooks/pages/useExpensePage';
 import { useResponsive } from '@/hooks/useResponsive';
 
@@ -105,7 +105,7 @@ const DashBoard: NextPage = () => {
           {isAddDialogOpen ? (
             <ExpenseAddingContainer
               close={closeAddPanel}
-              handleSubmit={async (expense: ExpenseData) => {
+              handleSubmit={async (expense) => {
                 await addExpense(expense);
                 closeAddPanel();
               }}
@@ -141,7 +141,7 @@ const DashBoard: NextPage = () => {
       {isSp ? null : (
         <DialogExpenseAdding
           closeDialog={closeAddPanel}
-          handleSubmit={async (expense: ExpenseData) => {
+          handleSubmit={async (expense: ExpenseDataWithoutId) => {
             await addExpense(expense);
             closeAddPanel();
           }}

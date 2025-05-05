@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import useSWR from 'swr';
 
-import { ExpenseData } from '@/domain/expense';
+import { ExpenseData, ExpenseDataWithoutId } from '@/domain/expense';
 import { ExpenseApi } from '@/hooks/pages/expenseApi';
 
 export const useExpensePage = (eventId: string) => {
@@ -12,7 +12,7 @@ export const useExpensePage = (eventId: string) => {
     () => expenseApi.get(), // TODO:
   );
 
-  const addExpense = async (newExpense: ExpenseData) => {
+  const addExpense = async (newExpense: ExpenseDataWithoutId) => {
     const currentExpenses = [...expenses];
     const newExpenseId = (() => {
       if (currentExpenses.length === 0) return 1;

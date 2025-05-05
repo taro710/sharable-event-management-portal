@@ -13,11 +13,11 @@ import SelectBox from '@/components/presentations/Form/SelectBox/SelectBox';
 import TagCheckbox from '@/components/presentations/Form/TagCheckbox/TagCheckbox';
 import IconArrow from '@/components/presentations/Icon/IconArrow';
 import IconClose from '@/components/presentations/Icon/IconClose';
-import { ExpenseData, expenseFormSchema } from '@/domain/expense';
+import { ExpenseDataWithoutId, expenseAddFormSchema } from '@/domain/expense';
 import { useResponsive } from '@/hooks/useResponsive';
 
 type Props = {
-  handleSubmit: (expense: ExpenseData) => void;
+  handleSubmit: (expense: ExpenseDataWithoutId) => void;
   close: () => void;
 };
 
@@ -30,9 +30,9 @@ const ExpenseAddingContainer = ({ handleSubmit: onSubmit, close }: Props) => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<ExpenseData>({
+  } = useForm<ExpenseDataWithoutId>({
     defaultValues: { members },
-    resolver: yupResolver(expenseFormSchema),
+    resolver: yupResolver(expenseAddFormSchema),
   });
 
   return (
