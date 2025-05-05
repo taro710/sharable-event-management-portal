@@ -30,6 +30,7 @@
     "react-responsive": "^9.0.2",
     "react-use": "^17.5.0",
     "reset-css": "^5.0.2",
+    "swr": "^2.3.3",
     "uuid": "^9.0.1",
     "yup": "^1.4.0"
   },

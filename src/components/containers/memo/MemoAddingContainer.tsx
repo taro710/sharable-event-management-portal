@@ -11,7 +11,7 @@ import SelectBox from '@/components/presentations/Form/SelectBox/SelectBox';
 import TextArea from '@/components/presentations/Form/TextArea/TextArea';
 import IconArrow from '@/components/presentations/Icon/IconArrow';
 import IconClose from '@/components/presentations/Icon/IconClose';
-import { MemoData } from '@/hooks/pages/useMemoPage';
+import { MemoData } from '@/hooks/useMemos';
 import { useResponsive } from '@/hooks/useResponsive';
 
 type Props = {

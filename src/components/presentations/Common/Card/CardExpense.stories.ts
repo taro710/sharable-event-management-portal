@@ -2,7 +2,6 @@ import type { Meta, StoryObj } from '@storybook/react';
 
 import CardExpense from '@/components/presentations/Common/Card/CardExpense';
 
-
 const meta = {
   title: 'Common/CardExpense',
   component: CardExpense,
@@ -14,6 +13,7 @@ type Story = StoryObj<typeof meta>;
 export const Primary: Story = {
   args: {
     expense: {
+      expenseId: 1,
       expenseName: '飲み会',
       price: 5000,
       payerName: '山田',

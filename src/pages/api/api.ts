@@ -2,7 +2,7 @@ import { getDoc, doc } from 'firebase/firestore';
 import { NextApiRequest, NextApiResponse } from 'next';
 
 import { database } from '@/firebase';
-import { ItemData } from '@/hooks/pages/useItemPage';
+import { ItemData } from '@/hooks/useItem';
 
 const getBringList = async () => {
   const docRef = doc(database, 'event01', 'bringList');

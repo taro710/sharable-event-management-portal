@@ -2,23 +2,23 @@
 
 import ItemSelectContainer from '@/components/containers/item/ItemSelectContainer';
 import DialogWrapper from '@/components/presentations/Dialog/DialogWrapper';
-import { ItemData } from '@/hooks/pages/useItemPage';
+import { ItemData } from '@/hooks/useItem';
 
 type Props = {
+  items: ItemData[];
   selectedItems?: string[];
   isOpen: boolean;
-  updateItem: (data: ItemData[]) => Promise<ItemData[] | undefined>;
-  updateItemMaster: (data: string[]) => Promise<string[] | undefined>;
+  updateItem: (data: ItemData[]) => Promise<void>;
   closeDialog: () => void;
   handleSubmit: (selectedItem: string[]) => void;
 };
 const emptyArray: string[] = [];
 
 const DialogItemSelect = ({
+  items,
   isOpen,
   closeDialog,
   updateItem,
-  updateItemMaster,
   handleSubmit,
   selectedItems = emptyArray,
 }: Props) => (
@@ -26,9 +26,9 @@ const DialogItemSelect = ({
     <ItemSelectContainer
       close={closeDialog}
       handleSubmit={handleSubmit}
+      items={items}
       selectedItems={selectedItems}
       updateItem={updateItem}
-      updateItemMaster={updateItemMaster}
     />
   </DialogWrapper>
 );
