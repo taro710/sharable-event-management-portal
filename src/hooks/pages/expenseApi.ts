@@ -33,7 +33,11 @@ export class ExpenseApi {
   async add(newExpense: ExpenseData) {
     const docRef = doc(database, this.eventId, 'expense');
     try {
-      await setDoc(docRef, newExpense, { merge: true });
+      await setDoc(
+        docRef,
+        { [newExpense.expenseId]: newExpense },
+        { merge: true },
+      );
     } catch (e) {
       throw new Error('Error adding document');
     }
@@ -42,7 +46,6 @@ export class ExpenseApi {
   async update(updatedExpense: ExpenseData) {
     const docRef = doc(database, this.eventId, 'expense');
     try {
-      if (!updatedExpense.expenseId) throw new Error('invalid expenseId');
       await updateDoc(docRef, { [updatedExpense.expenseId]: updatedExpense });
     } catch (e) {
       throw new Error('Error adding document');

@@ -1,93 +1,61 @@
-import {
-  getDoc,
-  doc,
-  deleteField,
-  updateDoc,
-  setDoc,
-} from 'firebase/firestore';
-import { useParams } from 'next/navigation';
+import { useMemo } from 'react';
+import useSWR from 'swr';
 
-import { database } from '@/firebase';
+import { MemoApi } from '@/hooks/pages/memoApi';
 
+// TODO: どこかに定義しておく
 export type MemoData = {
   memoId: number;
   member: string;
   memo: string;
 };
 
-export const useMemoPage = (currentMemos: MemoData[]) => {
-  const eventId = useParams()?.eventId as string;
+export const useMemoPage = (eventId: string) => {
+  const memoApi = useMemo(() => new MemoApi(eventId), [eventId]);
 
-  const addMemo = async (data: Omit<MemoData, 'memoId'>) => {
+  const { data: memos = [], mutate } = useSWR<MemoData[]>(
+    'memo',
+    () => memoApi.get(), // TODO:
+  );
+
+  const addMemo = async (newMemo: Omit<MemoData, 'memoId'>) => {
+    const currentMemos = [...memos];
     const newMemoId = (() => {
       if (currentMemos.length === 0) return 1;
       const ids = currentMemos.map((memo) => memo.memoId || 0);
       return Math.max(...ids) + 1;
     })();
+    const newMemoWithId = { ...newMemo, memoId: newMemoId };
 
-    const docRef = doc(database, eventId, 'memo');
-    try {
-      await setDoc(
-        docRef,
-        { [newMemoId]: { ...data, memoId: newMemoId } },
-        { merge: true },
-      );
-      const afterAddMemoData = [
-        ...currentMemos,
-        { ...data, memoId: newMemoId },
-      ];
-      return afterAddMemoData;
-    } catch (e) {
-      throw new Error('Error adding document');
-    }
+    await memoApi.add(newMemoWithId);
+
+    const afterAddMemoData = [...currentMemos, { ...newMemoWithId }];
+    mutate(afterAddMemoData, false); // optimistic UI update
   };
 
-  const updateMemo = async (data: MemoData) => {
-    const docRef = doc(database, eventId, 'memo');
-    try {
-      await updateDoc(docRef, { [data.memoId]: data });
+  const updateMemo = async (updatedMemo: MemoData) => {
+    await memoApi.update(updatedMemo);
 
-      const afterUpdateMemoData = [...currentMemos].map((memo) => {
-        if (memo.memoId === data.memoId) return data;
-        return memo;
-      });
-      return afterUpdateMemoData;
-    } catch (e) {
-      throw new Error('Error adding document');
-    }
-  };
-
-  const getMemoList = async () => {
-    const docRef = doc(database, eventId, 'memo');
-
-    try {
-      const document = await getDoc(docRef);
-      const data = document?.data();
-      const memoList: MemoData[] = Object.values(data || {});
-      return memoList;
-    } catch (error) {
-      throw new Error('Error get document');
-    }
+    const afterUpdateMemoData = [...memos].map((memo) => {
+      if (memo.memoId === updatedMemo.memoId) return updatedMemo;
+      return memo;
+    });
+    mutate(afterUpdateMemoData, false); // optimistic UI update
   };
 
   const deleteMemo = async (memoId: number) => {
-    const docRef = doc(database, eventId, 'memo');
-    try {
-      await updateDoc(docRef, { [memoId]: deleteField() });
+    await memoApi.delete(memoId);
 
-      const afterDeleteMemoData = [...currentMemos].filter(
-        (memo) => memo.memoId !== memoId,
-      );
-      return afterDeleteMemoData;
-    } catch (e) {
-      throw new Error('Error adding document');
-    }
+    const afterDeleteMemoData = [...memos].filter(
+      (memo) => memo.memoId !== memoId,
+    );
+    mutate(afterDeleteMemoData, false); // optimistic UI update
   };
 
   return {
+    memos,
     addMemo,
     updateMemo,
-    getMemoList,
     deleteMemo,
   };
 };

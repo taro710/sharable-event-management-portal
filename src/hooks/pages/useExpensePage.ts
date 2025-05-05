@@ -20,12 +20,11 @@ export const useExpensePage = (eventId: string) => {
       return Math.max(...ids) + 1;
     })();
 
-    await expenseApi.add({ ...newExpense, expenseId: newExpenseId });
+    const newExpenseWithId = { ...newExpense, expenseId: newExpenseId };
 
-    const afterAddExpenseData = [
-      ...currentExpenses,
-      { ...newExpense, expenseId: newExpenseId },
-    ];
+    await expenseApi.add(newExpenseWithId);
+
+    const afterAddExpenseData = [...currentExpenses, { ...newExpenseWithId }];
     mutate(afterAddExpenseData);
   };
 
