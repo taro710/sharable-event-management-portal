@@ -17,7 +17,7 @@ import DialogExpenseAdding from '@/components/presentations/Dialog/DialogExpense
 import DialogExpenseEdit from '@/components/presentations/Dialog/DialogExpenseEdit';
 import IconAdd from '@/components/presentations/Icon/IconAdd';
 import { ExpenseData, ExpenseDataWithoutId } from '@/domain/expense';
-import { useExpensePage } from '@/hooks/pages/useExpensePage';
+import { useExpense } from '@/hooks/useExpense';
 import { useResponsive } from '@/hooks/useResponsive';
 
 const DashBoard: NextPage = () => {
@@ -26,7 +26,7 @@ const DashBoard: NextPage = () => {
   const [event] = useAtom(eventAtom); // TODO: event必須化対応;
 
   const { expenses, addExpense, updateExpense, deleteExpense } =
-    useExpensePage(eventId);
+    useExpense(eventId);
 
   const [editingExpense, setEditingExpense] = useState<ExpenseData>();
 

@@ -1,7 +1,7 @@
 import { getDoc, doc, collection, setDoc } from 'firebase/firestore';
 
 import { database } from '@/firebase';
-import { ItemData } from '@/hooks/pages/useItemPage';
+import { ItemData } from '@/hooks/useItem';
 
 export class ItemApi {
   eventId: string;

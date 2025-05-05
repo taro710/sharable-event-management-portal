@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import useSWR from 'swr';
 
-import { MemoApi } from '@/hooks/pages/memoApi';
+import { MemoApi } from '@/api/memoApi';
 
 // TODO: どこかに定義しておく
 export type MemoData = {
@@ -10,7 +10,7 @@ export type MemoData = {
   memo: string;
 };
 
-export const useMemoPage = (eventId: string) => {
+export const useMemos = (eventId: string) => {
   const memoApi = useMemo(() => new MemoApi(eventId), [eventId]);
 
   const { data: memos = [], mutate } = useSWR<MemoData[]>(

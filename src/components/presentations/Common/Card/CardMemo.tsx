@@ -5,7 +5,7 @@ import Linkify from 'linkify-react';
 import style from './CardMemo.module.scss';
 
 import IconEdit from '@/components/presentations/Icon/IconEdit';
-import { MemoData } from '@/hooks/pages/useMemoPage';
+import { MemoData } from '@/hooks/useMemos';
 
 type Props = {
   memo: MemoData;

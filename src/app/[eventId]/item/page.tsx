@@ -15,13 +15,13 @@ import Tag from '@/components/presentations/Common/Tag/Tag';
 import DialogItemSelect from '@/components/presentations/Dialog/DialogItemSelect';
 import Checkbox from '@/components/presentations/Form/Checkbox/Checkbox';
 import IconEdit from '@/components/presentations/Icon/IconEdit';
-import { useItemPage } from '@/hooks/pages/useItemPage';
+import { useItem } from '@/hooks/useItem';
 import { useResponsive } from '@/hooks/useResponsive';
 
 const DashBoard: NextPage = () => {
   const { isSp } = useResponsive();
   const eventId = useParams()?.eventId as string;
-  const { items, updateItem } = useItemPage(eventId);
+  const { items, updateItem } = useItem(eventId);
   const [event] = useAtom(eventAtom);
 
   const members = event?.members;

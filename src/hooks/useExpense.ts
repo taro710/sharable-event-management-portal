@@ -2,9 +2,9 @@ import { useMemo } from 'react';
 import useSWR from 'swr';
 
 import { ExpenseData, ExpenseDataWithoutId } from '@/domain/expense';
-import { ExpenseApi } from '@/hooks/pages/expenseApi';
+import { ExpenseApi } from '@/api/expenseApi';
 
-export const useExpensePage = (eventId: string) => {
+export const useExpense = (eventId: string) => {
   const expenseApi = useMemo(() => new ExpenseApi(eventId), [eventId]);
 
   const { data: expenses = [], mutate } = useSWR<ExpenseData[]>(

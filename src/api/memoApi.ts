@@ -7,7 +7,7 @@ import {
 } from 'firebase/firestore';
 
 import { database } from '@/firebase';
-import { MemoData } from '@/hooks/pages/useMemoPage';
+import { MemoData } from '@/hooks/useMemos';
 
 export class MemoApi {
   eventId: string;

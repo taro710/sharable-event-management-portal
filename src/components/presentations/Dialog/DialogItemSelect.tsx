@@ -2,7 +2,7 @@
 
 import ItemSelectContainer from '@/components/containers/item/ItemSelectContainer';
 import DialogWrapper from '@/components/presentations/Dialog/DialogWrapper';
-import { ItemData } from '@/hooks/pages/useItemPage';
+import { ItemData } from '@/hooks/useItem';
 
 type Props = {
   items: ItemData[];

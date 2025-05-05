@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import useSWR from 'swr';
 
-import { ItemMasterApi } from '@/hooks/pages/itemMasterApi';
+import { ItemMasterApi } from '@/api/itemMasterApi';
 
 export const useItemMaster = (eventId: string) => {
   const itemMasterApi = useMemo(() => new ItemMasterApi(eventId), [eventId]);

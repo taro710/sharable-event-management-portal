@@ -13,7 +13,7 @@ import CardMemo from '@/components/presentations/Common/Card/CardMemo';
 import DialogMemoAdding from '@/components/presentations/Dialog/DialogMemoAdding';
 import DialogMemoEdit from '@/components/presentations/Dialog/DialogMemoEdit';
 import IconAdd from '@/components/presentations/Icon/IconAdd';
-import { MemoData, useMemoPage } from '@/hooks/pages/useMemoPage';
+import { MemoData, useMemos } from '@/hooks/useMemos';
 import { useResponsive } from '@/hooks/useResponsive';
 
 // TODO: RHFの導入をすること
@@ -24,7 +24,7 @@ const DashBoard: NextPage = () => {
   const [isEditDialogOpen, setIsEditDialogOpen] = useState<boolean>(false);
   const [scrollPosition, setScrollPosition] = useState<number>(0);
 
-  const { memos, addMemo, updateMemo, deleteMemo } = useMemoPage(eventId);
+  const { memos, addMemo, updateMemo, deleteMemo } = useMemos(eventId);
 
   const [editingMemo, setEditingMemo] = useState<MemoData>();
   useEffect(() => {

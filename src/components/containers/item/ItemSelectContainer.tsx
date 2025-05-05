@@ -14,8 +14,8 @@ import IconArrow from '@/components/presentations/Icon/IconArrow';
 import IconClose from '@/components/presentations/Icon/IconClose';
 import IconEdit from '@/components/presentations/Icon/IconEdit';
 import IconRemove from '@/components/presentations/Icon/IconRemove';
-import { useItemMaster } from '@/hooks/pages/useItemMaster';
-import { ItemData } from '@/hooks/pages/useItemPage';
+import { ItemData } from '@/hooks/useItem';
+import { useItemMaster } from '@/hooks/useItemMaster';
 import { useResponsive } from '@/hooks/useResponsive';
 
 type Props = {
