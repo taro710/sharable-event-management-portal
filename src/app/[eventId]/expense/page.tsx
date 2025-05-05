@@ -3,12 +3,12 @@
 import { useAtom } from 'jotai';
 import { NextPage } from 'next';
 import Link from 'next/link';
+import { useParams } from 'next/navigation';
 import { useRef, useState } from 'react';
 
 import style from './page.module.scss';
 
 import { eventAtom } from '@/atoms/eventAtom';
-import { expenseAtom } from '@/atoms/expenseAtom';
 import ExpenseAddingContainer from '@/components/containers/expense/ExpenseAddingContainer';
 import ExpenseEditContainer from '@/components/containers/expense/ExpenseEditContainer';
 import FadeIn from '@/components/presentations/Animation/FadeIn';
@@ -22,17 +22,17 @@ import { useResponsive } from '@/hooks/useResponsive';
 
 const DashBoard: NextPage = () => {
   const { isSp } = useResponsive();
+  const eventId = useParams()?.eventId as string;
   const [event] = useAtom(eventAtom); // TODO: event必須化対応;
 
-  const [expenses, setExpenses] = useAtom(expenseAtom);
+  const { expenses, addExpense, updateExpense, deleteExpense } =
+    useExpensePage(eventId);
 
   const [editingExpense, setEditingExpense] = useState<ExpenseData>();
 
   const [isAddDialogOpen, setIsAddDialogOpen] = useState<boolean>(false);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState<boolean>(false);
   const [scrollPosition, setScrollPosition] = useState<number>(0);
-
-  const { addExpense, updateExpense, deleteExpense } = useExpensePage(expenses);
 
   const ref = useRef<HTMLDivElement>(null);
   const openAddPanel = () => {
@@ -106,9 +106,7 @@ const DashBoard: NextPage = () => {
             <ExpenseAddingContainer
               close={closeAddPanel}
               handleSubmit={async (expense: ExpenseData) => {
-                const result = await addExpense(expense);
-                if (result === undefined) return;
-                setExpenses(result);
+                await addExpense(expense);
                 closeAddPanel();
               }}
             />
@@ -118,15 +116,11 @@ const DashBoard: NextPage = () => {
               close={closeEditPanel}
               defaultExpense={editingExpense}
               deleteExpense={async (expenseId?: number) => {
-                const result = await deleteExpense(expenseId);
-                if (result === undefined) return;
-                setExpenses(result);
+                await deleteExpense(expenseId);
                 closeEditPanel();
               }}
               handleSubmit={async (expense: ExpenseData) => {
-                const result = await updateExpense(expense);
-                if (result === undefined) return;
-                setExpenses(result);
+                await updateExpense(expense);
                 closeEditPanel();
               }}
             />
@@ -148,9 +142,7 @@ const DashBoard: NextPage = () => {
         <DialogExpenseAdding
           closeDialog={closeAddPanel}
           handleSubmit={async (expense: ExpenseData) => {
-            const result = await addExpense(expense);
-            if (result === undefined) return;
-            setExpenses(result);
+            await addExpense(expense);
             closeAddPanel();
           }}
           isOpen={isAddDialogOpen}
@@ -161,15 +153,11 @@ const DashBoard: NextPage = () => {
           closeDialog={closeEditPanel}
           defaultExpense={editingExpense}
           deleteExpense={async (expenseId?: number) => {
-            const result = await deleteExpense(expenseId);
-            if (result === undefined) return;
-            setExpenses(result);
+            await deleteExpense(expenseId);
             closeEditPanel();
           }}
           handleSubmit={async (expense: ExpenseData) => {
-            const result = await updateExpense(expense);
-            if (result === undefined) return;
-            setExpenses(result);
+            await updateExpense(expense);
             closeEditPanel();
           }}
           isOpen={isEditDialogOpen}

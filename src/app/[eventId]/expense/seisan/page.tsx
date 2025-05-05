@@ -9,8 +9,8 @@ import { useMemo } from 'react';
 import style from './page.module.scss';
 
 import { eventAtom } from '@/atoms/eventAtom';
-import { expenseAtom } from '@/atoms/expenseAtom';
 import FadeIn from '@/components/presentations/Animation/FadeIn';
+import { useExpensePage } from '@/hooks/pages/useExpensePage';
 import { func } from '@/util/sample';
 
 const DashBoard: NextPage = () => {
@@ -18,7 +18,7 @@ const DashBoard: NextPage = () => {
 
   const eventId = useParams()?.eventId as string;
 
-  const [expenses] = useAtom(expenseAtom);
+  const { expenses } = useExpensePage(eventId);
 
   // イベントから消されたユーザーの支払いデータもDBには残っている。それらユーザーも全て含めて清算する
   const members: string[] = useMemo(() => {
