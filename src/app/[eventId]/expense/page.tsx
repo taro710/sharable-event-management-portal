@@ -1,6 +1,5 @@
 'use client';
 
-import { useAtom } from 'jotai';
 import { NextPage } from 'next';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
@@ -8,7 +7,6 @@ import { useRef, useState } from 'react';
 
 import style from './page.module.scss';
 
-import { eventAtom } from '@/atoms/eventAtom';
 import ExpenseAddingContainer from '@/components/containers/expense/ExpenseAddingContainer';
 import ExpenseEditContainer from '@/components/containers/expense/ExpenseEditContainer';
 import FadeIn from '@/components/presentations/Animation/FadeIn';
@@ -23,7 +21,6 @@ import { useResponsive } from '@/hooks/useResponsive';
 const DashBoard: NextPage = () => {
   const { isSp } = useResponsive();
   const eventId = useParams()?.eventId as string;
-  const [event] = useAtom(eventAtom); // TODO: event必須化対応;
 
   const { expenses, addExpense, updateExpense, deleteExpense } =
     useExpense(eventId);
@@ -93,9 +90,7 @@ const DashBoard: NextPage = () => {
             ))}
           </ul>
           {expenses.length ? (
-            <Link
-              className={style.link}
-              href={`/${event?.eventId}/expense/seisan`}>
+            <Link className={style.link} href={`/${eventId}/expense/seisan`}>
               清算金額を確認
             </Link>
           ) : null}

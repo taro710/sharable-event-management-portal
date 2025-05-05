@@ -1,8 +1,8 @@
 import { useMemo } from 'react';
 import useSWR from 'swr';
 
-import { ExpenseData, ExpenseDataWithoutId } from '@/domain/expense';
 import { ExpenseApi } from '@/api/expenseApi';
+import { ExpenseData, ExpenseDataWithoutId } from '@/domain/expense';
 
 export const useExpense = (eventId: string) => {
   const expenseApi = useMemo(() => new ExpenseApi(eventId), [eventId]);
@@ -24,18 +24,18 @@ export const useExpense = (eventId: string) => {
 
     await expenseApi.add(newExpenseWithId);
 
-    const afterAddExpenseData = [...currentExpenses, { ...newExpenseWithId }];
-    mutate(afterAddExpenseData);
+    const afterAddExpensesData = [...currentExpenses, { ...newExpenseWithId }];
+    mutate(afterAddExpensesData);
   };
 
   const updateExpense = async (updatedExpense: ExpenseData) => {
     await expenseApi.update(updatedExpense);
 
-    const afterUpdateExpenseData = [...expenses].map((expense) => {
+    const afterUpdateExpensesData = [...expenses].map((expense) => {
       if (expense.expenseId === updatedExpense.expenseId) return updatedExpense;
       return expense;
     });
-    mutate(afterUpdateExpenseData);
+    mutate(afterUpdateExpensesData);
   };
 
   // TODO: expenseId必須化
@@ -43,10 +43,10 @@ export const useExpense = (eventId: string) => {
     if (!expenseId) return;
     await expenseApi.delete(expenseId);
 
-    const afterDeleteExpenseData = [...expenses].filter(
+    const afterDeleteExpensesData = [...expenses].filter(
       (expense) => expense.expenseId !== expenseId,
     );
-    mutate(afterDeleteExpenseData);
+    mutate(afterDeleteExpensesData);
   };
 
   return {
