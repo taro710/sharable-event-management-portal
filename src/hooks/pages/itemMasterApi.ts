@@ -1,9 +1,8 @@
 import { getDoc, doc, collection, setDoc } from 'firebase/firestore';
 
 import { database } from '@/firebase';
-import { ItemData } from '@/hooks/pages/useItemPage';
 
-export class ItemApi {
+export class ItemMasterApi {
   eventId: string;
 
   constructor(eventId: string) {
@@ -11,22 +10,22 @@ export class ItemApi {
   }
 
   async get() {
-    const docRef = doc(database, this.eventId, 'item');
+    const docRef = doc(database, this.eventId, 'itemMaster');
 
     try {
       const document = await getDoc(docRef);
-      const data: ItemData[] = document?.data()?.itemData || [];
+      const data: string[] = document?.data()?.itemData || [];
       return data;
     } catch (error) {
       throw new Error('Error get document');
     }
   }
 
-  async update(updatedItems: ItemData[]) {
+  async update(updatedItemMasters: string[]) {
+    const payload = { itemData: updatedItemMasters };
     const itemRef = collection(database, this.eventId);
     try {
-      const payload = { itemData: updatedItems };
-      await setDoc(doc(itemRef, 'item'), payload);
+      await setDoc(doc(itemRef, 'itemMaster'), payload);
     } catch (e) {
       throw new Error('Error adding document');
     }

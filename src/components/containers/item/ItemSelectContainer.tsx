@@ -1,12 +1,11 @@
 'use client';
 
 import clsx from 'clsx';
-import { useAtom } from 'jotai';
+import { useParams } from 'next/navigation';
 import { useCallback, useEffect, useState } from 'react';
 
 import style from './ItemSelectContainer.module.scss';
 
-import { itemAtom, itemMasterAtom } from '@/atoms/itemAtom';
 import Button from '@/components/presentations/Common/Button/Button';
 import DialogWrapperMini from '@/components/presentations/Dialog/DialogWrapperMini';
 import Input from '@/components/presentations/Form/Input/Input';
@@ -15,13 +14,14 @@ import IconArrow from '@/components/presentations/Icon/IconArrow';
 import IconClose from '@/components/presentations/Icon/IconClose';
 import IconEdit from '@/components/presentations/Icon/IconEdit';
 import IconRemove from '@/components/presentations/Icon/IconRemove';
+import { useItemMaster } from '@/hooks/pages/useItemMaster';
 import { ItemData } from '@/hooks/pages/useItemPage';
 import { useResponsive } from '@/hooks/useResponsive';
 
 type Props = {
+  items: ItemData[];
   selectedItems: string[] | undefined;
   updateItem: (data: ItemData[]) => Promise<void>;
-  updateItemMaster: (data: string[]) => Promise<string[] | undefined>;
   handleSubmit: (selectedItem: string[]) => void;
   close: () => void;
 };
@@ -29,19 +29,19 @@ type Props = {
 const emptyArray: string[] = [];
 
 const ItemSelectContainer = ({
+  items,
   selectedItems = emptyArray,
   updateItem,
-  updateItemMaster,
   handleSubmit,
   close,
 }: Props) => {
   const { isSp } = useResponsive();
-  const [itemMaster, setItemMaster] = useAtom(itemMasterAtom);
-  const [items, setItems] = useAtom(itemAtom);
+
+  const eventId = useParams()?.eventId as string;
+  const { itemMasters, updateItemMaster } = useItemMaster(eventId);
 
   const [selectedItem, setSelectedItem] = useState<string[]>(selectedItems);
   const [value, setValue] = useState<string>('');
-
   const updateSelectedItem = useCallback((_selectedItem: string) => {
     setSelectedItem((prev) => {
       if (prev.includes(_selectedItem))
@@ -49,35 +49,32 @@ const ItemSelectContainer = ({
       return [...prev, _selectedItem];
     });
   }, []);
-
   const addValue = useCallback(async () => {
     if (value === '') return;
-    if (itemMaster.includes(value)) return;
-    const newItemMaster = await updateItemMaster([...itemMaster, value]);
-    if (newItemMaster === undefined) return;
+    if (itemMasters.includes(value)) return;
+    await updateItemMaster([...itemMasters, value]);
     updateSelectedItem(value);
-    setItemMaster(newItemMaster);
     setValue('');
-  }, [itemMaster, setItemMaster, updateItemMaster, updateSelectedItem, value]);
+  }, [itemMasters, updateItemMaster, updateSelectedItem, value]);
 
   const [isEditMode, setIsEditMode] = useState<boolean>(false);
-  const [tmpItem, setTmpItem] = useState<string[]>(itemMaster);
-  useEffect(() => setTmpItem(itemMaster), [itemMaster]);
+  const [tmpItem, setTmpItem] = useState<string[]>(itemMasters);
+  useEffect(() => setTmpItem(itemMasters), [itemMasters]);
 
   const [removedItem, setRemovedItem] = useState<string[]>([]);
   const [isOpenNoticePanel, setIsOpenNoticePanel] = useState<boolean>(false);
 
   const handleCloseNoticePanel = () => {
-    setTmpItem(itemMaster);
+    setTmpItem(itemMasters);
     setIsEditMode(false);
     setRemovedItem([]);
     setIsOpenNoticePanel(false);
   };
 
   const handleSubmitNoticePanel = useCallback(async () => {
-    const newItemMaster = await updateItemMaster(tmpItem);
+    const newItemMaster = tmpItem;
     if (newItemMaster === undefined) return;
-    setItemMaster(newItemMaster);
+    await updateItemMaster(newItemMaster);
 
     const newItems = items.map((elm) => {
       return {
@@ -86,17 +83,12 @@ const ItemSelectContainer = ({
       };
     });
     await updateItem(newItems);
-    if (newItems === undefined) {
-      setIsEditMode(false);
-      return;
-    }
     setSelectedItem((prev) =>
       prev.filter((item) => newItemMaster.includes(item)),
     );
-    setItems(newItems);
     setIsEditMode(false);
     setIsOpenNoticePanel(false);
-  }, [items, setItems, setItemMaster, tmpItem, updateItem, updateItemMaster]);
+  }, [items, tmpItem, updateItem, updateItemMaster]);
 
   return (
     <>
@@ -120,17 +112,17 @@ const ItemSelectContainer = ({
           <div className={style.buttons}>
             {isEditMode ? null : (
               <>
-                {itemMaster.map((item) => (
+                {itemMasters.map((item) => (
                   // FIXME: key
                   <div className={style.item} key={item}>
                     <TagCheckbox
-                      defaultChecked={selectedItem.includes(item)}
+                      checked={selectedItem.includes(item)}
                       label={item}
                       onClick={() => updateSelectedItem(item)}
                     />
                   </div>
                 ))}
-                {itemMaster.length > 0 ? (
+                {itemMasters.length > 0 ? (
                   <div
                     className={style.icon}
                     onClick={() => setIsEditMode(true)}>
@@ -179,7 +171,7 @@ const ItemSelectContainer = ({
                 theme="secondary"
                 width={80}
                 onClick={() => {
-                  setTmpItem(itemMaster);
+                  setTmpItem(itemMasters);
                   setIsEditMode(false);
                   setRemovedItem([]);
                 }}

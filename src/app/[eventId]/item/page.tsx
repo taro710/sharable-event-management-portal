@@ -9,7 +9,6 @@ import { useLocalStorage } from 'react-use';
 import style from './page.module.scss';
 
 import { eventAtom } from '@/atoms/eventAtom';
-import { itemMasterAtom } from '@/atoms/itemAtom';
 import ItemSelectContainer from '@/components/containers/item/ItemSelectContainer';
 import FadeIn from '@/components/presentations/Animation/FadeIn';
 import Tag from '@/components/presentations/Common/Tag/Tag';
@@ -22,8 +21,7 @@ import { useResponsive } from '@/hooks/useResponsive';
 const DashBoard: NextPage = () => {
   const { isSp } = useResponsive();
   const eventId = useParams()?.eventId as string;
-  const { items, updateItem, updateItemMaster, getItemMaster } =
-    useItemPage(eventId);
+  const { items, updateItem } = useItemPage(eventId);
   const [event] = useAtom(eventAtom);
 
   const members = event?.members;
@@ -33,8 +31,6 @@ const DashBoard: NextPage = () => {
     if (items.length <= 0) return undefined;
     return items.find((item) => item.name === selectedMember);
   }, [items, selectedMember]);
-
-  const [, setItemMaster] = useAtom(itemMasterAtom);
 
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
 
@@ -150,9 +146,9 @@ const DashBoard: NextPage = () => {
 
                 await updateItem(args);
               }}
+              items={items}
               selectedItems={selectedData?.item}
               updateItem={updateItem}
-              updateItemMaster={updateItemMaster}
             />
           ) : null}
         </div>
@@ -163,12 +159,7 @@ const DashBoard: NextPage = () => {
           aria-label={`${selectedMember}のアイテムを編集する`}
           className={style['add-button']}
           type="button"
-          onClick={async () => {
-            openPanel();
-            const itemMaster = await getItemMaster();
-            if (items === undefined) return;
-            setItemMaster(itemMaster);
-          }}>
+          onClick={() => openPanel()}>
           <IconEdit />
         </button>
       )}
@@ -205,9 +196,9 @@ const DashBoard: NextPage = () => {
             await updateItem(args);
           }}
           isOpen={isDialogOpen}
+          items={items}
           selectedItems={selectedData?.item}
           updateItem={updateItem}
-          updateItemMaster={updateItemMaster}
         />
       )}
     </>
