@@ -14,15 +14,14 @@ const EventNew: NextPage = () => {
   const router = useRouter();
   const { addEvent } = useEvent();
 
-  const handleSubmit = async (data: EventData) => {
-    const eventId = await addEvent(data);
-    if (!eventId) return; // TODO: エラーハンドリング
-    router.push(PAGE_PATH.ITEM(eventId));
+  const onSubmit = async (data: EventData) => {
+    const event = await addEvent(data);
+    router.push(PAGE_PATH.ITEM(event.eventId));
   };
 
   return (
     <div className={style['page-component']}>
-      <EventEditContainer handleSubmit={handleSubmit} mode="new" />
+      <EventEditContainer onSubmit={onSubmit} />
     </div>
   );
 };

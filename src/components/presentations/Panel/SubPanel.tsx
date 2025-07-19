@@ -1,12 +1,10 @@
 'use client';
 
-import { useAtom } from 'jotai';
 import { useParams, useRouter } from 'next/navigation';
 import { MouseEvent, useState } from 'react';
 
 import style from './SubPanel.module.scss';
 
-import { eventAtom } from '@/atoms/eventAtom';
 import DialogOverviewEdit from '@/components/presentations/Dialog/DialogOverviewEdit';
 import IconEdit from '@/components/presentations/Icon/IconEdit';
 import { PAGE_PATH } from '@/constants/pathname';
@@ -21,9 +19,8 @@ const SubPanel = ({ isOpen = true, setIsOpen }: Props) => {
   const { isSp } = useResponsive();
   const router = useRouter();
   const eventId = useParams()?.eventId as string;
-  const [event] = useAtom(eventAtom);
 
-  const { updateEvent } = useEvent(eventId);
+  const { event, updateEvent } = useEvent(eventId);
 
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
 
@@ -107,11 +104,11 @@ const SubPanel = ({ isOpen = true, setIsOpen }: Props) => {
       </div>
       <DialogOverviewEdit
         closeDialog={() => setIsDialogOpen(false)}
-        handleSubmit={async (_event) => {
+        isOpen={isDialogOpen}
+        onSubmit={async (_event) => {
           await updateEvent(_event);
           setIsDialogOpen(false);
         }}
-        isOpen={isDialogOpen}
       />
     </>
   );

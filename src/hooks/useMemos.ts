@@ -29,27 +29,27 @@ export const useMemos = (eventId: string) => {
 
     await memoApi.add(newMemoWithId);
 
-    const afterAddMemoData = [...currentMemos, { ...newMemoWithId }];
-    mutate(afterAddMemoData, false); // optimistic UI update
+    const afterAddMemosData = [...currentMemos, { ...newMemoWithId }];
+    mutate(afterAddMemosData, false); // optimistic UI update
   };
 
   const updateMemo = async (updatedMemo: MemoData) => {
     await memoApi.update(updatedMemo);
 
-    const afterUpdateMemoData = [...memos].map((memo) => {
+    const afterUpdateMemosData = [...memos].map((memo) => {
       if (memo.memoId === updatedMemo.memoId) return updatedMemo;
       return memo;
     });
-    mutate(afterUpdateMemoData, false); // optimistic UI update
+    mutate(afterUpdateMemosData, false); // optimistic UI update
   };
 
   const deleteMemo = async (memoId: number) => {
     await memoApi.delete(memoId);
 
-    const afterDeleteMemoData = [...memos].filter(
+    const afterDeleteMemosData = [...memos].filter(
       (memo) => memo.memoId !== memoId,
     );
-    mutate(afterDeleteMemoData, false); // optimistic UI update
+    mutate(afterDeleteMemosData, false); // optimistic UI update
   };
 
   return {

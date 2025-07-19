@@ -1,7 +1,7 @@
 import { InferType, array, object, string } from 'yup';
 
 export const eventFormSchema = object({
-  eventId: string().required(), // TODO: 必須化
+  eventId: string().required(),
   eventName: string().required(),
   members: array().of(string().required()).min(1).required(),
   meetingPlace: string(),
