@@ -7,12 +7,12 @@ import { EventData } from '@/domain/event';
 type Props = {
   isOpen: boolean;
   closeDialog: () => void;
-  handleSubmit: (data: EventData) => Promise<void>;
+  onSubmit: (data: EventData) => Promise<void>;
 };
-const DialogOverviewEdit = ({ isOpen, closeDialog, handleSubmit }: Props) => (
-    <DialogWrapper closeDialog={closeDialog} isOpen={isOpen}>
-      <EventEditContainer handleSubmit={handleSubmit} />
-    </DialogWrapper>
-  );
+const DialogOverviewEdit = ({ isOpen, closeDialog, onSubmit }: Props) => (
+  <DialogWrapper closeDialog={closeDialog} isOpen={isOpen}>
+    <EventEditContainer onSubmit={onSubmit} />
+  </DialogWrapper>
+);
 
 export default DialogOverviewEdit;

@@ -2,14 +2,14 @@ import { getDoc, doc } from 'firebase/firestore';
 import { NextApiRequest, NextApiResponse } from 'next';
 
 import { database } from '@/firebase';
-import { Data } from '@/hooks/pages/useItemPage';
+import { ItemData } from '@/hooks/useItem';
 
 const getBringList = async () => {
   const docRef = doc(database, 'event01', 'bringList');
 
   try {
     const document = await getDoc(docRef);
-    const data: Data[] = document?.data()?.itemData || [];
+    const data: ItemData[] = document?.data()?.itemData || [];
     return data;
   } catch (error) {
     throw new Error('Error get document');

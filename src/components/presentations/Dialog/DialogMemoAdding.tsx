@@ -2,7 +2,7 @@
 
 import MemoAddingContainer from '@/components/containers/memo/MemoAddingContainer';
 import DialogWrapper from '@/components/presentations/Dialog/DialogWrapper';
-import { MemoData } from '@/hooks/pages/useMemoPage';
+import { MemoData } from '@/hooks/useMemos';
 
 type Props = {
   isOpen: boolean;
@@ -10,9 +10,9 @@ type Props = {
   handleSubmit: (memoData: Omit<MemoData, 'memoId'>) => void;
 };
 const DialogMemoAdding = ({ isOpen, closeDialog, handleSubmit }: Props) => (
-    <DialogWrapper closeDialog={closeDialog} isOpen={isOpen}>
-      <MemoAddingContainer close={closeDialog} handleSubmit={handleSubmit} />
-    </DialogWrapper>
-  );
+  <DialogWrapper closeDialog={closeDialog} isOpen={isOpen}>
+    <MemoAddingContainer close={closeDialog} handleSubmit={handleSubmit} />
+  </DialogWrapper>
+);
 
 export default DialogMemoAdding;

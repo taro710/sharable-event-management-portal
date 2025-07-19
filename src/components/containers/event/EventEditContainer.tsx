@@ -2,13 +2,11 @@
 
 import { yupResolver } from '@hookform/resolvers/yup';
 import clsx from 'clsx';
-import { useAtom } from 'jotai';
 import { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import style from './EventEditContainer.module.scss';
 
-import { eventAtom } from '@/atoms/eventAtom';
 import Button from '@/components/presentations/Common/Button/Button';
 import DialogWrapperMini from '@/components/presentations/Dialog/DialogWrapperMini';
 import Input from '@/components/presentations/Form/Input/Input';
@@ -17,19 +15,12 @@ import TextArea from '@/components/presentations/Form/TextArea/TextArea';
 import { EventData, eventFormSchema } from '@/domain/event';
 
 type Props = {
-  mode?: 'edit' | 'new';
-  handleSubmit: (data: EventData) => Promise<void>;
-  handleCancel?: () => void;
+  event?: EventData;
+  onSubmit: (data: EventData) => Promise<void>;
+  onCancel?: () => void;
 };
-const EventEditContainer = ({
-  mode = 'edit',
-  handleSubmit: onSubmit,
-  handleCancel,
-}: Props) => {
+const EventEditContainer = ({ event, onSubmit, onCancel }: Props) => {
   const [isOpenNoticePanel, setIsOpenNoticePanel] = useState<boolean>(false);
-  const [_event] = useAtom(eventAtom);
-
-  const event = mode === 'new' ? undefined : _event;
 
   const {
     register,
@@ -37,25 +28,22 @@ const EventEditContainer = ({
     watch,
     clearErrors,
     setValue,
+    reset,
     formState: { errors },
-  } = useForm<EventData>({
-    defaultValues:
-      mode === 'new'
-        ? { members: [] }
-        : { ...event, members: event?.members || [] },
-    resolver: yupResolver(eventFormSchema),
-  });
-
-  const ref = useRef(false);
-  useEffect(() => {
-    if (!event) return;
-    if (ref.current) return;
-    setValue('members', event.members || []);
-    ref.current = true;
-  }, [event, setValue]);
+  } = useForm<EventData>({ resolver: yupResolver(eventFormSchema) });
 
   const [inputtedMemberName, setInputtedMemberName] = useState<string>('');
-  const [members, setMembers] = useState<string[]>(event?.members || []);
+  const [members, setMembers] = useState<string[]>([]);
+
+  useEffect(() => {
+    const defaultValues = {
+      ...event,
+      eventId: event?.eventId || 'tmp', // 新規作成時はeventIdは空の状態である
+      members: event?.members || [],
+    };
+    reset(defaultValues);
+    setMembers(defaultValues.members);
+  }, [event]);
 
   const currentMembers = watch('members');
   const memberInput = useRef<HTMLInputElement>(null);
@@ -146,12 +134,8 @@ const EventEditContainer = ({
                 await onSubmit(eventData);
               })}
             />
-            {handleCancel ? (
-              <Button
-                text="キャンセル"
-                theme="secondary"
-                onClick={handleCancel}
-              />
+            {onCancel ? (
+              <Button text="キャンセル" theme="secondary" onClick={onCancel} />
             ) : null}
           </div>
         </div>

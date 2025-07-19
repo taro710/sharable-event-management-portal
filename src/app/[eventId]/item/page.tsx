@@ -2,39 +2,37 @@
 
 import { useAtom } from 'jotai';
 import { NextPage } from 'next';
+import { useParams } from 'next/navigation';
 import { useMemo, useRef, useState } from 'react';
 import { useLocalStorage } from 'react-use';
 
 import style from './page.module.scss';
 
 import { eventAtom } from '@/atoms/eventAtom';
-import { bringListAtom, itemMasterAtom } from '@/atoms/itemAtom';
 import ItemSelectContainer from '@/components/containers/item/ItemSelectContainer';
 import FadeIn from '@/components/presentations/Animation/FadeIn';
 import Tag from '@/components/presentations/Common/Tag/Tag';
 import DialogItemSelect from '@/components/presentations/Dialog/DialogItemSelect';
 import Checkbox from '@/components/presentations/Form/Checkbox/Checkbox';
 import IconEdit from '@/components/presentations/Icon/IconEdit';
-import { useItemPage } from '@/hooks/pages/useItemPage';
+import { useItem } from '@/hooks/useItem';
 import { useResponsive } from '@/hooks/useResponsive';
 
 const DashBoard: NextPage = () => {
   const { isSp } = useResponsive();
-  const [bringList, setBringList] = useAtom(bringListAtom);
+  const eventId = useParams()?.eventId as string;
+  const { items, updateItem } = useItem(eventId);
   const [event] = useAtom(eventAtom);
 
   const members = event?.members;
   const [selectedIndex, setSelectedIndex] = useState<number>(0);
   const selectedMember = members?.[selectedIndex];
   const selectedData = useMemo(() => {
-    if (bringList.length <= 0) return undefined;
-    return bringList.find((elm) => elm.name === selectedMember);
-  }, [bringList, selectedMember]);
-
-  const [, setItems] = useAtom(itemMasterAtom);
+    if (items.length <= 0) return undefined;
+    return items.find((item) => item.name === selectedMember);
+  }, [items, selectedMember]);
 
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
-  const { updateItem, updateItemMaster, getItemMaster } = useItemPage();
 
   const ref = useRef<HTMLDivElement>(null);
 
@@ -123,11 +121,11 @@ const DashBoard: NextPage = () => {
                 if (selectedMember === undefined) return;
                 const args = (() => {
                   if (
-                    bringList.find((elm) => elm.name === selectedMember) ===
+                    items.find((elm) => elm.name === selectedMember) ===
                     undefined
                   ) {
                     return [
-                      ...bringList,
+                      ...items,
                       {
                         name: selectedMember,
                         item: selectedItem,
@@ -135,7 +133,7 @@ const DashBoard: NextPage = () => {
                     ];
                   }
 
-                  return bringList.map((elm) => {
+                  return items.map((elm) => {
                     if (elm.name === selectedMember) {
                       return {
                         name: elm.name,
@@ -146,13 +144,11 @@ const DashBoard: NextPage = () => {
                   });
                 })();
 
-                const result = await updateItem(args);
-                if (result === undefined) return;
-                setBringList(result);
+                await updateItem(args);
               }}
+              items={items}
               selectedItems={selectedData?.item}
               updateItem={updateItem}
-              updateItemMaster={updateItemMaster}
             />
           ) : null}
         </div>
@@ -163,12 +159,7 @@ const DashBoard: NextPage = () => {
           aria-label={`${selectedMember}のアイテムを編集する`}
           className={style['add-button']}
           type="button"
-          onClick={async () => {
-            openPanel();
-            const items = await getItemMaster();
-            if (items === undefined) return;
-            setItems(items);
-          }}>
+          onClick={() => openPanel()}>
           <IconEdit />
         </button>
       )}
@@ -180,11 +171,10 @@ const DashBoard: NextPage = () => {
             if (selectedMember === undefined) return;
             const args = (() => {
               if (
-                bringList.find((elm) => elm.name === selectedMember) ===
-                undefined
+                items.find((elm) => elm.name === selectedMember) === undefined
               ) {
                 return [
-                  ...bringList,
+                  ...items,
                   {
                     name: selectedMember,
                     item: selectedItem,
@@ -192,7 +182,7 @@ const DashBoard: NextPage = () => {
                 ];
               }
 
-              return bringList.map((elm) => {
+              return items.map((elm) => {
                 if (elm.name === selectedMember) {
                   return {
                     name: elm.name,
@@ -203,18 +193,15 @@ const DashBoard: NextPage = () => {
               });
             })();
 
-            const result = await updateItem(args);
-            if (result === undefined) return;
-            setBringList(result);
+            await updateItem(args);
           }}
           isOpen={isDialogOpen}
+          items={items}
           selectedItems={selectedData?.item}
           updateItem={updateItem}
-          updateItemMaster={updateItemMaster}
         />
       )}
     </>
   );
 };
-
 export default DashBoard;

@@ -1,53 +1,43 @@
-import { getDoc, doc, updateDoc, setDoc } from 'firebase/firestore';
-import { useAtom } from 'jotai';
+import { useSetAtom } from 'jotai';
+import { useEffect, useMemo } from 'react';
+import useSWR from 'swr';
 import { v4 } from 'uuid';
 
+import { EventApi } from '@/api/eventApi';
 import { eventAtom } from '@/atoms/eventAtom';
 import { EventData } from '@/domain/event';
-import { database } from '@/firebase';
 
 export const useEvent = (eventId?: string) => {
-  const [, setEvent] = useAtom(eventAtom);
+  const setEvent = useSetAtom(eventAtom);
+  const eventApi = useMemo(() => new EventApi(), []);
 
-  const addEvent = async (data: EventData) => {
+  const { data: event, mutate } = useSWR<EventData>(
+    'event',
+    eventId ? () => eventApi.get(eventId) : null, // TODO:
+  );
+
+  useEffect(() => {
+    setEvent(event);
+  }, [event, setEvent]);
+
+  const addEvent = async (eventData: EventData) => {
     const newEventId = v4();
-
-    const docRef = doc(database, newEventId, 'event');
-    try {
-      await setDoc(docRef, data);
-      setEvent(data);
-      return newEventId;
-    } catch (e) {
-      throw new Error('Error adding document');
-    }
+    const newEvent = { ...eventData, eventId: newEventId };
+    await eventApi.add(newEvent);
+    setEvent(newEvent);
+    mutate(newEvent);
+    return newEvent;
   };
 
-  const updateEvent = async (data: EventData) => {
-    if (!eventId) return;
-    const docRef = doc(database, eventId, 'event');
-    try {
-      await updateDoc(docRef, data);
-      setEvent(data);
-    } catch (e) {
-      throw new Error('Error updating document');
-    }
-  };
-
-  const getEvent = async () => {
-    if (!eventId) return undefined;
-    const docRef = doc(database, eventId, 'event');
-    try {
-      const document = await getDoc(docRef);
-      const eventData = document?.data() as EventData | undefined;
-      return eventData;
-    } catch (error) {
-      throw new Error('Error get document');
-    }
+  const updateEvent = async (updatedEvent: EventData) => {
+    await eventApi.update(updatedEvent);
+    setEvent(updatedEvent);
+    mutate(updatedEvent);
   };
 
   return {
+    event,
     addEvent,
     updateEvent,
-    getEvent,
   };
 };

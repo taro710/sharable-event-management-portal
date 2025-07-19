@@ -14,7 +14,7 @@ import { useEvent } from '@/hooks/useEvent';
 const EventEdit: NextPage = () => {
   const router = useRouter();
   const eventId = useParams()?.eventId as string;
-  const { updateEvent } = useEvent(eventId);
+  const { event, updateEvent } = useEvent(eventId);
 
   const handleSubmit = useCallback(
     async (data: EventData) => {
@@ -27,8 +27,9 @@ const EventEdit: NextPage = () => {
   return (
     <div className={style['page-component']}>
       <EventEditContainer
-        handleCancel={() => router.push(PAGE_PATH.ITEM(eventId))}
-        handleSubmit={handleSubmit}
+        event={event}
+        onCancel={() => router.push(PAGE_PATH.ITEM(eventId))}
+        onSubmit={handleSubmit}
       />
     </div>
   );

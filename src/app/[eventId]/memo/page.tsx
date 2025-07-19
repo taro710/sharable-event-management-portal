@@ -1,12 +1,11 @@
 'use client';
 
-import { useAtom } from 'jotai';
 import { NextPage } from 'next';
+import { useParams } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 
 import style from './page.module.scss';
 
-import { memoAtom } from '@/atoms/memoAtom';
 import MemoAddingContainer from '@/components/containers/memo/MemoAddingContainer';
 import MemoEditContainer from '@/components/containers/memo/MemoEditContainer';
 import FadeIn from '@/components/presentations/Animation/FadeIn';
@@ -14,17 +13,18 @@ import CardMemo from '@/components/presentations/Common/Card/CardMemo';
 import DialogMemoAdding from '@/components/presentations/Dialog/DialogMemoAdding';
 import DialogMemoEdit from '@/components/presentations/Dialog/DialogMemoEdit';
 import IconAdd from '@/components/presentations/Icon/IconAdd';
-import { MemoData, useMemoPage } from '@/hooks/pages/useMemoPage';
+import { MemoData, useMemos } from '@/hooks/useMemos';
 import { useResponsive } from '@/hooks/useResponsive';
 
+// TODO: RHFの導入をすること
 const DashBoard: NextPage = () => {
   const { isSp } = useResponsive();
+  const eventId = useParams()?.eventId as string;
   const [isAddDialogOpen, setIsAddDialogOpen] = useState<boolean>(false);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState<boolean>(false);
   const [scrollPosition, setScrollPosition] = useState<number>(0);
 
-  const [memo, setMemo] = useAtom(memoAtom);
-  const { addMemo, updateMemo, deleteMemo } = useMemoPage(memo);
+  const { memos, addMemo, updateMemo, deleteMemo } = useMemos(eventId);
 
   const [editingMemo, setEditingMemo] = useState<MemoData>();
   useEffect(() => {
@@ -76,14 +76,14 @@ const DashBoard: NextPage = () => {
     <>
       <div className={style['page-component']} ref={ref}>
         <FadeIn className={style['memo-panel']}>
-          {memo.length <= 0 ? (
+          {memos.length <= 0 ? (
             <p className={style.notice}>メモはありません🙃</p>
           ) : null}
-          {memo.map((_memo) => (
+          {memos.map((memo) => (
             <CardMemo
-              key={_memo.memoId}
-              memo={_memo}
-              onClick={() => openEditPanel(_memo)}
+              key={memo.memoId}
+              memo={memo}
+              onClick={() => openEditPanel(memo)}
             />
           ))}
         </FadeIn>
@@ -93,9 +93,7 @@ const DashBoard: NextPage = () => {
             <MemoAddingContainer
               close={closeAddPanel}
               handleSubmit={async (_memo) => {
-                const result = await addMemo(_memo);
-                if (!result) return;
-                setMemo(result);
+                await addMemo(_memo);
                 closeAddPanel();
               }}
             />
@@ -104,15 +102,11 @@ const DashBoard: NextPage = () => {
             <MemoEditContainer
               close={closeEditPanel}
               handleDelete={async (memoId) => {
-                const result = await deleteMemo(memoId);
-                if (!result) return;
-                setMemo(result);
+                await deleteMemo(memoId);
                 closeEditPanel();
               }}
               handleSubmit={async (_memo) => {
-                const result = await updateMemo(_memo);
-                if (!result) return;
-                setMemo(result);
+                await updateMemo(_memo);
                 closeEditPanel();
               }}
               memoData={editingMemo}
@@ -136,9 +130,7 @@ const DashBoard: NextPage = () => {
         <DialogMemoAdding
           closeDialog={closeAddPanel}
           handleSubmit={async (_memo) => {
-            const result = await addMemo(_memo);
-            if (!result) return;
-            setMemo(result);
+            await addMemo(_memo);
             closeAddPanel();
           }}
           isOpen={isAddDialogOpen}
@@ -148,15 +140,11 @@ const DashBoard: NextPage = () => {
         <DialogMemoEdit
           closeDialog={closeEditPanel}
           handleDelete={async (memoId) => {
-            const result = await deleteMemo(memoId);
-            if (!result) return;
-            setMemo(result);
+            await deleteMemo(memoId);
             closeEditPanel();
           }}
           handleSubmit={async (_memo) => {
-            const result = await updateMemo(_memo);
-            if (!result) return;
-            setMemo(result);
+            await updateMemo(_memo);
             closeEditPanel();
           }}
           isOpen={isEditDialogOpen}
@@ -166,5 +154,4 @@ const DashBoard: NextPage = () => {
     </>
   );
 };
-
 export default DashBoard;
